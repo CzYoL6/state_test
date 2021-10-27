@@ -10,7 +10,7 @@
 /client/[Ll]ogs/
 /client/[Mm]emoryCaptures/
 
-/Debug
+/client/Debug
 
 # Asset meta data should only be ignored when the corresponding asset is also ignored
 !/client/[Aa]ssets/**/*.meta
