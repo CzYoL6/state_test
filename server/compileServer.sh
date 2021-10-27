@@ -1,0 +1,1 @@
+g++ server_main.cpp message.pb.cc ikcp.c kcpserver.cpp kcpsession.cpp packet.cpp player.cpp game.cpp circle_buffer.hpp server_send.cpp random_engine.cpp -lprotobuf -lbox2d -o server -g -O3

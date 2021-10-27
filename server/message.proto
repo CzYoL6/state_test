@@ -1,0 +1,44 @@
+syntax = "proto3";
+package Update;
+
+enum TYPE{
+    updateInfo_S_TO_C = 0;
+    kcpConnectionReq = 1;
+    playerInfo_S_TO_C = 2;
+    addNewPlayer_C_TO_S = 3;
+    addForceToAll_C_TO_S = 4;
+    addForceToThisOne_C_TO_S = 5;
+    addTorqueToThisOne_C_TO_S = 6;
+}
+
+message PlayerInfo_S_TO_C{
+    float x = 1;
+    float y = 2;
+    float angle = 3;
+    int32 id = 4;
+}
+
+message UpdateInfo_S_TO_C{
+    int32 frameID = 1;
+    repeated PlayerInfo_S_TO_C playerInfos = 2;
+}
+
+message KcpConnectReq_C_S{
+
+}
+
+message AddForceToAll_C_TO_S{
+}
+
+message AddNewPlayer_C_TO_S{
+    float x = 1;
+    float y = 2;
+}
+
+message AddForceToThisOne_C_TO_S{
+    int32 id = 1;
+}
+
+message AddTorqueToThisOne_C_TO_S{
+    int32 id = 1;
+}
