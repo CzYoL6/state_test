@@ -16,8 +16,8 @@ public class NetManager : Singleton<NetManager>
     public void InitConnection(uint sid, string host, int port) {
         m_Connection.InitKCP(sid, host, port);
         //SendMessage((int)Chat.TYPE.KcpConnectionReq, new Chat.KcpConnectReq_C_S());
-        Update.KcpConnectReq_C_S msg = new Update.KcpConnectReq_C_S();
-        SendMessage((int)Update.TYPE.KcpConnectionReq, msg);
+        UpdateShooterTest.KcpConnectReq_C_S msg = new UpdateShooterTest.KcpConnectReq_C_S();
+        SendMessage((int)UpdateShooterTest.TYPE.KcpConnectionReq, msg);
     }
 
     private void MessageHandle(ByteBuffer data)
@@ -44,13 +44,13 @@ public class NetManager : Singleton<NetManager>
         data.ReaderIndex += messageLen - 4;
         //MessageDispatcher.Instance.Dispatch(cmd, data.RawBuffer, begin, messageLen);
         byte[] packetBytes = data.Get(begin, messageLen - 4);
-        Debug.Log($"handling message cmd {cmd}.");
+        //Debug.Log($"handling message cmd {cmd}.");
         switch (cmd) {
-            case (int)Update.TYPE.UpdateInfoSToC: {
-                Debug.Log("handling UpdateInfoSToC");
+            case (int)UpdateShooterTest.TYPE.UpdateInfoSToC: {
+                //Debug.Log("handling UpdateInfoSToC");
                 using (Packet _packet = new Packet(packetBytes)) {
-                    Debug.Log("handling ...");
-                    ClientHandle.UpdateInfo(_packet);
+                    //Debug.Log("handling ...");
+                    ClientHandle_ShooterTest.UpdateInfo(_packet);
                 }
                 
                 break;

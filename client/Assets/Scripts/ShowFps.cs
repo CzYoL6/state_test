@@ -20,9 +20,6 @@ public class ShowFps : MonoBehaviour
         i_Frames = 0;
     }
 
-    void OnGUI() {
-        GUI.Label(new Rect(0, 100, 200, 200), "FPS:" + f_Fps.ToString("f2"));
-    }
 
     void Update() {
         ++i_Frames;
@@ -36,5 +33,6 @@ public class ShowFps : MonoBehaviour
         }
 
         UIManager.Instance.fpsText.text = f_Fps.ToString();
+        UIManager.Instance.tickText.text = GameManager_ShooterTest.Instance.tickNum.ToString();
     }
 }

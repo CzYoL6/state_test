@@ -12,8 +12,10 @@ public class Test : MonoBehaviour
         Init();
         DontDestroyOnLoad(this);
         /*Client.instance.ConnectToServer(host, port);*/
-        NetManager.Instance.InitConnection((uint)Time.frameCount % 1000, host, port);
-        GameManager.Instance.StartGame();
+        int conv = Time.frameCount % 10000;
+        NetManager.Instance.InitConnection((uint)conv, host, port);
+        GameManager_ShooterTest.Instance.localPlayerID = conv;
+        GameManager_ShooterTest.Instance.StartGame();
     }
 
     private void Init() {
@@ -25,19 +27,7 @@ public class Test : MonoBehaviour
     void FixedUpdate()
     {
         
-        try {
-            NetManager.Instance.Tick();
-
-            if (GameManager.Instance.started) {
-                
-                
-                GlobalEvent.onFixedUpdate.Invoke();
-
-            }
-        }
-        catch {
-
-        }
+        
     }
 
 

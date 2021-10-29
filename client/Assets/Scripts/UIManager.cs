@@ -6,6 +6,7 @@ using TMPro;
 public class UIManager : MonoBehaviour
 {
     public TextMeshProUGUI fpsText;
+    public TextMeshProUGUI tickText;
 
     public static UIManager Instance { get; private set; }
     private void Awake() {

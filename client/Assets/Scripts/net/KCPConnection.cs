@@ -112,7 +112,7 @@ public class KCPConnection
         {
             return;
         }
-        Debug.Log("send succeeded.");
+        //Debug.Log("send succeeded.");
         var n = m_Kcp.Send(buffer.RawBuffer, buffer.ReaderIndex, buffer.WriterIndex);
     }
 
@@ -139,7 +139,6 @@ public class KCPConnection
             rn = -1;
         }
 
-        Debug.LogWarning(rn);
 
         if (rn < 0)
         {

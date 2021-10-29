@@ -23,6 +23,6 @@ public class GoButton : MonoBehaviour
     public void Go() {
         InfoKeeper.Instance.ip = ipIF.text;
         InfoKeeper.Instance.port = int.Parse(portIF.text);
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene(2);
     }
 }

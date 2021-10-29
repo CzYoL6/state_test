@@ -1,0 +1,36 @@
+syntax = "proto3";
+package Update_ShooterTest;
+
+enum TYPE{
+    updateInfo_S_TO_C = 0;
+    kcpConnectionReq = 1;
+    playerInfo_S_TO_C = 2;
+    playerInput_C_TO_S = 3;
+}
+
+message PlayerInfo_S_TO_C{
+    float x = 1;
+    float y = 2;
+    float angle = 3;
+    int32 id = 4;
+}
+
+message UpdateInfo_S_TO_C{
+    int32 lastProcessedFrameID = 1;
+    repeated PlayerInfo_S_TO_C playerInfos = 2;
+    int32 inputBufferSize = 3;
+}
+
+message KcpConnectReq_C_S{
+
+}
+
+message PlayerInput_C_TO_S{
+    int32 frameID = 1;
+    bool w = 2;
+    bool s = 3;
+    bool a = 4;
+    bool d = 5;
+    float rotation = 6;
+    int32 id=7;
+}
