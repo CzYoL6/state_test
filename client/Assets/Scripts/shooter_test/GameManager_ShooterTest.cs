@@ -19,9 +19,9 @@ public class GameManager_ShooterTest : Singleton<GameManager_ShooterTest>
 
     public bool prediction, reconciliation, compensation;
 
-    public float tickRate = 60f;
+    public float tickRate;
 
-    public float maxDiffPos = 0.01f, maxDiffRot = 0.01f;
+    public float maxDiffPos , maxDiffRot;
 
     private float lastTickTime;
 
@@ -39,7 +39,7 @@ public class GameManager_ShooterTest : Singleton<GameManager_ShooterTest>
 
     private void Update() {
         float curTime = Time.time;
-        //Debug.Log(curTime);
+        Debug.Log(1.0f/tickRate);
         while(curTime - lastTickTime >= 1.0f / tickRate) {
             NetManager.Instance.Tick();
             if (!started) return;
@@ -132,8 +132,8 @@ public class GameManager_ShooterTest : Singleton<GameManager_ShooterTest>
 
                     Debug.Log($"playerid: {info.Id}, predicted: ({state.pos.x} ,{state.pos.y}) {state.rotation}, acknowledged: ({info.X}, {info.Y}) {info.Angle} ");
                 }
-                /*if (state != null && ((diffPos >= maxDiffPos) || (diffRot >= maxDiffRot))) {*/
-                if (state != null && ((diffPos >= maxDiffPos) )) {
+                if (state != null && ((diffPos >= maxDiffPos) || (diffRot >= maxDiffRot))) {
+                //if (state != null && ((diffPos >= maxDiffPos) )) {
                     Debug.Log("need reconcile");
                     localPlayerInfo = info;
                     needReconcile = true;

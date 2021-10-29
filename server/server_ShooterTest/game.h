@@ -47,4 +47,6 @@ class Game {
     void AddToInputBuffer(Update_ShooterTest::PlayerInput_C_TO_S input);
 
     void AddPlayer(int conv);
+
+    int tickRate;
 };

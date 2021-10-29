@@ -118,6 +118,20 @@ void Game::InitMap() {
     b2Body *body3 = world->CreateBody(&bodyDef);
     polygon.SetAsBox(0.5f, 10.0f);
     body3->CreateFixture(&polygon, 0.0f);
+
+    bodyDef.type = b2_staticBody;
+    bodyDef.position.Set(-10, 0);
+    bodyDef.angle = 0;
+    b2Body *body4 = world->CreateBody(&bodyDef);
+    polygon.SetAsBox(0.5f, 5.0f);
+    body4->CreateFixture(&polygon, 0.0f);
+
+    bodyDef.type = b2_staticBody;
+    bodyDef.position.Set(10, 0);
+    bodyDef.angle = 0;
+    b2Body *body5 = world->CreateBody(&bodyDef);
+    polygon.SetAsBox(0.5f, 5.0f);
+    body5->CreateFixture(&polygon, 0.0f);
 }
 
 void Game::AddToInputBuffer(Update_ShooterTest::PlayerInput_C_TO_S input){
@@ -126,20 +140,19 @@ void Game::AddToInputBuffer(Update_ShooterTest::PlayerInput_C_TO_S input){
 }
 
 void Game::Update() {
-    float sendTimeStep = 1000.0f / 60.0f;
-
     //simulate
-    float physicsTimeStep = 1000.0f / 60.0f;
+    float physicsTimeStep = 1000.0f / (tickRate* 1.0f);
     //two phases of iterations
     int32 velocityIterations = 6;
     int32 positionIterations = 2;
 
     IUINT32 cur_tick = iclock();
+    //std::cout << cur_tick << " " << last_time << " " << std::endl;
     if (cur_tick - last_time >= physicsTimeStep) {
         float real_time_step = (cur_tick - last_time) * 1.0f / 1000.0f;
         //std::cout << "real_time_step: " << real_time_step << std::endl;
         
-        last_time = cur_tick;
+        //last_time = cur_tick;
         tick++;
         //std::cout<<"tick:" <<tick<<std::endl;
         //update the input buffer size
@@ -157,7 +170,7 @@ void Game::Update() {
                 }
             }
         }
-        SimulatePhysics(physicsTimeStep/1000.0f, velocityIterations, positionIterations);
+        SimulatePhysics(1.0f/(tickRate* 1.0f), velocityIterations, positionIterations);
         for (auto iter = playerMap.begin(); iter != playerMap.end(); iter++) {
             Player *player = iter->second;
             int lastProcessedTick = player->GetLastProcessedTick();
@@ -171,8 +184,9 @@ void Game::Update() {
             SERVER_SEND::UpdateInfo(player->GetId(),updateInfoPtr);
         }
 
-        
+        last_time = iclock();
     }
+    
 }
 
 void Game::ApplyInputToPlayer(int conv, Update_ShooterTest::PlayerInput_C_TO_S input){
@@ -195,7 +209,7 @@ void Game::AddPlayer(int conv) {
     b2Body *body = world->CreateBody(&bodyDef);
 
     b2PolygonShape polygon;
-    polygon.SetAsBox(1.0f, 1.0f);
+    polygon.SetAsBox(0.5f, 0.5f);
 
     b2FixtureDef fixtureDef;
     fixtureDef.shape = &polygon;

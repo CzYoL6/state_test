@@ -52,11 +52,7 @@ int main(int argc, char **argv) {
         exit(0);
     }
 
-    IUINT32 last_tick = 0;
-    float createInterval = 200.0f;
-    int tmpCnt = 0;
-
-    std::uniform_real_distribution<double> dr_posX(-16.0f, 16.0f), dr_anglePi(-M_PI, M_PI);
+    Game::GetInstance()->tickRate = atoi(argv[4]);
 
     while (true) {
         kcp_server->Update();
