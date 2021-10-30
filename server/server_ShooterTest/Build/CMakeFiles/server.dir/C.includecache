@@ -1,0 +1,36 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+../Include/ikcp.h
+stddef.h
+-
+stdlib.h
+-
+assert.h
+-
+sys/types.h
+-
+sys/inttypes.h
+-
+stdint.h
+-
+
+/mnt/e/GameDes1gn/state_test/server/server_ShooterTest/Source/ikcp.c
+ikcp.h
+/mnt/e/GameDes1gn/state_test/server/server_ShooterTest/Source/ikcp.h
+stddef.h
+-
+stdlib.h
+-
+string.h
+-
+stdarg.h
+-
+stdio.h
+-
+

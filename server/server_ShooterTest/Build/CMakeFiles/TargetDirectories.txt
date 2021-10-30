@@ -1,0 +1,3 @@
+/mnt/e/GameDes1gn/state_test/server/server_ShooterTest/Build/CMakeFiles/rebuild_cache.dir
+/mnt/e/GameDes1gn/state_test/server/server_ShooterTest/Build/CMakeFiles/edit_cache.dir
+/mnt/e/GameDes1gn/state_test/server/server_ShooterTest/Build/CMakeFiles/server.dir

@@ -1,0 +1,14 @@
+cmake_minimum_required(VERSION 3.16)
+
+project(state_server)
+
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -O3 -Wall -std=c++14")
+
+aux_source_directory(${CMAKE_SOURCE_DIR}/Source SRC)
+
+include_directories(${CMAKE_SOURCE_DIR}/Include)
+
+add_executable(server ${SRC})
+
+target_link_libraries(server protobuf box2d)
+
