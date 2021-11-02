@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using UnityEngine;
 
-public class KCP
-{
+public class KCP: MonoBehaviour{
     public const int IKCP_RTO_NDL = 30;  // no delay min rto
     public const int IKCP_RTO_MIN = 100; // normal min rto
     public const int IKCP_RTO_DEF = 200;
@@ -27,30 +27,26 @@ public class KCP
 
 
     // encode 8 bits unsigned int
-    public static int ikcp_encode8u(byte[] p, int offset, byte c)
-    {
+    public static int ikcp_encode8u(byte[] p, int offset, byte c) {
         p[0 + offset] = c;
         return 1;
     }
 
     // decode 8 bits unsigned int
-    public static int ikcp_decode8u(byte[] p, int offset, ref byte c)
-    {
+    public static int ikcp_decode8u(byte[] p, int offset, ref byte c) {
         c = p[0 + offset];
         return 1;
     }
 
     /* encode 16 bits unsigned int (lsb) */
-    public static int ikcp_encode16u(byte[] p, int offset, UInt16 w)
-    {
+    public static int ikcp_encode16u(byte[] p, int offset, UInt16 w) {
         p[0 + offset] = (byte)(w >> 0);
         p[1 + offset] = (byte)(w >> 8);
         return 2;
     }
 
     /* decode 16 bits unsigned int (lsb) */
-    public static int ikcp_decode16u(byte[] p, int offset, ref UInt16 c)
-    {
+    public static int ikcp_decode16u(byte[] p, int offset, ref UInt16 c) {
         UInt16 result = 0;
         result |= (UInt16)p[0 + offset];
         result |= (UInt16)(p[1 + offset] << 8);
@@ -59,8 +55,7 @@ public class KCP
     }
 
     /* encode 32 bits unsigned int (lsb) */
-    public static int ikcp_encode32u(byte[] p, int offset, UInt32 l)
-    {
+    public static int ikcp_encode32u(byte[] p, int offset, UInt32 l) {
         p[0 + offset] = (byte)(l >> 0);
         p[1 + offset] = (byte)(l >> 8);
         p[2 + offset] = (byte)(l >> 16);
@@ -69,8 +64,7 @@ public class KCP
     }
 
     /* decode 32 bits unsigned int (lsb) */
-    public static int ikcp_decode32u(byte[] p, int offset, ref UInt32 c)
-    {
+    public static int ikcp_decode32u(byte[] p, int offset, ref UInt32 c) {
         UInt32 result = 0;
         result |= (UInt32)p[0 + offset];
         result |= (UInt32)(p[1 + offset] << 8);
@@ -80,37 +74,31 @@ public class KCP
         return 4;
     }
 
-    static UInt32 _imin_(UInt32 a, UInt32 b)
-    {
+    static UInt32 _imin_(UInt32 a, UInt32 b) {
         return a <= b ? a : b;
     }
 
     private static DateTime refTime = DateTime.Now;
 
-    private static UInt32 currentMS()
-    {
+    private static UInt32 currentMS() {
         var ts = DateTime.Now.Subtract(refTime);
         return (UInt32)ts.TotalMilliseconds;
     }
 
-    static UInt32 _imax_(UInt32 a, UInt32 b)
-    {
+    static UInt32 _imax_(UInt32 a, UInt32 b) {
         return a >= b ? a : b;
     }
 
-    static UInt32 _ibound_(UInt32 lower, UInt32 middle, UInt32 upper)
-    {
+    static UInt32 _ibound_(UInt32 lower, UInt32 middle, UInt32 upper) {
         return _imin_(_imax_(lower, middle), upper);
     }
 
-    static Int32 _itimediff(UInt32 later, UInt32 earlier)
-    {
+    static Int32 _itimediff(UInt32 later, UInt32 earlier) {
         return ((Int32)(later - earlier));
     }
 
     // KCP Segment Definition
-    internal class Segment
-    {
+    internal class Segment {
         internal UInt32 conv = 0;
         internal UInt32 cmd = 0;
         internal UInt32 frg = 0;
@@ -127,10 +115,8 @@ public class KCP
 
         private static Stack<Segment> msSegmentPool = new Stack<Segment>(32);
 
-        public static Segment Get(int size)
-        {
-            if (msSegmentPool.Count > 0)
-            {
+        public static Segment Get(int size) {
+            if (msSegmentPool.Count > 0) {
                 var seg = msSegmentPool.Pop();
                 seg.data = ByteBuffer.Allocate(size, true);
                 return seg;
@@ -138,20 +124,17 @@ public class KCP
             return new Segment(size);
         }
 
-        public static void Put(Segment seg)
-        {
+        public static void Put(Segment seg) {
             seg.reset();
             msSegmentPool.Push(seg);
         }
 
-        private Segment(int size)
-        {
+        private Segment(int size) {
             data = ByteBuffer.Allocate(size, true);
         }
 
         // encode a segment into buffer
-        internal int encode(byte[] ptr, int offset)
-        {
+        internal int encode(byte[] ptr, int offset) {
 
             var offset_ = offset;
 
@@ -167,8 +150,7 @@ public class KCP
             return offset - offset_;
         }
 
-        internal void reset()
-        {
+        internal void reset() {
             conv = 0;
             cmd = 0;
             frg = 0;
@@ -188,8 +170,7 @@ public class KCP
         }
     }
 
-    internal struct ackItem
-    {
+    internal struct ackItem {
         internal UInt32 sn;
         internal UInt32 ts;
     }
@@ -232,8 +213,7 @@ public class KCP
 
     // create a new kcp control object, 'conv' must equal in two endpoint
     // from the same connection.
-    public KCP(UInt32 conv_, Action<byte[], int> output_)
-    {
+    public KCP(UInt32 conv_, Action<byte[], int> output_) {
         conv = conv_;
         snd_wnd = IKCP_WND_SND;
         rcv_wnd = IKCP_WND_RCV;
@@ -251,8 +231,7 @@ public class KCP
     }
 
     // check the size of next message in the recv queue
-    public int PeekSize()
-    {
+    public int PeekSize() {
 
         if (0 == rcv_queue.Count) return -1;
 
@@ -264,8 +243,7 @@ public class KCP
 
         int length = 0;
 
-        foreach (var item in rcv_queue)
-        {
+        foreach (var item in rcv_queue) {
             length += item.data.ReadableBytes;
             if (0 == item.frg)
                 break;
@@ -274,14 +252,12 @@ public class KCP
         return length;
     }
 
-    public int Recv(byte[] buffer)
-    {
+    public int Recv(byte[] buffer) {
         return Recv(buffer, 0, buffer.Length);
     }
 
     // user/upper level recv: returns size, returns below zero for EAGAIN
-    public int Recv(byte[] buffer, int index, int length)
-    {
+    public int Recv(byte[] buffer, int index, int length) {
 
         if (0 == rcv_queue.Count) return -1;
 
@@ -296,8 +272,7 @@ public class KCP
         // merge fragment.
         var count = 0;
         var n = index;
-        foreach (var seg in rcv_queue)
-        {
+        foreach (var seg in rcv_queue) {
             // copy fragment data into buffer.
             Buffer.BlockCopy(seg.data.RawBuffer, seg.data.ReaderIndex, buffer, n, seg.data.ReadableBytes);
             n += seg.data.ReadableBytes;
@@ -308,36 +283,30 @@ public class KCP
             if (0 == fragment) break;
         }
 
-        if (count > 0)
-        {
+        if (count > 0) {
             rcv_queue.RemoveRange(0, count);
         }
 
         // move available data from rcv_buf -> rcv_queue
         count = 0;
-        foreach (var seg in rcv_buf)
-        {
-            if (seg.sn == rcv_nxt && rcv_queue.Count < rcv_wnd)
-            {
+        foreach (var seg in rcv_buf) {
+            if (seg.sn == rcv_nxt && rcv_queue.Count < rcv_wnd) {
                 rcv_queue.Add(seg);
                 rcv_nxt++;
                 count++;
             }
-            else
-            {
+            else {
                 break;
             }
         }
 
-        if (count > 0)
-        {
+        if (count > 0) {
             rcv_buf.RemoveRange(0, count);
         }
 
 
         // fast recover
-        if (rcv_queue.Count < rcv_wnd && fast_recover)
-        {
+        if (rcv_queue.Count < rcv_wnd && fast_recover) {
             // ready to send back IKCP_CMD_WINS in ikcp_flush
             // tell remote my window size
             probe |= IKCP_ASK_TELL;
@@ -346,26 +315,21 @@ public class KCP
         return n - index;
     }
 
-    public int Send(byte[] buffer)
-    {
+    public int Send(byte[] buffer) {
         return Send(buffer, 0, buffer.Length);
     }
 
     // user/upper level send, returns below zero for error
-    public int Send(byte[] buffer, int index, int length)
-    {
+    public int Send(byte[] buffer, int index, int length) {
 
         if (0 == length) return -1;
         var readIndex = index;
 
-        if (stream != 0)
-        {
+        if (stream != 0) {
             var n = snd_queue.Count;
-            if (n > 0)
-            {
+            if (n > 0) {
                 var seg = snd_queue[n - 1];
-                if (seg.data.ReadableBytes < mss)
-                {
+                if (seg.data.ReadableBytes < mss) {
                     var capacity = (int)(mss - seg.data.ReadableBytes);
                     var writen = Math.Min(capacity, length);
                     readIndex += writen;
@@ -374,8 +338,7 @@ public class KCP
             }
         }
 
-        if (length - readIndex <= 0)
-        {
+        if (length - readIndex <= 0) {
             return 0;
         }
 
@@ -389,8 +352,7 @@ public class KCP
 
         if (count == 0) count = 1;
 
-        for (var i = 0; i < count; i++)
-        {
+        for (var i = 0; i < count; i++) {
             var size = Math.Min(length - readIndex, (int)mss);
 
             var seg = Segment.Get(size);
@@ -405,24 +367,19 @@ public class KCP
     }
 
     // update ack.
-    void update_ack(Int32 rtt)
-    {
-        if (0 == rx_srtt)
-        {
+    void update_ack(Int32 rtt) {
+        if (0 == rx_srtt) {
             rx_srtt = (UInt32)rtt;
             rx_rttval = (UInt32)rtt >> 1;
         }
-        else
-        {
+        else {
             Int32 delta = (Int32)((UInt32)rtt - rx_srtt);
             if (0 > delta) delta = -delta;
 
-            if (rtt < rx_srtt - rx_rttval)
-            {
+            if (rtt < rx_srtt - rx_rttval) {
                 rx_rttval += ((uint)delta - rx_rttval) >> 5;
             }
-            else
-            {
+            else {
                 rx_rttval += ((uint)delta - rx_rttval) >> 2;
             }
         }
@@ -431,102 +388,83 @@ public class KCP
         rx_rto = _ibound_(rx_minrto, (UInt32)rto, IKCP_RTO_MAX);
     }
 
-    void shrink_buf()
-    {
+    void shrink_buf() {
         if (snd_buf.Count > 0)
             snd_una = snd_buf[0].sn;
         else
             snd_una = snd_nxt;
     }
 
-    void parse_ack(UInt32 sn)
-    {
+    void parse_ack(UInt32 sn) {
 
         if (_itimediff(sn, snd_una) < 0 || _itimediff(sn, snd_nxt) >= 0) return;
 
-        foreach (var seg in snd_buf)
-        {
-            if (sn == seg.sn)
-            {
+        foreach (var seg in snd_buf) {
+            if (sn == seg.sn) {
                 seg.acked = 1;
                 Segment.Put(seg);
                 break;
             }
-            if (_itimediff(sn, seg.sn) < 0)
-            {
+            if (_itimediff(sn, seg.sn) < 0) {
                 break;
             }
         }
     }
 
-    void parse_fastack(UInt32 sn, UInt32 ts)
-    {
-        if (_itimediff(sn, snd_una) < 0 || _itimediff(sn, snd_nxt) >= 0)
-        {
+    void parse_fastack(UInt32 sn, UInt32 ts) {
+        if (_itimediff(sn, snd_una) < 0 || _itimediff(sn, snd_nxt) >= 0) {
             return;
         }
 
-        foreach (var seg in snd_buf)
-        {
-            if (_itimediff(sn, seg.sn) < 0)
-            {
+        foreach (var seg in snd_buf) {
+            if (_itimediff(sn, seg.sn) < 0) {
                 break;
             }
-            else if (sn != seg.sn && _itimediff(seg.ts, ts) <= 0)
-            {
+            else if (sn != seg.sn && _itimediff(seg.ts, ts) <= 0) {
                 seg.fastack++;
             }
         }
     }
 
-    void parse_una(UInt32 una)
-    {
+    void parse_una(UInt32 una) {
         var count = 0;
-        foreach (var seg in snd_buf)
-        {
+        foreach (var seg in snd_buf) {
             if (_itimediff(una, seg.sn) > 0)
                 count++;
             else
                 break;
         }
 
-        if (count > 0)
-        {
+        if (count > 0) {
             snd_buf.RemoveRange(0, count);
         }
     }
 
-    void ack_push(UInt32 sn, UInt32 ts)
-    {
+    void ack_push(UInt32 sn, UInt32 ts) {
         acklist.Add(new ackItem { sn = sn, ts = ts });
     }
 
-    bool parse_data(Segment newseg)
-    {
+    bool parse_data(Segment newseg) {
         var sn = newseg.sn;
         if (_itimediff(sn, rcv_nxt + rcv_wnd) >= 0 || _itimediff(sn, rcv_nxt) < 0) return true;
 
         var n = rcv_buf.Count - 1;
         var insert_idx = 0;
         var repeat = false;
-        for (var i = n; i >= 0; i--)
-        {
+        for (var i = n; i >= 0; i--) {
             var seg = rcv_buf[i];
-            if (seg.sn == sn)
-            {
+            if (seg.sn == sn) {
                 repeat = true;
                 break;
             }
 
-            if (_itimediff(sn, seg.sn) > 0)
-            {
+            if (_itimediff(sn, seg.sn) > 0) {
                 insert_idx = i + 1;
                 break;
             }
         }
 
-        if (!repeat)
-        {
+        if (!repeat) {
             if (insert_idx == n + 1)
                 rcv_buf.Add(newseg);
             else
@@ -535,21 +473,17 @@ public class KCP
 
         // move available data from rcv_buf -> rcv_queue
         var count = 0;
-        foreach (var seg in rcv_buf)
-        {
-            if (seg.sn == rcv_nxt && rcv_queue.Count < rcv_wnd)
-            {
+        foreach (var seg in rcv_buf) {
+            if (seg.sn == rcv_nxt && rcv_queue.Count < rcv_wnd) {
                 rcv_nxt++;
                 count++;
             }
-            else
-            {
+            else {
                 break;
             }
         }
 
-        if (count > 0)
-        {
+        if (count > 0) {
             for (var i = 0; i < count; i++)
                 rcv_queue.Add(rcv_buf[i]);
             rcv_buf.RemoveRange(0, count);
@@ -559,8 +493,7 @@ public class KCP
 
     // Input when you received a low level packet (eg. UDP packet), call it
     // regular indicates a regular packet has received(not from FEC)
-    public int Input(byte[] data, int index, int size, bool regular, bool ackNoDelay)
-    {
+    public int Input(byte[] data, int index, int size, bool regular, bool ackNoDelay) {
 
         var s_una = snd_una;
         if (size < IKCP_OVERHEAD) return -1;
@@ -570,8 +503,7 @@ public class KCP
         int flag = 0;
         UInt64 inSegs = 0;
 
-        while (true)
-        {
+        while (true) {
             UInt32 ts = 0;
             UInt32 sn = 0;
             UInt32 length = 0;
@@ -600,8 +532,7 @@ public class KCP
 
             if (size - (offset - index) < length) return -2;
 
-            switch (cmd)
-            {
+            switch (cmd) {
                 case IKCP_CMD_PUSH:
                 case IKCP_CMD_ACK:
                 case IKCP_CMD_WASK:
@@ -612,29 +543,24 @@ public class KCP
             }
 
             // only trust window updates from regular packets. i.e: latest update
-            if (regular)
-            {
+            if (regular) {
                 rmt_wnd = wnd;
             }
 
             parse_una(una);
             shrink_buf();
 
-            if (IKCP_CMD_ACK == cmd)
-            {
+            if (IKCP_CMD_ACK == cmd) {
                 parse_ack(sn);
                 parse_fastack(sn, ts);
                 flag |= 1;
                 latest = ts;
             }
-            else if (IKCP_CMD_PUSH == cmd)
-            {
+            else if (IKCP_CMD_PUSH == cmd) {
                 var repeat = true;
-                if (_itimediff(sn, rcv_nxt + rcv_wnd) < 0)
-                {
+                if (_itimediff(sn, rcv_nxt + rcv_wnd) < 0) {
                     ack_push(sn, ts);
-                    if (_itimediff(sn, rcv_nxt) >= 0)
-                    {
+                    if (_itimediff(sn, rcv_nxt) >= 0) {
                         var seg = Segment.Get((int)length);
                         seg.conv = conv_;
                         seg.cmd = (UInt32)cmd;
@@ -648,18 +574,15 @@ public class KCP
                     }
                 }
             }
-            else if (IKCP_CMD_WASK == cmd)
-            {
+            else if (IKCP_CMD_WASK == cmd) {
                 // ready to send back IKCP_CMD_WINS in Ikcp_flush
                 // tell remote my window size
                 probe |= IKCP_ASK_TELL;
             }
-            else if (IKCP_CMD_WINS == cmd)
-            {
+            else if (IKCP_CMD_WINS == cmd) {
                 // do nothing
             }
-            else
-            {
+            else {
                 return -3;
             }
 
@@ -669,42 +592,32 @@ public class KCP
 
         // update rtt with the latest ts
         // ignore the FEC packet
-        if (flag != 0 && regular)
-        {
+        if (flag != 0 && regular) {
             var current = currentMS();
-            if (_itimediff(current, latest) >= 0)
-            {
+            if (_itimediff(current, latest) >= 0) {
                 update_ack(_itimediff(current, latest));
             }
         }
 
         // cwnd update when packet arrived
-        if (nocwnd == 0)
-        {
-            if (_itimediff(snd_una, s_una) > 0)
-            {
-                if (cwnd < rmt_wnd)
-                {
+        if (nocwnd == 0) {
+            if (_itimediff(snd_una, s_una) > 0) {
+                if (cwnd < rmt_wnd) {
                     var _mss = mss;
-                    if (cwnd < ssthresh)
-                    {
+                    if (cwnd < ssthresh) {
                         cwnd++;
                         incr += _mss;
                     }
-                    else
-                    {
-                        if (incr < _mss)
-                        {
+                    else {
+                        if (incr < _mss) {
                             incr = _mss;
                         }
                         incr += (_mss * _mss) / incr + (_mss) / 16;
-                        if ((cwnd + 1) * _mss <= incr)
-                        {
+                        if ((cwnd + 1) * _mss <= incr) {
                             cwnd++;
                         }
                     }
-                    if (cwnd > rmt_wnd)
-                    {
+                    if (cwnd > rmt_wnd) {
                         cwnd = rmt_wnd;
                         incr = rmt_wnd * _mss;
                     }
@@ -713,24 +626,21 @@ public class KCP
         }
 
         // ack immediately
-        if (ackNoDelay && acklist.Count > 0)
-        {
+        if (ackNoDelay && acklist.Count > 0) {
             Flush(true);
         }
 
         return 0;
     }
 
-    UInt16 wnd_unused()
-    {
+    UInt16 wnd_unused() {
         if (rcv_queue.Count < rcv_wnd)
             return (UInt16)(rcv_wnd - rcv_queue.Count);
         return 0;
     }
 
     // flush pending data
-    public UInt32 Flush(bool ackOnly)
-    {
+    public UInt32 Flush(bool ackOnly) {
         var seg = Segment.Get(32);
         seg.conv = conv;
         seg.cmd = IKCP_CMD_ACK;
@@ -739,30 +649,24 @@ public class KCP
 
         var writeIndex = reserved;
 
-        Action<int> makeSpace = (space) =>
-        {
-            if (writeIndex + space > mtu)
-            {
+        Action<int> makeSpace = (space) => {
+            if (writeIndex + space > mtu) {
                 output(buffer, writeIndex);
                 writeIndex = reserved;
             }
         };
 
-        Action flushBuffer = () =>
-        {
-            if (writeIndex > reserved)
-            {
+        Action flushBuffer = () => {
+            if (writeIndex > reserved) {
                 output(buffer, writeIndex);
             }
         };
 
         // flush acknowledges
-        for (var i = 0; i < acklist.Count; i++)
-        {
+        for (var i = 0; i < acklist.Count; i++) {
             makeSpace(KCP.IKCP_OVERHEAD);
             var ack = acklist[i];
-            if (ack.sn >= rcv_nxt || acklist.Count - 1 == i)
-            {
+            if (ack.sn >= rcv_nxt || acklist.Count - 1 == i) {
                 seg.sn = ack.sn;
                 seg.ts = ack.ts;
                 writeIndex += seg.encode(buffer, writeIndex);
@@ -771,8 +675,7 @@ public class KCP
         acklist.Clear();
 
         // flash remain ack segments
-        if (ackOnly)
-        {
+        if (ackOnly) {
             flushBuffer();
             return interval;
         }
@@ -780,17 +683,13 @@ public class KCP
         var current = currentMS();
 
         // probe window size (if remote window size equals zero)
-        if (0 == rmt_wnd)
-        {
-            if (0 == probe_wait)
-            {
+        if (0 == rmt_wnd) {
+            if (0 == probe_wait) {
                 probe_wait = IKCP_PROBE_INIT;
                 ts_probe = current + probe_wait;
             }
-            else
-            {
-                if (_itimediff(current, ts_probe) >= 0)
-                {
+            else {
+                if (_itimediff(current, ts_probe) >= 0) {
                     if (probe_wait < IKCP_PROBE_INIT)
                         probe_wait = IKCP_PROBE_INIT;
                     probe_wait += probe_wait / 2;
@@ -801,22 +700,19 @@ public class KCP
                 }
             }
         }
-        else
-        {
+        else {
             ts_probe = 0;
             probe_wait = 0;
         }
 
         // flush window probing commands
-        if ((probe & IKCP_ASK_SEND) != 0)
-        {
+        if ((probe & IKCP_ASK_SEND) != 0) {
             seg.cmd = IKCP_CMD_WASK;
             makeSpace(IKCP_OVERHEAD);
             writeIndex += seg.encode(buffer, writeIndex);
         }
 
-        if ((probe & IKCP_ASK_TELL) != 0)
-        {
+        if ((probe & IKCP_ASK_TELL) != 0) {
             seg.cmd = IKCP_CMD_WINS;
             makeSpace(IKCP_OVERHEAD);
             writeIndex += seg.encode(buffer, writeIndex);
@@ -831,8 +727,7 @@ public class KCP
 
         // sliding window, controlled by snd_nxt && sna_una+cwnd
         var newSegsCount = 0;
-        for (var k = 0; k < snd_queue.Count; k++)
-        {
+        for (var k = 0; k < snd_queue.Count; k++) {
             if (_itimediff(snd_nxt, snd_una + cwnd_) >= 0) break;
 
             var newseg = snd_queue[k];
@@ -844,8 +739,7 @@ public class KCP
             newSegsCount++;
         }
 
-        if (newSegsCount > 0)
-        {
+        if (newSegsCount > 0) {
             snd_queue.RemoveRange(0, newSegsCount);
         }
 
@@ -858,37 +752,32 @@ public class KCP
         UInt64 change = 0; UInt64 lost = 0; UInt64 lostSegs = 0; UInt64 fastRetransSegs = 0; UInt64 earlyRetransSegs = 0;
         var minrto = (Int32)interval;
 
-        for (var k = 0; k < snd_buf.Count; k++)
-        {
+        for (var k = 0; k < snd_buf.Count; k++) {
             var segment = snd_buf[k];
+
+
             var needsend = false;
-            if (segment.acked == 1)
-            {
+            if (segment.acked == 1) {
                 continue;
             }
-            if (segment.xmit == 0)
-            {
+            if (segment.xmit == 0) {
                 needsend = true;
                 segment.rto = rx_rto;
                 segment.resendts = current + segment.rto;
             }
-            else if (_itimediff(current, segment.resendts) >= 0)
-            {
+            else if (_itimediff(current, segment.resendts) >= 0) {
                 needsend = true;
-                if (nodelay == 0)
-                {
+                if (nodelay == 0) {
                     segment.rto += rx_rto;
                 }
-                else
-                {
+                else {
                     segment.rto += rx_rto / 2;
                 }
                 segment.resendts = current + segment.rto;
                 lost++;
                 lostSegs++;
             }
-            else if (segment.fastack >= resent)
-            {
+            else if (segment.fastack >= resent) {
                 needsend = true;
                 segment.fastack = 0;
                 segment.rto = rx_rto;
@@ -896,8 +785,7 @@ public class KCP
                 change++;
                 fastRetransSegs++;
             }
-            else if (segment.fastack > 0 && newSegsCount == 0)
-            {
+            else if (segment.fastack > 0 && newSegsCount == 0) {
                 needsend = true;
                 segment.fastack = 0;
                 segment.rto = rx_rto;
@@ -906,12 +794,14 @@ public class KCP
                 earlyRetransSegs++;
             }
 
-            if (needsend)
-            {
+            if (needsend) {
                 segment.xmit++;
                 segment.ts = current;
                 segment.wnd = seg.wnd;
                 segment.una = seg.una;
+
+                Debug.Log("seg:" + segment);
+                Debug.Log("seg data:" + segment.data);
 
                 var need = IKCP_OVERHEAD + segment.data.ReadableBytes;
                 makeSpace(need);
@@ -919,16 +809,14 @@ public class KCP
                 Buffer.BlockCopy(segment.data.RawBuffer, segment.data.ReaderIndex, buffer, writeIndex, segment.data.ReadableBytes);
                 writeIndex += segment.data.ReadableBytes;
 
-                if (segment.xmit >= dead_link)
-                {
+                if (segment.xmit >= dead_link) {
                     state = 0xFFFFFFFF;
                 }
             }
 
             // get the nearest rto
             var _rto = _itimediff(segment.resendts, current);
-            if (_rto > 0 && _rto < minrto)
-            {
+            if (_rto > 0 && _rto < minrto) {
                 minrto = _rto;
             }
         }
@@ -937,16 +825,13 @@ public class KCP
         flushBuffer();
 
         // cwnd update
-        if (nocwnd == 0)
-        {
+        if (nocwnd == 0) {
             // update ssthresh
             // rate halving, https://tools.ietf.org/html/rfc6937
-            if (change > 0)
-            {
+            if (change > 0) {
                 var inflght = snd_nxt - snd_una;
                 ssthresh = inflght / 2;
-                if (ssthresh < IKCP_THRESH_MIN)
-                {
+                if (ssthresh < IKCP_THRESH_MIN) {
                     ssthresh = IKCP_THRESH_MIN;
                 }
                 cwnd = ssthresh + resent;
@@ -954,19 +839,16 @@ public class KCP
             }
 
             // congestion control, https://tools.ietf.org/html/rfc5681
-            if (lost > 0)
-            {
+            if (lost > 0) {
                 ssthresh = cwnd / 2;
-                if (ssthresh < IKCP_THRESH_MIN)
-                {
+                if (ssthresh < IKCP_THRESH_MIN) {
                     ssthresh = IKCP_THRESH_MIN;
                 }
                 cwnd = 1;
                 incr = mss;
             }
 
-            if (cwnd < 1)
-            {
+            if (cwnd < 1) {
                 cwnd = 1;
                 incr = mss;
             }
@@ -978,26 +860,22 @@ public class KCP
     // update state (call it repeatedly, every 10ms-100ms), or you can ask
     // ikcp_check when to call it again (without ikcp_input/_send calling).
     // 'current' - current timestamp in millisec.
-    public void Update()
-    {
+    public void Update() {
         var current = currentMS();
 
-        if (0 == updated)
-        {
+        if (0 == updated) {
             updated = 1;
             ts_flush = current;
         }
 
         var slap = _itimediff(current, ts_flush);
 
-        if (slap >= 10000 || slap < -10000)
-        {
+        if (slap >= 10000 || slap < -10000) {
             ts_flush = current;
             slap = 0;
         }
 
-        if (slap >= 0)
-        {
+        if (slap >= 0) {
             ts_flush += interval;
             if (_itimediff(current, ts_flush) >= 0)
                 ts_flush = current + interval;
@@ -1012,8 +890,7 @@ public class KCP
     // Important to reduce unnacessary ikcp_update invoking. use it to
     // schedule ikcp_update (eg. implementing an epoll-like mechanism,
     // or optimize ikcp_update when handling massive kcp connections)
-    public UInt32 Check()
-    {
+    public UInt32 Check() {
         var current = currentMS();
 
         var ts_flush_ = ts_flush;
@@ -1021,8 +898,7 @@ public class KCP
         var tm_packet = 0x7fffffff;
         var minimal = 0;
 
-        if (_itimediff(current, ts_flush_) >= 10000 || _itimediff(current, ts_flush_) < -10000)
-        {
+        if (_itimediff(current, ts_flush_) >= 10000 || _itimediff(current, ts_flush_) < -10000) {
             ts_flush_ = current;
         }
 
@@ -1030,8 +906,7 @@ public class KCP
 
         tm_flush_ = (int)_itimediff(ts_flush_, current);
 
-        foreach (var seg in snd_buf)
-        {
+        foreach (var seg in snd_buf) {
             var diff = _itimediff(seg.resendts, current);
             if (diff <= 0) return current;
             if (diff < tm_packet) tm_packet = (int)diff;
@@ -1045,11 +920,9 @@ public class KCP
     }
 
     // change MTU size, default is 1400
-    public int SetMtu(Int32 mtu_)
-    {
+    public int SetMtu(Int32 mtu_) {
         if (mtu_ < 50 || mtu_ < (Int32)IKCP_OVERHEAD) return -1;
-        if (reserved >= (int)(mtu - IKCP_OVERHEAD) || reserved < 0)
-        {
+        if (reserved >= (int)(mtu - IKCP_OVERHEAD) || reserved < 0) {
             return -1;
         }
 
@@ -1059,7 +932,7 @@ public class KCP
         mtu = (UInt32)mtu_;
         mss = mtu - IKCP_OVERHEAD - (UInt32)reserved;
         buffer = buffer_;
-        return 0; 
+        return 0;
     }
 
     // fastest: ikcp_nodelay(kcp, 1, 20, 2, 1)
@@ -1067,11 +940,9 @@ public class KCP
     // interval: internal update timer interval in millisec, default is 100ms
     // resend: 0:disable fast resend(default), 1:enable fast resend
     // nc: 0:normal congestion control(default), 1:disable congestion control
-    public int NoDelay(int nodelay_, int interval_, int resend_, int nc_)
-    {
+    public int NoDelay(int nodelay_, int interval_, int resend_, int nc_) {
 
-        if (nodelay_ > 0)
-        {
+        if (nodelay_ > 0) {
             nodelay = (UInt32)nodelay_;
             if (nodelay_ != 0)
                 rx_minrto = IKCP_RTO_NDL;
@@ -1079,14 +950,11 @@ public class KCP
                 rx_minrto = IKCP_RTO_MIN;
         }
 
-        if (interval_ >= 0)
-        {
-            if (interval_ > 5000)
-            {
+        if (interval_ >= 0) {
+            if (interval_ > 5000) {
                 interval_ = 5000;
             }
-            else if (interval_ < 10)
-            {
+            else if (interval_ < 10) {
                 interval_ = 10;
             }
             interval = (UInt32)interval_;
@@ -1100,8 +968,7 @@ public class KCP
     }
 
     // set maximum window size: sndwnd=32, rcvwnd=32 by default
-    public int WndSize(int sndwnd, int rcvwnd)
-    {
+    public int WndSize(int sndwnd, int rcvwnd) {
         if (sndwnd > 0)
             snd_wnd = (UInt32)sndwnd;
 
@@ -1110,8 +977,7 @@ public class KCP
         return 0;
     }
 
-    public void ReserveBytes(int reservedSize)
-    {
+    public void ReserveBytes(int reservedSize) {
         reserved = reservedSize;
     }
 }

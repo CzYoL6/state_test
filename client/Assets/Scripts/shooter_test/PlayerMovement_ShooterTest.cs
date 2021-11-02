@@ -13,6 +13,10 @@ public class PlayerMovement_ShooterTest : MonoBehaviour
         rb.velocity = vel;
     }
 
+    public void ZeroAngularVel() {
+        rb.angularVelocity = 0;
+    }
+
     public void RotateToPoint(Vector2 point) {
         rb.rotation = MathHelper.TwoPoints2Degree(point, rb.position);
     }

@@ -157,6 +157,7 @@ void Game::Update() {
         //std::cout<<"tick:" <<tick<<std::endl;
         //update the input buffer size
         updateInfoPtr->set_inputbuffersize(inputBuffer->size());
+        std::cout << inputBuffer->size() << std::endl;
         while(!inputBuffer->empty()){
             auto input = inputBuffer->front();
             inputBuffer->pop();

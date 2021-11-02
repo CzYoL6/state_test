@@ -14,7 +14,7 @@ Player::~Player() {
 
 void Player::ApplyInput(const Update_ShooterTest::PlayerInput_C_TO_S& input){
     lastProcessedTickNum = input.frameid();
-    std::cout << "player " << id << " last " << lastProcessedTickNum << std::endl;
+    //std::cout << "player " << id << " last " << lastProcessedTickNum << std::endl;
     //设置速度
     b2Vec2 moveVec = b2Vec2_zero;
     b2Vec2 tmp;

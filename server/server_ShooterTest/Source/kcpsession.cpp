@@ -20,6 +20,7 @@ ikcpcb *NewKCP(int conv, KCPSession *session) {
     //ikcp_nodelay(kcp, 1, 10, 2, 1);
     ikcp_nodelay(kcp, 1, 20, 2, 1);
     //ikcp_setmtu(kcp, 128);
+    
 
 
     //make sure this is larger than your update package

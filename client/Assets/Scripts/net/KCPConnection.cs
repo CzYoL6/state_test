@@ -60,7 +60,7 @@ public class KCPConnection
 
         //---------------------
         m_Kcp.SetMtu(1024 * 64);
-
+        
         m_RecvBuffer.Clear();
         m_IsConnected = true;
         //GlobalEvent.onTipChange.Invoke("连接服务器成功");

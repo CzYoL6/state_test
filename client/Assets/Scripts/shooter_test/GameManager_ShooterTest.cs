@@ -39,7 +39,7 @@ public class GameManager_ShooterTest : Singleton<GameManager_ShooterTest>
 
     private void Update() {
         float curTime = Time.time;
-        Debug.Log(1.0f/tickRate);
+        //Debug.Log(1.0f/tickRate);
         while(curTime - lastTickTime >= 1.0f / tickRate) {
             NetManager.Instance.Tick();
             if (!started) return;
@@ -122,7 +122,7 @@ public class GameManager_ShooterTest : Singleton<GameManager_ShooterTest>
             if (!playerMap.ContainsKey(info.Id)) {
                 AddPlayer(info.Id, info.X, info.Y);
             }
-
+            Player_ShooterTest player = GetPlayerByID(info.Id);
             //保存本地玩家的更新信息
             if (info.Id == localPlayerID) {
                 float diffPos = 0, diffRot = 0;
@@ -130,7 +130,7 @@ public class GameManager_ShooterTest : Singleton<GameManager_ShooterTest>
                     diffPos = (state.pos - (new Vector2(info.X, info.Y))).magnitude;
                     diffRot = Mathf.Abs( state.rotation - info.Angle);
 
-                    Debug.Log($"playerid: {info.Id}, predicted: ({state.pos.x} ,{state.pos.y}) {state.rotation}, acknowledged: ({info.X}, {info.Y}) {info.Angle} ");
+                    //Debug.Log($"playerid: {info.Id}, predicted: ({state.pos.x} ,{state.pos.y}) {state.rotation}, acknowledged: ({info.X}, {info.Y}) {info.Angle} ");
                 }
                 if (state != null && ((diffPos >= maxDiffPos) || (diffRot >= maxDiffRot))) {
                 //if (state != null && ((diffPos >= maxDiffPos) )) {
@@ -147,9 +147,11 @@ public class GameManager_ShooterTest : Singleton<GameManager_ShooterTest>
 
             }
             else {
-                Player_ShooterTest player = GetPlayerByID(info.Id);
+                
                 player.SetTrans(info.X, info.Y, info.Angle);
+
             }
+            player.ZeroSpeed();
         }
 
         //如果是本地玩家，并且开启了回滚修正，则进行

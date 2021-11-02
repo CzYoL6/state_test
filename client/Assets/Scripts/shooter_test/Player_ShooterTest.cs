@@ -30,6 +30,11 @@ public class Player_ShooterTest : MonoBehaviour
 
     }
 
+    public void ZeroSpeed() {
+        movement.SetVel(Vector2.zero);
+        movement.ZeroAngularVel();
+    }
+
     ///
     /// 设置刚体速度，每一个物理帧模拟一个FixedDeltaTime
     ///

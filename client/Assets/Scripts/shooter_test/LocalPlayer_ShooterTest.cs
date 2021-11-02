@@ -41,7 +41,7 @@ public class LocalPlayer_ShooterTest : Player_ShooterTest
 
 
         //send
-        ClientSend_ShooterTest.SendLocalPlayerInput(input, state.rotation);
+        ClientSend_ShooterTest.SendLocalPlayerInput(input, MathHelper.TwoPoints2Degree(input.mousePos, movement.GetPos()));
     }
 
     public void SetShodowTrans(Vector2 pos, float rotation) {
