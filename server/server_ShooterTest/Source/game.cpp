@@ -3,7 +3,6 @@
 
 #include "server_send.h"
 
-Game *Game::instance = nullptr;
 
 Game::Game() {
     inputBuffer = new std::queue<Update_ShooterTest::PlayerInput_C_TO_S>;
@@ -18,17 +17,19 @@ Game::Game() {
 }
 
 Game::~Game() {
-    if (instance != nullptr)
-        delete instance;
-    for (auto iter = playerMap.begin(); iter != playerMap.end(); iter++)
-        if (iter->second != nullptr)
-            delete iter->second;
+    // for (auto iter = playerMap.begin(); iter != playerMap.end(); iter++)
+    //     if (iter->second != -1)
+    //         delete slots[iter->second];
+    if(slots != nullptr){
+        delete []slots;
+    }
     if (updateInfoPtr != nullptr)
         delete updateInfoPtr;
     if (world != nullptr)
         delete world;
     if(inputBuffer != nullptr)
         delete  inputBuffer;
+    
 }
 
 // void Game::AddPlayer(int playerID, float x, float angle) {
@@ -62,17 +63,11 @@ void Game::SimulatePhysics(float time_step, int vel_iter, int pos_iter) {
     world->Step(time_step, vel_iter, pos_iter);
 }
 
-Game *Game::GetInstance() {
-    if (instance == nullptr)
-        instance = new Game;
-    return instance;
-}
-
 int Game::GetPlayerCount() {
     return playerMap.size();
 }
 
-std::map<int, Player *> Game::GetPlayerMap() {
+std::map<int, int>& Game::GetPlayerMap() {
     return playerMap;
 }
 
@@ -157,32 +152,53 @@ void Game::Update() {
         //std::cout<<"tick:" <<tick<<std::endl;
         //update the input buffer size
         updateInfoPtr->set_inputbuffersize(inputBuffer->size());
-        std::cout << inputBuffer->size() << std::endl;
-        while(!inputBuffer->empty()){
-            auto input = inputBuffer->front();
-            inputBuffer->pop();
+        //std::cout << inputBuffer->size() << std::endl;
+        // while(!inputBuffer->empty()){
+        //     auto input = inputBuffer->front();
+        //     inputBuffer->pop();
 
-            int playerID = input.id();
-            Player*player = playerMap[playerID];
-            if(player != nullptr){
-                if(input.frameid() <= player->GetLastProcessedTick()) continue;
-                else{
-                    player->ApplyInput(input);
-                }
+        //     int playerID = input.id();
+        //     Player*player = playerMap[playerID];
+        //     if(player != nullptr){
+        //         if(input.frameid() <= player->GetLastProcessedTick()) continue;
+        //         else{
+        //             player->ApplyInput(input);
+        //         }
+        //     }
+        // }
+        for(auto iter : playerMap){
+            Player *player = slots[iter.second];
+            Update_ShooterTest::PlayerInput_C_TO_S input;
+            
+            int tmp = 0;
+            //至少执行一次
+            if(!player->GetPlayerInputQueue()->empty()){
+                input = player->GetPlayerInputQueue()->front();
+                player->GetPlayerInputQueue()->pop();
+                player->ApplyInput(input);
+                tmp++;
             }
+            while(player->GetPlayerInputQueue()->size() >= 5){
+                input = player->GetPlayerInputQueue()->front();
+                player->GetPlayerInputQueue()->pop();
+                player->ApplyInput(input);
+                tmp++;
+            }
+            if(tmp >= 2) std::cout << "!!!" << tick << " " << player->GetConv() << std::endl;
+            //std::cout << player->GetConv() << " " << player->GetPlayerInputQueue()->size() << " " << tmp << std::endl;
         }
         SimulatePhysics(1.0f/(tickRate* 1.0f), velocityIterations, positionIterations);
         for (auto iter = playerMap.begin(); iter != playerMap.end(); iter++) {
-            Player *player = iter->second;
+            Player *player = slots[iter->second];
             int lastProcessedTick = player->GetLastProcessedTick();
             updateInfoPtr->set_lastprocessedframeid(lastProcessedTick);
             Update_ShooterTest::PlayerInfo_S_TO_C *info = player->GetPlayerInfoPtr();
-            info->set_id(player->GetId());
+            info->set_id(player->GetConv());
             info->set_x(player->GetPos().x);
             info->set_y(player->GetPos().y);
             info->set_angle(player->GetRotation());
             
-            SERVER_SEND::UpdateInfo(player->GetId(),updateInfoPtr);
+            SERVER_SEND::UpdateInfo(player->GetConv(),updateInfoPtr);
         }
 
         last_time = iclock();
@@ -191,14 +207,14 @@ void Game::Update() {
 }
 
 void Game::ApplyInputToPlayer(int conv, Update_ShooterTest::PlayerInput_C_TO_S input){
-    Player* player = playerMap[conv];
+    Player* player = slots[playerMap[conv]];
     if(player != nullptr){
         player->ApplyInput(input);
     }
 }
 
 
-void Game::AddPlayer(int conv) {
+Player* Game::AddPlayer(int conv) {
     
     b2BodyDef bodyDef;
     bodyDef.type = b2_dynamicBody;
@@ -206,7 +222,7 @@ void Game::AddPlayer(int conv) {
 
     std::uniform_real_distribution<double> dr_anglePi(-M_PI, M_PI);
 
-    bodyDef.angle = dr_anglePi(RandomEngine::GetInstance()->GetDre());
+    bodyDef.angle = dr_anglePi(RandomEngine::GetInstance().GetDre());
     b2Body *body = world->CreateBody(&bodyDef);
 
     b2PolygonShape polygon;
@@ -220,10 +236,12 @@ void Game::AddPlayer(int conv) {
 
     Player *player = new Player(conv, this, body);
     bodyDef.userData.pointer = reinterpret_cast<uintptr_t>(player);
-    playerMap[conv] = player;
+
+   
 
     player->SetPlayerInfoPtr(updateInfoPtr->add_playerinfos());
 
     std::cout << "adding player " << conv<< " cnt:"<<playerMap.size() << std::endl;
+    return player;
 
 }

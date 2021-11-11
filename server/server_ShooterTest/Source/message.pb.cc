@@ -17,6 +17,18 @@
 
 PROTOBUF_PRAGMA_INIT_SEG
 namespace Update_ShooterTest {
+constexpr KcpWelcome_S_C::KcpWelcome_S_C(
+  ::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized)
+  : slotid_(0){}
+struct KcpWelcome_S_CDefaultTypeInternal {
+  constexpr KcpWelcome_S_CDefaultTypeInternal()
+    : _instance(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized{}) {}
+  ~KcpWelcome_S_CDefaultTypeInternal() {}
+  union {
+    KcpWelcome_S_C _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT KcpWelcome_S_CDefaultTypeInternal _KcpWelcome_S_C_default_instance_;
 constexpr PlayerInfo_S_TO_C::PlayerInfo_S_TO_C(
   ::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized)
   : x_(0)
@@ -76,11 +88,18 @@ struct PlayerInput_C_TO_SDefaultTypeInternal {
 };
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PlayerInput_C_TO_SDefaultTypeInternal _PlayerInput_C_TO_S_default_instance_;
 }  // namespace Update_ShooterTest
-static ::PROTOBUF_NAMESPACE_ID::Metadata file_level_metadata_message_2eproto[4];
+static ::PROTOBUF_NAMESPACE_ID::Metadata file_level_metadata_message_2eproto[5];
 static const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* file_level_enum_descriptors_message_2eproto[1];
 static constexpr ::PROTOBUF_NAMESPACE_ID::ServiceDescriptor const** file_level_service_descriptors_message_2eproto = nullptr;
 
 const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_message_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::Update_ShooterTest::KcpWelcome_S_C, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _inlined_string_donated_
+  PROTOBUF_FIELD_OFFSET(::Update_ShooterTest::KcpWelcome_S_C, slotid_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::Update_ShooterTest::PlayerInfo_S_TO_C, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -121,13 +140,15 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_message_2eproto::offsets[] PRO
   PROTOBUF_FIELD_OFFSET(::Update_ShooterTest::PlayerInput_C_TO_S, id_),
 };
 static const ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
-  { 0, -1, -1, sizeof(::Update_ShooterTest::PlayerInfo_S_TO_C)},
-  { 10, -1, -1, sizeof(::Update_ShooterTest::UpdateInfo_S_TO_C)},
-  { 19, -1, -1, sizeof(::Update_ShooterTest::KcpConnectReq_C_S)},
-  { 25, -1, -1, sizeof(::Update_ShooterTest::PlayerInput_C_TO_S)},
+  { 0, -1, -1, sizeof(::Update_ShooterTest::KcpWelcome_S_C)},
+  { 7, -1, -1, sizeof(::Update_ShooterTest::PlayerInfo_S_TO_C)},
+  { 17, -1, -1, sizeof(::Update_ShooterTest::UpdateInfo_S_TO_C)},
+  { 26, -1, -1, sizeof(::Update_ShooterTest::KcpConnectReq_C_S)},
+  { 32, -1, -1, sizeof(::Update_ShooterTest::PlayerInput_C_TO_S)},
 };
 
 static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] = {
+  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::Update_ShooterTest::_KcpWelcome_S_C_default_instance_),
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::Update_ShooterTest::_PlayerInfo_S_TO_C_default_instance_),
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::Update_ShooterTest::_UpdateInfo_S_TO_C_default_instance_),
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::Update_ShooterTest::_KcpConnectReq_C_S_default_instance_),
@@ -135,24 +156,25 @@ static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] =
 };
 
 const char descriptor_table_protodef_message_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
-  "\n\rmessage.proto\022\022Update_ShooterTest\"D\n\021P"
-  "layerInfo_S_TO_C\022\t\n\001x\030\001 \001(\002\022\t\n\001y\030\002 \001(\002\022\r"
-  "\n\005angle\030\003 \001(\002\022\n\n\002id\030\004 \001(\005\"\206\001\n\021UpdateInfo"
-  "_S_TO_C\022\034\n\024lastProcessedFrameID\030\001 \001(\005\022:\n"
-  "\013playerInfos\030\002 \003(\0132%.Update_ShooterTest."
-  "PlayerInfo_S_TO_C\022\027\n\017inputBufferSize\030\003 \001"
-  "(\005\"\023\n\021KcpConnectReq_C_S\"o\n\022PlayerInput_C"
-  "_TO_S\022\017\n\007frameID\030\001 \001(\005\022\t\n\001w\030\002 \001(\010\022\t\n\001s\030\003"
-  " \001(\010\022\t\n\001a\030\004 \001(\010\022\t\n\001d\030\005 \001(\010\022\020\n\010rotation\030\006"
-  " \001(\002\022\n\n\002id\030\007 \001(\005*b\n\004TYPE\022\025\n\021updateInfo_S"
-  "_TO_C\020\000\022\024\n\020kcpConnectionReq\020\001\022\025\n\021playerI"
-  "nfo_S_TO_C\020\002\022\026\n\022playerInput_C_TO_S\020\003b\006pr"
-  "oto3"
+  "\n\rmessage.proto\022\022Update_ShooterTest\" \n\016K"
+  "cpWelcome_S_C\022\016\n\006slotid\030\001 \001(\005\"D\n\021PlayerI"
+  "nfo_S_TO_C\022\t\n\001x\030\001 \001(\002\022\t\n\001y\030\002 \001(\002\022\r\n\005angl"
+  "e\030\003 \001(\002\022\n\n\002id\030\004 \001(\005\"\206\001\n\021UpdateInfo_S_TO_"
+  "C\022\034\n\024lastProcessedFrameID\030\001 \001(\005\022:\n\013playe"
+  "rInfos\030\002 \003(\0132%.Update_ShooterTest.Player"
+  "Info_S_TO_C\022\027\n\017inputBufferSize\030\003 \001(\005\"\023\n\021"
+  "KcpConnectReq_C_S\"o\n\022PlayerInput_C_TO_S\022"
+  "\017\n\007frameID\030\001 \001(\005\022\t\n\001w\030\002 \001(\010\022\t\n\001s\030\003 \001(\010\022\t"
+  "\n\001a\030\004 \001(\010\022\t\n\001d\030\005 \001(\010\022\020\n\010rotation\030\006 \001(\002\022\n"
+  "\n\002id\030\007 \001(\005*r\n\004TYPE\022\025\n\021updateInfo_S_TO_C\020"
+  "\000\022\024\n\020kcpConnectionReq\020\001\022\016\n\nkcpWelcome\020\002\022"
+  "\025\n\021playerInfo_S_TO_C\020\003\022\026\n\022playerInput_C_"
+  "TO_S\020\004b\006proto3"
   ;
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_message_2eproto_once;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_message_2eproto = {
-  false, false, 484, descriptor_table_protodef_message_2eproto, "message.proto", 
-  &descriptor_table_message_2eproto_once, nullptr, 0, 4,
+  false, false, 534, descriptor_table_protodef_message_2eproto, "message.proto", 
+  &descriptor_table_message_2eproto_once, nullptr, 0, 5,
   schemas, file_default_instances, TableStruct_message_2eproto::offsets,
   file_level_metadata_message_2eproto, file_level_enum_descriptors_message_2eproto, file_level_service_descriptors_message_2eproto,
 };
@@ -173,12 +195,191 @@ bool TYPE_IsValid(int value) {
     case 1:
     case 2:
     case 3:
+    case 4:
       return true;
     default:
       return false;
   }
 }
 
+
+// ===================================================================
+
+class KcpWelcome_S_C::_Internal {
+ public:
+};
+
+KcpWelcome_S_C::KcpWelcome_S_C(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
+  SharedCtor();
+  if (!is_message_owned) {
+    RegisterArenaDtor(arena);
+  }
+  // @@protoc_insertion_point(arena_constructor:Update_ShooterTest.KcpWelcome_S_C)
+}
+KcpWelcome_S_C::KcpWelcome_S_C(const KcpWelcome_S_C& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  slotid_ = from.slotid_;
+  // @@protoc_insertion_point(copy_constructor:Update_ShooterTest.KcpWelcome_S_C)
+}
+
+void KcpWelcome_S_C::SharedCtor() {
+slotid_ = 0;
+}
+
+KcpWelcome_S_C::~KcpWelcome_S_C() {
+  // @@protoc_insertion_point(destructor:Update_ShooterTest.KcpWelcome_S_C)
+  if (GetArenaForAllocation() != nullptr) return;
+  SharedDtor();
+  _internal_metadata_.Delete<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+inline void KcpWelcome_S_C::SharedDtor() {
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+}
+
+void KcpWelcome_S_C::ArenaDtor(void* object) {
+  KcpWelcome_S_C* _this = reinterpret_cast< KcpWelcome_S_C* >(object);
+  (void)_this;
+}
+void KcpWelcome_S_C::RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena*) {
+}
+void KcpWelcome_S_C::SetCachedSize(int size) const {
+  _cached_size_.Set(size);
+}
+
+void KcpWelcome_S_C::Clear() {
+// @@protoc_insertion_point(message_clear_start:Update_ShooterTest.KcpWelcome_S_C)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  slotid_ = 0;
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* KcpWelcome_S_C::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    ::PROTOBUF_NAMESPACE_ID::uint32 tag;
+    ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
+    switch (tag >> 3) {
+      // int32 slotid = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 8)) {
+          slotid_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      default:
+        goto handle_unusual;
+    }  // switch
+  handle_unusual:
+    if ((tag == 0) || ((tag & 7) == 4)) {
+      CHK_(ptr);
+      ctx->SetLastTag(tag);
+      goto message_done;
+    }
+    ptr = UnknownFieldParse(
+        tag,
+        _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+        ptr, ctx);
+    CHK_(ptr != nullptr);
+  }  // while
+message_done:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto message_done;
+#undef CHK_
+}
+
+::PROTOBUF_NAMESPACE_ID::uint8* KcpWelcome_S_C::_InternalSerialize(
+    ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:Update_ShooterTest.KcpWelcome_S_C)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // int32 slotid = 1;
+  if (this->_internal_slotid() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(1, this->_internal_slotid(), target);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:Update_ShooterTest.KcpWelcome_S_C)
+  return target;
+}
+
+size_t KcpWelcome_S_C::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:Update_ShooterTest.KcpWelcome_S_C)
+  size_t total_size = 0;
+
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // int32 slotid = 1;
+  if (this->_internal_slotid() != 0) {
+    total_size += ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32SizePlusOne(this->_internal_slotid());
+  }
+
+  return MaybeComputeUnknownFieldsSize(total_size, &_cached_size_);
+}
+
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData KcpWelcome_S_C::_class_data_ = {
+    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSizeCheck,
+    KcpWelcome_S_C::MergeImpl
+};
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*KcpWelcome_S_C::GetClassData() const { return &_class_data_; }
+
+void KcpWelcome_S_C::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message* to,
+                      const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+  static_cast<KcpWelcome_S_C *>(to)->MergeFrom(
+      static_cast<const KcpWelcome_S_C &>(from));
+}
+
+
+void KcpWelcome_S_C::MergeFrom(const KcpWelcome_S_C& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:Update_ShooterTest.KcpWelcome_S_C)
+  GOOGLE_DCHECK_NE(&from, this);
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (from._internal_slotid() != 0) {
+    _internal_set_slotid(from._internal_slotid());
+  }
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void KcpWelcome_S_C::CopyFrom(const KcpWelcome_S_C& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:Update_ShooterTest.KcpWelcome_S_C)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool KcpWelcome_S_C::IsInitialized() const {
+  return true;
+}
+
+void KcpWelcome_S_C::InternalSwap(KcpWelcome_S_C* other) {
+  using std::swap;
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  swap(slotid_, other->slotid_);
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata KcpWelcome_S_C::GetMetadata() const {
+  return ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(
+      &descriptor_table_message_2eproto_getter, &descriptor_table_message_2eproto_once,
+      file_level_metadata_message_2eproto[0]);
+}
 
 // ===================================================================
 
@@ -433,7 +634,7 @@ void PlayerInfo_S_TO_C::InternalSwap(PlayerInfo_S_TO_C* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata PlayerInfo_S_TO_C::GetMetadata() const {
   return ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(
       &descriptor_table_message_2eproto_getter, &descriptor_table_message_2eproto_once,
-      file_level_metadata_message_2eproto[0]);
+      file_level_metadata_message_2eproto[1]);
 }
 
 // ===================================================================
@@ -678,7 +879,7 @@ void UpdateInfo_S_TO_C::InternalSwap(UpdateInfo_S_TO_C* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata UpdateInfo_S_TO_C::GetMetadata() const {
   return ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(
       &descriptor_table_message_2eproto_getter, &descriptor_table_message_2eproto_once,
-      file_level_metadata_message_2eproto[1]);
+      file_level_metadata_message_2eproto[2]);
 }
 
 // ===================================================================
@@ -717,7 +918,7 @@ const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*KcpConnectReq_C_S::GetClassDat
 ::PROTOBUF_NAMESPACE_ID::Metadata KcpConnectReq_C_S::GetMetadata() const {
   return ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(
       &descriptor_table_message_2eproto_getter, &descriptor_table_message_2eproto_once,
-      file_level_metadata_message_2eproto[2]);
+      file_level_metadata_message_2eproto[3]);
 }
 
 // ===================================================================
@@ -1039,12 +1240,15 @@ void PlayerInput_C_TO_S::InternalSwap(PlayerInput_C_TO_S* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata PlayerInput_C_TO_S::GetMetadata() const {
   return ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(
       &descriptor_table_message_2eproto_getter, &descriptor_table_message_2eproto_once,
-      file_level_metadata_message_2eproto[3]);
+      file_level_metadata_message_2eproto[4]);
 }
 
 // @@protoc_insertion_point(namespace_scope)
 }  // namespace Update_ShooterTest
 PROTOBUF_NAMESPACE_OPEN
+template<> PROTOBUF_NOINLINE ::Update_ShooterTest::KcpWelcome_S_C* Arena::CreateMaybeMessage< ::Update_ShooterTest::KcpWelcome_S_C >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::Update_ShooterTest::KcpWelcome_S_C >(arena);
+}
 template<> PROTOBUF_NOINLINE ::Update_ShooterTest::PlayerInfo_S_TO_C* Arena::CreateMaybeMessage< ::Update_ShooterTest::PlayerInfo_S_TO_C >(Arena* arena) {
   return Arena::CreateMessageInternal< ::Update_ShooterTest::PlayerInfo_S_TO_C >(arena);
 }

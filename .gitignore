@@ -10,6 +10,8 @@
 /client/[Ll]ogs/
 /client/[Mm]emoryCaptures/
 
+/client_clone_0
+
 /client/Debug
 
 /server/**/*.a

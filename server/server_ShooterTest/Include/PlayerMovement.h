@@ -10,8 +10,9 @@ public:
     ~PlayerMovement();
 
     b2Body* GetRigidBody(){return body;}
-    void SetVel(b2Vec2 vel){body->SetLinearVelocity(vel);}
-    void SetRotation(float rotation);
+    //void SetVel(b2Vec2 vel){body->SetLinearVelocity(vel);}
+    //void SetRotation(float rotation);
     b2Vec2 GetPos(){return body->GetPosition();}
     float GetRotation(){return body->GetAngle();}
+    void SetTrans(float x, float y, float rot);
 };

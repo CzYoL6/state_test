@@ -1,12 +1,12 @@
 #pragma once
 #include <random>
+#include"singleton.h"
 
-class RandomEngine {
+
+class RandomEngine : public Singleton<RandomEngine> {
   private:
-    static RandomEngine *instance;
     std::default_random_engine dre;
 
   public:
-    static RandomEngine *GetInstance();
     std::default_random_engine &GetDre();
 };

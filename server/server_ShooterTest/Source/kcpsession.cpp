@@ -190,17 +190,17 @@ void KCPSession::Update(IUINT32 current) {
         }
 
         IUINT32 tmp_length = *((IUINT32 *)(&buffer[0]));
-        // std::cout << "tmp len: " << tmp_length << std::endl;
-        // if (tmp_length == 0xffffffffu) //KCP heart
-        // {
-        //     assert(4 == recv_buffer_.Read(buffer, 4));
-        //     //server_->DoErrorLog("Revc heart package");
-        //     continue;
-        // }
+        //std::cout << "tmp len: " << tmp_length << std::endl;
+        if (tmp_length == 0xffffffffu) //KCP heart
+        {
+            assert(4 == recv_buffer_.Read(buffer, 4));
+            //server_->DoErrorLog("Revc heart package");
+            continue;
+        }
 
         // int package_len = (int)ntohl((u_long)tmp_length);
         int package_len = tmp_length;
-        //std::cout << "package len:" << package_len << std::endl;
+       // std::cout << "package len:" << package_len << std::endl;
         if (package_len <= 0) {
             //package length invalid
             server_->DoErrorLog("package size(%d) invalid", package_len);

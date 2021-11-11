@@ -22,7 +22,7 @@ void UpdateInfo(int conv, Update_ShooterTest::UpdateInfo_S_TO_C *updateInfo){
     packet->InsertLengthInFront();
     //std::cout << "packet length: " << packet->GetAllLength() << std::endl;
 
-    KCPServer::GetInstance()->Send(conv, packet->GetCircleBuffer()->GetBuffer(), packet->GetAllLength());
+    KCPServer::GetInstance().Send(conv, packet->GetCircleBuffer()->GetBuffer(), packet->GetAllLength());
 
     delete packet;
 }

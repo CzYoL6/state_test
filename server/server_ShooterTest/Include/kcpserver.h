@@ -20,6 +20,8 @@ typedef void (*package_recv_cb_func)(int, char *, int);
 typedef void (*session_kick_cb_func)(int);
 typedef void (*error_log_reporter)(const char *);
 
+typedef void (*new_session_cb_func)(int);
+
 struct KCPOptions {
     int port;
 
@@ -29,11 +31,12 @@ struct KCPOptions {
     package_recv_cb_func recv_cb;
     session_kick_cb_func kick_cb;
     error_log_reporter error_reporter;
+    new_session_cb_func new_session_cb;
 
     KCPOptions();
 };
 
-class KCPServer {
+class KCPServer : public Singleton<KCPServer> {
   public:
     friend class KCPSession;
 
@@ -50,8 +53,8 @@ class KCPServer {
     bool SessionExist(int conv) const;
     void SetOption(const KCPOptions &options);
     KCPOptions GetOption() { return options_; }
-    static KCPServer *GetInstance();
-    void SetMaxPlayerCnt(int cnt){maxPlayerCnt = cnt;}
+    
+
 
   private:
     bool UDPBind();
@@ -62,13 +65,11 @@ class KCPServer {
     void SessionUpdate();
     void OnKCPRevc(int conv, char *data, int len);
     void DoErrorLog(const char *fmt, ...);
+    void AddNewSession(int conv);
 
     KCPOptions options_;
     int fd_;
     std::map<int, KCPSession *> sessions_;
     IUINT64 current_clock_;
 
-    static KCPServer *instance;
-
-    int maxPlayerCnt;
 };

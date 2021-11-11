@@ -14,13 +14,6 @@
 
 const IUINT32 KCP_HEAD_LENGTH = 24;
 
-KCPServer *KCPServer::instance = nullptr;
-
-KCPServer *KCPServer::GetInstance() {
-    if (instance == nullptr)
-        instance = new KCPServer;
-    return instance;
-}
 
 KCPOptions::KCPOptions() {
     port = 9527;
@@ -28,6 +21,7 @@ KCPOptions::KCPOptions() {
     recv_cb = NULL;
     kick_cb = NULL;
     error_reporter = NULL;
+    new_session_cb = NULL;
 }
 
 KCPServer::KCPServer(const KCPOptions &options)
@@ -36,8 +30,6 @@ KCPServer::KCPServer(const KCPOptions &options)
 KCPServer::KCPServer() : fd_(0), current_clock_(0) {}
 
 KCPServer::~KCPServer() {
-    if (instance != nullptr)
-        delete instance;
     Clear();
 }
 
@@ -218,11 +210,7 @@ void KCPServer::UDPRead() {
                                     current_clock_);
             sessions_[conv] = session;
 
-            std::cout << "creating a new kcp session and Player..." <<conv<< std::endl;
-            Game::GetInstance()->AddPlayer(conv);
-            std::cout << "created" << std::endl;
-            if (sessions_.size() == maxPlayerCnt)
-                (Game::GetInstance())->StartGame();
+            AddNewSession(conv);
         }
         assert(NULL != session);
         session->KCPInput(cliaddr, len, buf, n, current_clock_);
@@ -248,6 +236,14 @@ void KCPServer::SessionUpdate() {
         it++;
         session->Update(current);
     }
+}
+
+void KCPServer::AddNewSession(int conv){
+    if (NULL == options_.new_session_cb) {
+        return;
+    }
+    
+    options_.new_session_cb(conv);
 }
 
 void KCPServer::OnKCPRevc(int conv, char *data, int len) {

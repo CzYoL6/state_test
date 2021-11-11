@@ -8,6 +8,7 @@ public class GoButton : MonoBehaviour
 {
     public TMP_InputField ipIF;
     public TMP_InputField portIF;
+    public TMP_InputField tickIF;
     // Start is called before the first frame update
     void Start()
     {
@@ -23,6 +24,7 @@ public class GoButton : MonoBehaviour
     public void Go() {
         InfoKeeper.Instance.ip = ipIF.text;
         InfoKeeper.Instance.port = int.Parse(portIF.text);
+        InfoKeeper.Instance.tickRate = float.Parse(tickIF.text);
         SceneManager.LoadScene(2);
     }
 }

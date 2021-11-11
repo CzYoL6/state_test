@@ -9,7 +9,7 @@ C_DEFINES =
 
 C_INCLUDES = -I/mnt/e/GameDes1gn/state_test/server/server_ShooterTest/Include 
 
-CXX_FLAGS =  -g -O3 -Wall -std=c++11  
+CXX_FLAGS =  -g -O3 -std=c++11  
 
 CXX_DEFINES = 
 

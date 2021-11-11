@@ -2,12 +2,14 @@
 #include "game.h"
 #include "message.pb.h"
 #include "PlayerMovement.h"
+#include "message.pb.h"
 #include <box2d/box2d.h>
+#include <queue>
 
 class Game;
 class Player {
   private:
-    int id{0};
+    int conv{0};
     Game *game{nullptr};
 
     Update_ShooterTest::PlayerInfo_S_TO_C *playerInfoPtr{nullptr};
@@ -18,8 +20,10 @@ class Player {
 
     PlayerMovement* movement{nullptr};
 
+    std::queue<Update_ShooterTest::PlayerInput_C_TO_S> *playerInputQueue{nullptr};
+
   public:
-    unsigned int GetId() { return id; }
+    unsigned int GetConv() { return conv; }
     Game *GetGame() { return game; }
     Player(unsigned int _id, Game *_game, b2Body *body_ptr);
 
@@ -38,4 +42,6 @@ class Player {
       
       return lastProcessedTickNum;
     }
+
+    std::queue<Update_ShooterTest::PlayerInput_C_TO_S> * GetPlayerInputQueue(){return playerInputQueue;}
 };

@@ -6,30 +6,33 @@
 #include <queue>
 #include <box2d/box2d.h>
 #include <map>
+#include "singleton.h"
 
 class Player;
 
 #define PIXEL_PER_METER 1
 
-class Game {
+class Game : public Singleton<Game>{
   private:
     unsigned int gameId{0};
     IUINT32 last_time{0};
     int tick{0};
-    std::map<int, Player *> playerMap; //[conv(playerID), Player]
-    static Game *instance;
+    std::map<int, int> playerMap; //[conv, slot_id]
+    Player** slots;
+    
     bool hasStarted{false};
     b2World *world{nullptr};
     Update_ShooterTest::UpdateInfo_S_TO_C *updateInfoPtr{nullptr};
     std::queue<Update_ShooterTest::PlayerInput_C_TO_S> *inputBuffer{nullptr};
 
+    int maxPlayerCnt;
+
   public:
     Game(/* args */);
     ~Game();
 
-    static Game *GetInstance();
     int GetPlayerCount();
-    std::map<int, Player *> GetPlayerMap();
+    std::map<int, int>& GetPlayerMap();
     void StartGame();
     bool HasStarted();
     b2World *GetWorld();
@@ -46,7 +49,22 @@ class Game {
 
     void AddToInputBuffer(Update_ShooterTest::PlayerInput_C_TO_S input);
 
-    void AddPlayer(int conv);
+    Player* AddPlayer(int conv);
 
     int tickRate;
+    
+    void SetMaxPlayerCnt(int cnt){
+      std::cout << "max player cnt set to: " <<cnt<< std::endl;
+      maxPlayerCnt = cnt;
+      slots = new Player*[cnt + 1];
+      for(int i = 0; i <= cnt; i++){
+        slots[i] = nullptr;
+      }
+    }
+    int GetMaxPlayerCnt(){
+      return maxPlayerCnt;
+    }
+    Player** GetSlots(){
+      return slots;
+    }
 };

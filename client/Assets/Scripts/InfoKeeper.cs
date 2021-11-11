@@ -7,6 +7,7 @@ public class InfoKeeper : MonoBehaviour
     public static InfoKeeper Instance { get; private set; }
     public string ip;
     public int port;
+    public float tickRate;
 
     private void Awake() {
         if (Instance == null) Instance = this;

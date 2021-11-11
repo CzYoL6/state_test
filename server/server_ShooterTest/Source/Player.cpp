@@ -1,8 +1,9 @@
 #include "Player.h"
 
 Player::Player(unsigned int _id, Game *_game, b2Body *_body_ptr)
-    : id(_id), game(_game) {
+    : conv(_id), game(_game) {
         movement = new PlayerMovement(_body_ptr);
+        playerInputQueue = new std::queue<Update_ShooterTest::PlayerInput_C_TO_S>;
     }
 
 Player::~Player() {
@@ -10,6 +11,8 @@ Player::~Player() {
         delete playerInfoPtr;
     if(movement != nullptr)
         delete movement;
+    if(playerInputQueue != nullptr)
+        delete playerInputQueue;
 }
 
 void Player::ApplyInput(const Update_ShooterTest::PlayerInput_C_TO_S& input){
@@ -36,8 +39,12 @@ void Player::ApplyInput(const Update_ShooterTest::PlayerInput_C_TO_S& input){
     }
     moveVec.Normalize();
     moveVec *= moveSpeed;
-    movement->SetVel(moveVec);
+    //修改：直接使用deltatime修改坐标
+    //movement->SetVel(moveVec);
 
-    //设置朝向
-    movement->SetRotation(input.rotation());
+    float deltaTime = 1.0f/(Game::GetInstance().tickRate*1.0f);
+    b2Vec2 desPos;
+    desPos.Set(movement->GetPos().x + moveVec.x * deltaTime,
+            movement->GetPos().y + moveVec.y * deltaTime);
+    movement->SetTrans(desPos.x, desPos.y, input.rotation());
 }

@@ -800,8 +800,8 @@ public class KCP: MonoBehaviour{
                 segment.wnd = seg.wnd;
                 segment.una = seg.una;
 
-                Debug.Log("seg:" + segment);
-                Debug.Log("seg data:" + segment.data);
+                //Debug.Log("seg:" + segment);
+                //Debug.Log("seg data:" + segment.data);
 
                 var need = IKCP_OVERHEAD + segment.data.ReadableBytes;
                 makeSpace(need);

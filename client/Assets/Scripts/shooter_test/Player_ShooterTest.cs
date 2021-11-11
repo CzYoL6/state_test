@@ -47,7 +47,11 @@ public class Player_ShooterTest : MonoBehaviour
         if (input.d_Pressed) moveVec += new Vector2(1, 0);
         moveVec.Normalize();
         moveVec *= moveSpeed;
-        movement.SetVel(moveVec);
+        //movement.SetVel(moveVec);
+
+        float deltaTime = 1.0f / (GameManager_ShooterTest.Instance.tickRate);
+        Vector2 desPos = new Vector2(movement.GetPos().x + moveVec.x * deltaTime, movement.GetPos().y + moveVec.y * deltaTime);
+        movement.SetPos(desPos);
 
         //…Ë÷√≥ØœÚ
 

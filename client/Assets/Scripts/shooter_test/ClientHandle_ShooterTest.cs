@@ -14,8 +14,7 @@ public class ClientHandle_ShooterTest : MonoBehaviour
         //Debug.Log("UnreadLenght: " + _packet.UnreadLength());
         UpdateShooterTest.UpdateInfo_S_TO_C msg = UpdateShooterTest.UpdateInfo_S_TO_C.Parser.ParseFrom(_packet.ReadBytes(_packet.UnreadLength()));
         GameManager_ShooterTest.Instance.updates.Enqueue(msg);
-
-            //TODO: 根据inputbuffer调整tickrate
+        //TODO: 根据inputbuffer调整tickrate
 
     }
 }

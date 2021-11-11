@@ -3,9 +3,18 @@ package Update_ShooterTest;
 
 enum TYPE{
     updateInfo_S_TO_C = 0;
+
     kcpConnectionReq = 1;
-    playerInfo_S_TO_C = 2;
-    playerInput_C_TO_S = 3;
+    kcpWelcome = 2;
+
+    playerInfo_S_TO_C = 3;
+    playerInput_C_TO_S = 4;
+}
+
+message KcpWelcome_S_C{
+    int32 slotid = 1;
+
+
 }
 
 message PlayerInfo_S_TO_C{
@@ -22,7 +31,7 @@ message UpdateInfo_S_TO_C{
 }
 
 message KcpConnectReq_C_S{
-
+    
 }
 
 message PlayerInput_C_TO_S{
