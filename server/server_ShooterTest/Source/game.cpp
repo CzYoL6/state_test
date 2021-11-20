@@ -2,6 +2,7 @@
 #include "game.h"
 
 #include "server_send.h"
+#include<chrono>
 
 
 Game::Game() {
@@ -74,7 +75,7 @@ std::map<int, int>& Game::GetPlayerMap() {
 void Game::StartGame() {
     
     hasStarted = true;
-    last_time = iclock();
+    last_time = std::chrono::system_clock::now();
 
 }
 
@@ -136,17 +137,21 @@ void Game::AddToInputBuffer(Update_ShooterTest::PlayerInput_C_TO_S input){
 
 void Game::Update() {
     //simulate
-    float physicsTimeStep = 1000.0f / (tickRate* 1.0f);
+    float physicsTimeStep = 1.0f / (tickRate* 1.0f);
     //two phases of iterations
     int32 velocityIterations = 6;
     int32 positionIterations = 2;
 
-    IUINT32 cur_tick = iclock();
-    //std::cout << cur_tick << " " << last_time << " " << std::endl;
-    if (cur_tick - last_time >= physicsTimeStep) {
-        float real_time_step = (cur_tick - last_time) * 1.0f / 1000.0f;
-        //std::cout << "real_time_step: " << real_time_step << std::endl;
+    std::chrono::system_clock::time_point cur_tick = std::chrono::system_clock::now();
+    std::chrono::duration<float> time_step = cur_tick - last_time;
+
+    //std::cout << time_step.count()<< std::endl;
+    if (time_step.count() >= physicsTimeStep && HasStarted()) {
+        //KCPServer::GetInstance().Update();
+
         
+        last_time = cur_tick;
+
         //last_time = cur_tick;
         tick++;
         //std::cout<<"tick:" <<tick<<std::endl;
@@ -169,23 +174,19 @@ void Game::Update() {
         for(auto iter : playerMap){
             Player *player = slots[iter.second];
             Update_ShooterTest::PlayerInput_C_TO_S input;
-            
+
+
             int tmp = 0;
             //至少执行一次
-            if(!player->GetPlayerInputQueue()->empty()){
+            if((player->has_been_full && !player->GetPlayerInputQueue()->empty()) || player->GetPlayerInputQueue()->size() >= 3 ){
+                player->has_been_full = true;
                 input = player->GetPlayerInputQueue()->front();
                 player->GetPlayerInputQueue()->pop();
                 player->ApplyInput(input);
                 tmp++;
             }
-            while(player->GetPlayerInputQueue()->size() >= 5){
-                input = player->GetPlayerInputQueue()->front();
-                player->GetPlayerInputQueue()->pop();
-                player->ApplyInput(input);
-                tmp++;
-            }
-            if(tmp >= 2) std::cout << "!!!" << tick << " " << player->GetConv() << std::endl;
-            //std::cout << player->GetConv() << " " << player->GetPlayerInputQueue()->size() << " " << tmp << std::endl;
+            //if(tmp >= 2) std::cout << "!!!" << tick << " " << player->GetConv() << std::endl;
+            std::cout << player->GetConv() << " " << player->GetPlayerInputQueue()->size() << " " << tmp << std::endl;
         }
         SimulatePhysics(1.0f/(tickRate* 1.0f), velocityIterations, positionIterations);
         for (auto iter = playerMap.begin(); iter != playerMap.end(); iter++) {
@@ -201,7 +202,8 @@ void Game::Update() {
             SERVER_SEND::UpdateInfo(player->GetConv(),updateInfoPtr);
         }
 
-        last_time = iclock();
+        
+        
     }
     
 }

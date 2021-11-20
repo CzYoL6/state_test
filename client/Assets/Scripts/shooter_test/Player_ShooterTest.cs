@@ -38,7 +38,7 @@ public class Player_ShooterTest : MonoBehaviour
     ///
     /// 设置刚体速度，每一个物理帧模拟一个FixedDeltaTime
     ///
-    public void ApplyInput(PlayerInput_ShooterTest input) {
+    public virtual void ApplyInput(PlayerInput_ShooterTest input) {
         //设置速度
         Vector2 moveVec = Vector2.zero;
         if (input.w_Pressed) moveVec += new Vector2(0, 1);
@@ -52,6 +52,7 @@ public class Player_ShooterTest : MonoBehaviour
         float deltaTime = 1.0f / (GameManager_ShooterTest.Instance.tickRate);
         Vector2 desPos = new Vector2(movement.GetPos().x + moveVec.x * deltaTime, movement.GetPos().y + moveVec.y * deltaTime);
         movement.SetPos(desPos);
+        
 
         //设置朝向
 

@@ -9,7 +9,7 @@ public class ClientHandle_ShooterTest : MonoBehaviour
     public Player player;
 
     public static void UpdateInfo(Packet _packet) {
-        
+        GameManager_ShooterTest.Instance.hasRecvFirstPacketFromServer = true;
         //Debug.Log($"Update info.");
         //Debug.Log("UnreadLenght: " + _packet.UnreadLength());
         UpdateShooterTest.UpdateInfo_S_TO_C msg = UpdateShooterTest.UpdateInfo_S_TO_C.Parser.ParseFrom(_packet.ReadBytes(_packet.UnreadLength()));

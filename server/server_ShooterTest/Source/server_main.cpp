@@ -52,7 +52,7 @@ void on_new_session(int conv){
         }
     }
     printf("current player cnt: %d\n", Game::GetInstance().GetPlayerCount());
-    if(Game::GetInstance().GetPlayerCount() == 1) 
+    if(Game::GetInstance().GetPlayerCount() == Game::GetInstance().GetMaxPlayerCnt()) 
         Game::GetInstance().StartGame();
 }
 

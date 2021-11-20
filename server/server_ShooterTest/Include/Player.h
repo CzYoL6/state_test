@@ -43,5 +43,7 @@ class Player {
       return lastProcessedTickNum;
     }
 
+    bool has_been_full{false};
+
     std::queue<Update_ShooterTest::PlayerInput_C_TO_S> * GetPlayerInputQueue(){return playerInputQueue;}
 };

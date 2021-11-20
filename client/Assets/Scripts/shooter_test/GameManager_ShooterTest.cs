@@ -27,7 +27,12 @@ public class GameManager_ShooterTest : Singleton<GameManager_ShooterTest>
 
     public float maxDiffPos , maxDiffRot;
 
-    private float lastTickTime;
+    private float lastTickTime, accumulateTime;
+    public bool updateHasBeenFull;
+
+    public bool hasRecvFirstPacketFromServer;   //从收到第一个packet开始递增tick
+
+    
 
     public void StartGame() {
         tickRate = InfoKeeper.Instance.tickRate;
@@ -36,7 +41,9 @@ public class GameManager_ShooterTest : Singleton<GameManager_ShooterTest>
         updates = new Queue<UpdateShooterTest.UpdateInfo_S_TO_C>();
         interpList = new List<UpdateShooterTest.UpdateInfo_S_TO_C>();
         lastTickTime = 0.0f;
+        accumulateTime = 0.0f;
         tickNum = 0;
+        updateHasBeenFull = false;
     }
     private void FixedUpdate() {
         
@@ -45,7 +52,9 @@ public class GameManager_ShooterTest : Singleton<GameManager_ShooterTest>
 
     private void Update() {
         NetManager.Instance.Tick();
-        float curTime = Time.time;
+
+        //float curTime = Time.time;
+        accumulateTime += Time.deltaTime;
         //Debug.Log(1.0f/tickRate);
 
         //Debug.Log("interp List size: " + interpList.Count + " , " + tickNum + " : " + (interpList.Count > 0 ? interpList[0].LastProcessedFrameID.ToString() : ""));
@@ -84,34 +93,47 @@ public class GameManager_ShooterTest : Singleton<GameManager_ShooterTest>
                 Vector2 posTo = playerState2 != null ? new Vector2(playerState2.X, playerState2.Y) : Vector2.zero;
                 float rotationTo = playerState2 != null ? playerState2.Angle : 0;
 
-                float lerp = (curTime - lastTickTime) / (1.0f / tickRate);
+                //float lerp = (curTime - lastTickTime) / (1.0f / tickRate);
+                float lerp = accumulateTime / (1.0f / tickRate);
                 if (lerp > 1) lerp = 1;
                 /*float lerpX = Mathf.Lerp(posFrom.x, posTo.x, lerp);
                 float lerpY = Mathf.Lerp(posFrom.y, posTo.y, lerp);*/
                 float lerpRot = Mathf.Lerp(rotationFrom, rotationTo, 1);
                 Vector2 lerpPos = Vector2.Lerp(posFrom, posTo, lerp);
-                Debug.Log($"state1: ({posFrom.x}, {posFrom.y})  state2:({posTo.x}, {posTo.y}) ");
+                //Debug.Log($"state1: ({posFrom.x}, {posFrom.y})  state2:({posTo.x}, {posTo.y}) ");
                 player.SetTrans(lerpPos.x, lerpPos.y, lerpRot);
                 
             }
             Physics2D.Simulate(0.0f);
         }
-        if (curTime - lastTickTime >= 1.0f / tickRate) {
-            if (!started) return;
 
-            //Debug.Log($"updates.Count:{updates.Count} tick:{tickNum}");
+        //if (curTime - lastTickTime >= 1.0f / tickRate) {
+        while(accumulateTime >= 1.0f/ tickRate) {
+            //lastTickTime = curTime;
+            accumulateTime -= 1.0f / tickRate;
+            if (!started && localPlayer == null) return;
 
-            while (updates.Count > 0) {
+            
+            
+            
+
+            /*while (updates.Count > 0) {
+                var update = updates.Dequeue();
+                HandleUpdatePacket(update);
+            }*/
+            
+            if (!hasRecvFirstPacketFromServer) return;
+            Debug.Log($"updates.Count:{updates.Count} tick:{tickNum}");
+            if ((updateHasBeenFull && updates.Count > 0) || updates.Count >= 3) {
+                updateHasBeenFull = true;
                 var update = updates.Dequeue();
                 HandleUpdatePacket(update);
             }
-
-
             if (localPlayer != null) localPlayer.Update_();
             Physics2D.Simulate(1.0f / tickRate);
             tickNum++;
 
-            lastTickTime += 1.0f / tickRate;
+            
         }
 
         /*foreach (var player in playerMap.Values) {

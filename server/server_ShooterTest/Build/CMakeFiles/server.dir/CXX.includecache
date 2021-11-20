@@ -49,6 +49,8 @@ map
 -
 singleton.h
 ../Include/singleton.h
+chrono
+-
 
 ../Include/ikcp.h
 stddef.h
@@ -169,4 +171,6 @@ game.h
 /mnt/e/GameDes1gn/state_test/server/server_ShooterTest/Source/game.h
 server_send.h
 /mnt/e/GameDes1gn/state_test/server/server_ShooterTest/Source/server_send.h
+chrono
+-
 
