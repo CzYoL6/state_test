@@ -1,7 +1,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using UnityEngine;
+using Debug = UnityEngine.Debug;
 
 public class GameManager_ShooterTest : Singleton<GameManager_ShooterTest>
 {
@@ -32,6 +34,7 @@ public class GameManager_ShooterTest : Singleton<GameManager_ShooterTest>
 
     public bool hasRecvFirstPacketFromServer;   //从收到第一个packet开始递增tick
 
+    private Stopwatch stopwatch = new Stopwatch();
     
 
     public void StartGame() {
@@ -44,6 +47,8 @@ public class GameManager_ShooterTest : Singleton<GameManager_ShooterTest>
         accumulateTime = 0.0f;
         tickNum = 0;
         updateHasBeenFull = false;
+
+        stopwatch.Restart();
     }
     private void FixedUpdate() {
         
@@ -109,26 +114,26 @@ public class GameManager_ShooterTest : Singleton<GameManager_ShooterTest>
 
         //if (curTime - lastTickTime >= 1.0f / tickRate) {
         while(accumulateTime >= 1.0f/ tickRate) {
+            stopwatch.Stop();
+            Debug.Log(stopwatch.ElapsedMilliseconds);
+            stopwatch.Restart();
+
             //lastTickTime = curTime;
             accumulateTime -= 1.0f / tickRate;
             if (!started && localPlayer == null) return;
 
-            
-            
-            
 
-            /*while (updates.Count > 0) {
-                var update = updates.Dequeue();
-                HandleUpdatePacket(update);
-            }*/
-            
-            if (!hasRecvFirstPacketFromServer) return;
-            Debug.Log($"updates.Count:{updates.Count} tick:{tickNum}");
-            if ((updateHasBeenFull && updates.Count > 0) || updates.Count >= 3) {
-                updateHasBeenFull = true;
+
+            Debug.LogWarning("player.infocount:" + updates.Count);   
+
+            while (updates.Count > 0) {
                 var update = updates.Dequeue();
                 HandleUpdatePacket(update);
             }
+                     
+            /*var update = updates.Dequeue();
+            HandleUpdatePacket(update);*/
+
             if (localPlayer != null) localPlayer.Update_();
             Physics2D.Simulate(1.0f / tickRate);
             tickNum++;
@@ -153,10 +158,11 @@ public class GameManager_ShooterTest : Singleton<GameManager_ShooterTest>
             Destroy(newPlayerObject.GetComponent<Player_ShooterTest>());
             localPlayer = newPlayerObject.AddComponent<LocalPlayer_ShooterTest>();
             localPlayer.movement = localPlayer.GetComponent<PlayerMovement_ShooterTest>();
+            localPlayer.id = id;
         }
         newPlayerObject.GetComponent<Player_ShooterTest>().Init(id, x, y);
         playerMap.Add(id, newPlayerObject.GetComponent<Player_ShooterTest>());
-        Debug.Log("Instantiate player " + id);
+        Debug.LogWarning($"Instantiate player {id} at ({x}, {y}) ");
 
         
     }

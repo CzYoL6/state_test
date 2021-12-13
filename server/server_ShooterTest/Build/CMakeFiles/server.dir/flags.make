@@ -7,11 +7,11 @@ C_FLAGS =
 
 C_DEFINES = 
 
-C_INCLUDES = -I/mnt/e/GameDes1gn/state_test/server/server_ShooterTest/Include 
+C_INCLUDES = -I/mnt/e/Programming/state_test/server/server_ShooterTest/Include 
 
-CXX_FLAGS =  -g -O3 -std=c++11  
+CXX_FLAGS =  -g -O -std=c++11  
 
 CXX_DEFINES = 
 
-CXX_INCLUDES = -I/mnt/e/GameDes1gn/state_test/server/server_ShooterTest/Include 
+CXX_INCLUDES = -I/mnt/e/Programming/state_test/server/server_ShooterTest/Include 
 

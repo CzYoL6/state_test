@@ -16,7 +16,6 @@ class Player;
 class Game : public Singleton<Game>{
   private:
     unsigned int gameId{0};
-    std::chrono::system_clock::time_point last_time;
     
     int tick{0};
     std::map<int, int> playerMap; //[conv, slot_id]
@@ -28,6 +27,10 @@ class Game : public Singleton<Game>{
     std::queue<Update_ShooterTest::PlayerInput_C_TO_S> *inputBuffer{nullptr};
 
     int maxPlayerCnt;
+    Timer timer;
+    double accumulator;
+    Timer testTimer;
+    // IINT64 last;
 
   public:
     Game(/* args */);

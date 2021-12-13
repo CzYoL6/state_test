@@ -13,7 +13,6 @@ Game::Game() {
     
     b2Vec2 gravity(0.0f, 0.0f);
     world = new b2World(gravity);
-    InitMap();
 
 }
 
@@ -75,8 +74,11 @@ std::map<int, int>& Game::GetPlayerMap() {
 void Game::StartGame() {
     
     hasStarted = true;
-    last_time = std::chrono::system_clock::now();
-
+    InitMap();
+    timer.Reset();
+    accumulator = 0.0;
+    testTimer.Reset();
+    // last = iclock64();
 }
 
 bool Game::HasStarted() {
@@ -137,20 +139,32 @@ void Game::AddToInputBuffer(Update_ShooterTest::PlayerInput_C_TO_S input){
 
 void Game::Update() {
     //simulate
-    float physicsTimeStep = 1.0f / (tickRate* 1.0f);
+    double physicsTimeStep = 1.0f / (tickRate* 1.0f);
     //two phases of iterations
     int32 velocityIterations = 6;
     int32 positionIterations = 2;
 
-    std::chrono::system_clock::time_point cur_tick = std::chrono::system_clock::now();
-    std::chrono::duration<float> time_step = cur_tick - last_time;
+    double past = timer.GetElapsedTime();
+    accumulator += past;
+    timer.Reset();
+    //printf("frame time: %lf\n", past);
 
-    //std::cout << time_step.count()<< std::endl;
-    if (time_step.count() >= physicsTimeStep && HasStarted()) {
+    while (accumulator >= physicsTimeStep && HasStarted()) {
         //KCPServer::GetInstance().Update();
 
-        
-        last_time = cur_tick;
+            Timer timer_;
+            timer_.Reset();
+
+        //IINT64 cur = iclock64();
+        //double hh = cur - last;
+        //printf("iclock elapsed time: %lf\n", hh);
+        //last = cur;
+        double realTimeStep = testTimer.GetElapsedTime();
+        printf("elapsed time: %lf\n", realTimeStep);
+        fflush(NULL);
+        testTimer.Reset();
+
+        accumulator -= physicsTimeStep;
 
         //last_time = cur_tick;
         tick++;
@@ -188,7 +202,7 @@ void Game::Update() {
             //if(tmp >= 2) std::cout << "!!!" << tick << " " << player->GetConv() << std::endl;
             std::cout << player->GetConv() << " " << player->GetPlayerInputQueue()->size() << " " << tmp << std::endl;
         }
-        SimulatePhysics(1.0f/(tickRate* 1.0f), velocityIterations, positionIterations);
+        SimulatePhysics(physicsTimeStep, velocityIterations, positionIterations);
         for (auto iter = playerMap.begin(); iter != playerMap.end(); iter++) {
             Player *player = slots[iter->second];
             int lastProcessedTick = player->GetLastProcessedTick();
@@ -198,12 +212,14 @@ void Game::Update() {
             info->set_x(player->GetPos().x);
             info->set_y(player->GetPos().y);
             info->set_angle(player->GetRotation());
-            
+             
             SERVER_SEND::UpdateInfo(player->GetConv(),updateInfoPtr);
         }
 
-        
-        
+            double consume_time = timer_.GetElapsedTime();
+            //printf("consume time:  %lf\n", consume_time);
+        isleep(physicsTimeStep * 1000 - consume_time * 1000);
+            
     }
     
 }

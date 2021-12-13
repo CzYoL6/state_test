@@ -15,6 +15,7 @@ void HandlePlayerInput(int conv, char *buf, int sze) {
     //std::cout << "parse finished..." << std::endl;
     //std::cout << conv << " " << newMsg.id() << std::endl;
     Player* player = Game::GetInstance().GetSlots()[Game::GetInstance().GetPlayerMap()[newMsg.id()]];
+    // if(player->GetPlayerInputQueue()->size() < 4)
     player->GetPlayerInputQueue()->push(newMsg);
 }
 }; // namespace SERVER_HANDLE

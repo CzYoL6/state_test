@@ -4,6 +4,26 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <unistd.h>
+#include <chrono>
+
+class Timer{
+public:
+    Timer(){
+        Reset();
+    }
+    void Reset(){
+        start = end = std::chrono::system_clock::now();
+    }
+    const double GetElapsedTime(){
+        end = std::chrono::system_clock::now();
+        std::chrono::duration<double> elapsed = end - start;
+        return elapsed.count();
+    }
+    ~Timer(){}
+private:
+    std::chrono::system_clock::time_point start, end;
+};
+
 
 /* get system time */
 static inline void itimeofday(long *sec, long *usec) {
