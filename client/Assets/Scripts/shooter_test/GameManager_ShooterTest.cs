@@ -58,11 +58,35 @@ public class GameManager_ShooterTest : Singleton<GameManager_ShooterTest>
     private void Update() {
         NetManager.Instance.Tick();
 
-        //float curTime = Time.time;
         accumulateTime += Time.deltaTime;
-        //Debug.Log(1.0f/tickRate);
+        
+        while(accumulateTime >= 1.0f/ tickRate) {
+            stopwatch.Stop();
+            Debug.Log(stopwatch.ElapsedMilliseconds);
+            stopwatch.Restart();
 
-        //Debug.Log("interp List size: " + interpList.Count + " , " + tickNum + " : " + (interpList.Count > 0 ? interpList[0].LastProcessedFrameID.ToString() : ""));
+            //lastTickTime = curTime;
+            accumulateTime -= 1.0f / tickRate;
+            if (!started && localPlayer == null) return;
+
+
+
+            Debug.LogWarning("player.infocount:" + updates.Count);   
+
+            while (updates.Count > 0) {
+                var update = updates.Dequeue();
+                HandleUpdatePacket(update);
+            }
+                     
+            /*var update = updates.Dequeue();
+            HandleUpdatePacket(update);*/
+
+            if (localPlayer != null) localPlayer.Update_();
+            Physics2D.Simulate(1.0f / tickRate);
+            tickNum++;
+
+            
+        }
 
         //enity interpolation
         if (interpolation && interpList.Count >= 2) {
@@ -107,47 +131,32 @@ public class GameManager_ShooterTest : Singleton<GameManager_ShooterTest>
                 Vector2 lerpPos = Vector2.Lerp(posFrom, posTo, lerp);
                 //Debug.Log($"state1: ({posFrom.x}, {posFrom.y})  state2:({posTo.x}, {posTo.y}) ");
                 player.SetTrans(lerpPos.x, lerpPos.y, lerpRot);
-                
+
             }
-            Physics2D.Simulate(0.0f);
-        }
-
-        //if (curTime - lastTickTime >= 1.0f / tickRate) {
-        while(accumulateTime >= 1.0f/ tickRate) {
-            stopwatch.Stop();
-            Debug.Log(stopwatch.ElapsedMilliseconds);
-            stopwatch.Restart();
-
-            //lastTickTime = curTime;
-            accumulateTime -= 1.0f / tickRate;
-            if (!started && localPlayer == null) return;
-
-
-
-            Debug.LogWarning("player.infocount:" + updates.Count);   
-
-            while (updates.Count > 0) {
-                var update = updates.Dequeue();
-                HandleUpdatePacket(update);
-            }
-                     
-            /*var update = updates.Dequeue();
-            HandleUpdatePacket(update);*/
-
-            if (localPlayer != null) localPlayer.Update_();
-            Physics2D.Simulate(1.0f / tickRate);
-            tickNum++;
-
             
         }
 
-        /*foreach (var player in playerMap.Values) {
-            
-            Debug.Log(player.GetPos().x + " " + player.GetPos().y);
+        if (prediction) {
+            PlayerStates_ShooterTest playerState1 = localPlayer != null ? localPlayer.previous : null;
+            Vector2 posFrom = playerState1 != null ? playerState1.pos : Vector2.zero;
+            float rotationFrom = playerState1 != null ? playerState1.rotation : 0;
 
-        }*/
+            PlayerStates_ShooterTest playerState2 = localPlayer != null ? localPlayer.current : null;
+            Vector2 posTo = playerState2 != null ? playerState2.pos : Vector2.zero;
+            float rotationTo = playerState2 != null ? playerState2.rotation : 0;
 
-        
+            //float lerp = (curTime - lastTickTime) / (1.0f / tickRate);
+            float lerp = accumulateTime / (1.0f / tickRate);
+            if (lerp > 1) lerp = 1;
+            /*float lerpX = Mathf.Lerp(posFrom.x, posTo.x, lerp);
+            float lerpY = Mathf.Lerp(posFrom.y, posTo.y, lerp);*/
+            float lerpRot = Mathf.Lerp(rotationFrom, rotationTo, 1);
+            Vector2 lerpPos = Vector2.Lerp(posFrom, posTo, lerp);
+            //Debug.Log($"state1: ({posFrom.x}, {posFrom.y})  state2:({posTo.x}, {posTo.y}) ");
+            localPlayer?.SetTrans(lerpPos.x, lerpPos.y, lerpRot);
+        }
+        Physics2D.Simulate(0.0f);
+
 
     }
 
