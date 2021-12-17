@@ -1,6 +1,7 @@
 file(REMOVE_RECURSE
   "CMakeFiles/server.dir/Source/Player.cpp.o"
   "CMakeFiles/server.dir/Source/PlayerMovement.cpp.o"
+  "CMakeFiles/server.dir/Source/client.cpp.o"
   "CMakeFiles/server.dir/Source/game.cpp.o"
   "CMakeFiles/server.dir/Source/ikcp.c.o"
   "CMakeFiles/server.dir/Source/kcpserver.cpp.o"
@@ -8,6 +9,7 @@ file(REMOVE_RECURSE
   "CMakeFiles/server.dir/Source/message.pb.cc.o"
   "CMakeFiles/server.dir/Source/packet.cpp.o"
   "CMakeFiles/server.dir/Source/random_engine.cpp.o"
+  "CMakeFiles/server.dir/Source/server.cpp.o"
   "CMakeFiles/server.dir/Source/server_handle.cpp.o"
   "CMakeFiles/server.dir/Source/server_main.cpp.o"
   "CMakeFiles/server.dir/Source/server_send.cpp.o"

@@ -4,16 +4,33 @@ package Update_ShooterTest;
 enum TYPE{
     updateInfo_S_TO_C = 0;
 
-    kcpConnectionReq = 1;
-    kcpWelcome = 2;
-
+    playerNickname_C_TO_S = 1;
+    welcome_S_TO_C = 2;
+    
+    
     playerInfo_S_TO_C = 3;
     playerInput_C_TO_S = 4;
+    spawnPlayer_S_TO_C = 5;
+    startGame_S_TO_C = 6;
 }
 
-message KcpWelcome_S_C{
+message Welcome_S_TO_C{
     int32 slotid = 1;
+}
 
+message PlayerNickname_C_TO_S{
+    string nickname = 1;
+}
+
+message SpawnPlayer_S_TO_C{
+    int32 slotid = 1;
+    string nickname = 2;
+    float x = 3;
+    float y = 4;
+    float angle = 5; 
+}
+
+message StartGame_S_TO_C{
 
 }
 
@@ -30,9 +47,6 @@ message UpdateInfo_S_TO_C{
     int32 inputBufferSize = 3;
 }
 
-message KcpConnectReq_C_S{
-    
-}
 
 message PlayerInput_C_TO_S{
     int32 frameID = 1;

@@ -16,8 +16,8 @@ public class NetManager : Singleton<NetManager>
     public void InitConnection(uint sid, string host, int port) {
         m_Connection.InitKCP(sid, host, port);
         //SendMessage((int)Chat.TYPE.KcpConnectionReq, new Chat.KcpConnectReq_C_S());
-        UpdateShooterTest.KcpConnectReq_C_S msg = new UpdateShooterTest.KcpConnectReq_C_S();
-        SendMessage((int)UpdateShooterTest.TYPE.KcpConnectionReq, msg);
+        /*UpdateShooterTest.KcpConnectReq_C_S msg = new UpdateShooterTest.KcpConnectReq_C_S();
+        SendMessage((int)UpdateShooterTest.TYPE.KcpConnectionReq, msg);*/
     }
 
     private void MessageHandle(ByteBuffer data)

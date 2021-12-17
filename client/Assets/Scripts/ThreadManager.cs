@@ -1,3 +1,4 @@
+//author : https://github.com/tom-weiland/tcp-udp-networking/blob/tutorial-part6/GameClient/Assets/Scripts/ThreadManager.cs
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,10 +7,6 @@ public class ThreadManager : MonoBehaviour {
     private static readonly List<Action> executeOnMainThread = new List<Action>();
     private static readonly List<Action> executeCopiedOnMainThread = new List<Action>();
     private static bool actionToExecuteOnMainThread = false;
-
-    private void Start() {
-        DontDestroyOnLoad(gameObject);
-    }
 
     private void Update() {
         UpdateMain();

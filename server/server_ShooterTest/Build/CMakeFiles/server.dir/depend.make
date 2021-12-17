@@ -17,16 +17,24 @@ CMakeFiles/server.dir/Source/Player.cpp.o: ../Source/Player.cpp
 CMakeFiles/server.dir/Source/PlayerMovement.cpp.o: ../Include/PlayerMovement.h
 CMakeFiles/server.dir/Source/PlayerMovement.cpp.o: ../Source/PlayerMovement.cpp
 
+CMakeFiles/server.dir/Source/client.cpp.o: ../Include/circle_buffer.hpp
+CMakeFiles/server.dir/Source/client.cpp.o: ../Include/client.h
+CMakeFiles/server.dir/Source/client.cpp.o: ../Include/message.pb.h
+CMakeFiles/server.dir/Source/client.cpp.o: ../Include/packet.h
+CMakeFiles/server.dir/Source/client.cpp.o: ../Include/server.h
+CMakeFiles/server.dir/Source/client.cpp.o: ../Include/singleton.h
+CMakeFiles/server.dir/Source/client.cpp.o: ../Source/client.cpp
+
 CMakeFiles/server.dir/Source/game.cpp.o: ../Include/Player.h
 CMakeFiles/server.dir/Source/game.cpp.o: ../Include/PlayerMovement.h
 CMakeFiles/server.dir/Source/game.cpp.o: ../Include/circle_buffer.hpp
+CMakeFiles/server.dir/Source/game.cpp.o: ../Include/client.h
 CMakeFiles/server.dir/Source/game.cpp.o: ../Include/game.h
 CMakeFiles/server.dir/Source/game.cpp.o: ../Include/ikcp.h
-CMakeFiles/server.dir/Source/game.cpp.o: ../Include/kcpserver.h
-CMakeFiles/server.dir/Source/game.cpp.o: ../Include/kcpsession.h
 CMakeFiles/server.dir/Source/game.cpp.o: ../Include/message.pb.h
 CMakeFiles/server.dir/Source/game.cpp.o: ../Include/packet.h
 CMakeFiles/server.dir/Source/game.cpp.o: ../Include/random_engine.h
+CMakeFiles/server.dir/Source/game.cpp.o: ../Include/server.h
 CMakeFiles/server.dir/Source/game.cpp.o: ../Include/server_send.h
 CMakeFiles/server.dir/Source/game.cpp.o: ../Include/singleton.h
 CMakeFiles/server.dir/Source/game.cpp.o: ../Include/time_util.h
@@ -68,15 +76,34 @@ CMakeFiles/server.dir/Source/random_engine.cpp.o: ../Include/random_engine.h
 CMakeFiles/server.dir/Source/random_engine.cpp.o: ../Include/singleton.h
 CMakeFiles/server.dir/Source/random_engine.cpp.o: ../Source/random_engine.cpp
 
+CMakeFiles/server.dir/Source/server.cpp.o: ../Include/Player.h
+CMakeFiles/server.dir/Source/server.cpp.o: ../Include/PlayerMovement.h
+CMakeFiles/server.dir/Source/server.cpp.o: ../Include/circle_buffer.hpp
+CMakeFiles/server.dir/Source/server.cpp.o: ../Include/client.h
+CMakeFiles/server.dir/Source/server.cpp.o: ../Include/game.h
+CMakeFiles/server.dir/Source/server.cpp.o: ../Include/ikcp.h
+CMakeFiles/server.dir/Source/server.cpp.o: ../Include/message.pb.h
+CMakeFiles/server.dir/Source/server.cpp.o: ../Include/packet.h
+CMakeFiles/server.dir/Source/server.cpp.o: ../Include/random_engine.h
+CMakeFiles/server.dir/Source/server.cpp.o: ../Include/server.h
+CMakeFiles/server.dir/Source/server.cpp.o: ../Include/server_handle.h
+CMakeFiles/server.dir/Source/server.cpp.o: ../Include/server_send.h
+CMakeFiles/server.dir/Source/server.cpp.o: ../Include/singleton.h
+CMakeFiles/server.dir/Source/server.cpp.o: ../Include/time_util.h
+CMakeFiles/server.dir/Source/server.cpp.o: ../Source/server.cpp
+
 CMakeFiles/server.dir/Source/server_handle.cpp.o: ../Include/Player.h
 CMakeFiles/server.dir/Source/server_handle.cpp.o: ../Include/PlayerMovement.h
 CMakeFiles/server.dir/Source/server_handle.cpp.o: ../Include/circle_buffer.hpp
+CMakeFiles/server.dir/Source/server_handle.cpp.o: ../Include/client.h
 CMakeFiles/server.dir/Source/server_handle.cpp.o: ../Include/game.h
 CMakeFiles/server.dir/Source/server_handle.cpp.o: ../Include/ikcp.h
 CMakeFiles/server.dir/Source/server_handle.cpp.o: ../Include/message.pb.h
 CMakeFiles/server.dir/Source/server_handle.cpp.o: ../Include/packet.h
 CMakeFiles/server.dir/Source/server_handle.cpp.o: ../Include/random_engine.h
+CMakeFiles/server.dir/Source/server_handle.cpp.o: ../Include/server.h
 CMakeFiles/server.dir/Source/server_handle.cpp.o: ../Include/server_handle.h
+CMakeFiles/server.dir/Source/server_handle.cpp.o: ../Include/server_send.h
 CMakeFiles/server.dir/Source/server_handle.cpp.o: ../Include/singleton.h
 CMakeFiles/server.dir/Source/server_handle.cpp.o: ../Include/time_util.h
 CMakeFiles/server.dir/Source/server_handle.cpp.o: ../Source/server_handle.cpp
@@ -84,6 +111,7 @@ CMakeFiles/server.dir/Source/server_handle.cpp.o: ../Source/server_handle.cpp
 CMakeFiles/server.dir/Source/server_main.cpp.o: ../Include/Player.h
 CMakeFiles/server.dir/Source/server_main.cpp.o: ../Include/PlayerMovement.h
 CMakeFiles/server.dir/Source/server_main.cpp.o: ../Include/circle_buffer.hpp
+CMakeFiles/server.dir/Source/server_main.cpp.o: ../Include/client.h
 CMakeFiles/server.dir/Source/server_main.cpp.o: ../Include/game.h
 CMakeFiles/server.dir/Source/server_main.cpp.o: ../Include/ikcp.h
 CMakeFiles/server.dir/Source/server_main.cpp.o: ../Include/kcpserver.h
@@ -92,6 +120,7 @@ CMakeFiles/server.dir/Source/server_main.cpp.o: ../Include/logger.hpp
 CMakeFiles/server.dir/Source/server_main.cpp.o: ../Include/message.pb.h
 CMakeFiles/server.dir/Source/server_main.cpp.o: ../Include/packet.h
 CMakeFiles/server.dir/Source/server_main.cpp.o: ../Include/random_engine.h
+CMakeFiles/server.dir/Source/server_main.cpp.o: ../Include/server.h
 CMakeFiles/server.dir/Source/server_main.cpp.o: ../Include/server_handle.h
 CMakeFiles/server.dir/Source/server_main.cpp.o: ../Include/singleton.h
 CMakeFiles/server.dir/Source/server_main.cpp.o: ../Include/time_util.h
@@ -100,13 +129,13 @@ CMakeFiles/server.dir/Source/server_main.cpp.o: ../Source/server_main.cpp
 CMakeFiles/server.dir/Source/server_send.cpp.o: ../Include/Player.h
 CMakeFiles/server.dir/Source/server_send.cpp.o: ../Include/PlayerMovement.h
 CMakeFiles/server.dir/Source/server_send.cpp.o: ../Include/circle_buffer.hpp
+CMakeFiles/server.dir/Source/server_send.cpp.o: ../Include/client.h
 CMakeFiles/server.dir/Source/server_send.cpp.o: ../Include/game.h
 CMakeFiles/server.dir/Source/server_send.cpp.o: ../Include/ikcp.h
-CMakeFiles/server.dir/Source/server_send.cpp.o: ../Include/kcpserver.h
-CMakeFiles/server.dir/Source/server_send.cpp.o: ../Include/kcpsession.h
 CMakeFiles/server.dir/Source/server_send.cpp.o: ../Include/message.pb.h
 CMakeFiles/server.dir/Source/server_send.cpp.o: ../Include/packet.h
 CMakeFiles/server.dir/Source/server_send.cpp.o: ../Include/random_engine.h
+CMakeFiles/server.dir/Source/server_send.cpp.o: ../Include/server.h
 CMakeFiles/server.dir/Source/server_send.cpp.o: ../Include/server_send.h
 CMakeFiles/server.dir/Source/server_send.cpp.o: ../Include/singleton.h
 CMakeFiles/server.dir/Source/server_send.cpp.o: ../Include/time_util.h

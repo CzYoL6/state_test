@@ -1,4 +1,6 @@
-#pragma once
+#ifndef PLAYER_H
+#define PLAYER_H
+
 #include "game.h"
 #include "message.pb.h"
 #include "PlayerMovement.h"
@@ -9,7 +11,9 @@
 class Game;
 class Player {
   private:
-    int conv{0};
+    int slotid{0};
+    int socket{-1};
+    std::string nickname;
     Game *game{nullptr};
 
     Update_ShooterTest::PlayerInfo_S_TO_C *playerInfoPtr{nullptr};
@@ -23,9 +27,14 @@ class Player {
     std::queue<Update_ShooterTest::PlayerInput_C_TO_S> *playerInputQueue{nullptr};
 
   public:
-    unsigned int GetConv() { return conv; }
+    int GetSlotid() { return slotid; }
+    int GetSocket() { return socket; }
+
+    std::string GetNickname(){ return nickname;}
+    void SetNickname(std::string _nickname){ nickname = _nickname; }
+
     Game *GetGame() { return game; }
-    Player(unsigned int _id, Game *_game, b2Body *body_ptr);
+    Player(int _id, int _socket, Game *_game, b2Body *body_ptr);
 
     ~Player();
     
@@ -45,5 +54,9 @@ class Player {
 
     bool has_been_full{false};
 
-    std::queue<Update_ShooterTest::PlayerInput_C_TO_S> * GetPlayerInputQueue(){return playerInputQueue;}
+    void AddToPlayerInputQueue(Update_ShooterTest::PlayerInput_C_TO_S input){ playerInputQueue->push(input);}
+    int GetPlayerInputSize(){ return playerInputQueue->size();}
+    Update_ShooterTest::PlayerInput_C_TO_S PopInputFromQueue();
 };
+
+#endif

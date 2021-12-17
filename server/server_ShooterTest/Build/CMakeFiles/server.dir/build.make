@@ -83,9 +83,22 @@ CMakeFiles/server.dir/Source/PlayerMovement.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/server.dir/Source/PlayerMovement.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /mnt/e/Programming/state_test/server/server_ShooterTest/Source/PlayerMovement.cpp -o CMakeFiles/server.dir/Source/PlayerMovement.cpp.s
 
+CMakeFiles/server.dir/Source/client.cpp.o: CMakeFiles/server.dir/flags.make
+CMakeFiles/server.dir/Source/client.cpp.o: ../Source/client.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/e/Programming/state_test/server/server_ShooterTest/Build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/server.dir/Source/client.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/server.dir/Source/client.cpp.o -c /mnt/e/Programming/state_test/server/server_ShooterTest/Source/client.cpp
+
+CMakeFiles/server.dir/Source/client.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/server.dir/Source/client.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /mnt/e/Programming/state_test/server/server_ShooterTest/Source/client.cpp > CMakeFiles/server.dir/Source/client.cpp.i
+
+CMakeFiles/server.dir/Source/client.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/server.dir/Source/client.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /mnt/e/Programming/state_test/server/server_ShooterTest/Source/client.cpp -o CMakeFiles/server.dir/Source/client.cpp.s
+
 CMakeFiles/server.dir/Source/game.cpp.o: CMakeFiles/server.dir/flags.make
 CMakeFiles/server.dir/Source/game.cpp.o: ../Source/game.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/e/Programming/state_test/server/server_ShooterTest/Build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/server.dir/Source/game.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/e/Programming/state_test/server/server_ShooterTest/Build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/server.dir/Source/game.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/server.dir/Source/game.cpp.o -c /mnt/e/Programming/state_test/server/server_ShooterTest/Source/game.cpp
 
 CMakeFiles/server.dir/Source/game.cpp.i: cmake_force
@@ -98,7 +111,7 @@ CMakeFiles/server.dir/Source/game.cpp.s: cmake_force
 
 CMakeFiles/server.dir/Source/ikcp.c.o: CMakeFiles/server.dir/flags.make
 CMakeFiles/server.dir/Source/ikcp.c.o: ../Source/ikcp.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/e/Programming/state_test/server/server_ShooterTest/Build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building C object CMakeFiles/server.dir/Source/ikcp.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/e/Programming/state_test/server/server_ShooterTest/Build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building C object CMakeFiles/server.dir/Source/ikcp.c.o"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/server.dir/Source/ikcp.c.o   -c /mnt/e/Programming/state_test/server/server_ShooterTest/Source/ikcp.c
 
 CMakeFiles/server.dir/Source/ikcp.c.i: cmake_force
@@ -111,7 +124,7 @@ CMakeFiles/server.dir/Source/ikcp.c.s: cmake_force
 
 CMakeFiles/server.dir/Source/kcpserver.cpp.o: CMakeFiles/server.dir/flags.make
 CMakeFiles/server.dir/Source/kcpserver.cpp.o: ../Source/kcpserver.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/e/Programming/state_test/server/server_ShooterTest/Build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/server.dir/Source/kcpserver.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/e/Programming/state_test/server/server_ShooterTest/Build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/server.dir/Source/kcpserver.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/server.dir/Source/kcpserver.cpp.o -c /mnt/e/Programming/state_test/server/server_ShooterTest/Source/kcpserver.cpp
 
 CMakeFiles/server.dir/Source/kcpserver.cpp.i: cmake_force
@@ -124,7 +137,7 @@ CMakeFiles/server.dir/Source/kcpserver.cpp.s: cmake_force
 
 CMakeFiles/server.dir/Source/kcpsession.cpp.o: CMakeFiles/server.dir/flags.make
 CMakeFiles/server.dir/Source/kcpsession.cpp.o: ../Source/kcpsession.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/e/Programming/state_test/server/server_ShooterTest/Build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/server.dir/Source/kcpsession.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/e/Programming/state_test/server/server_ShooterTest/Build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/server.dir/Source/kcpsession.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/server.dir/Source/kcpsession.cpp.o -c /mnt/e/Programming/state_test/server/server_ShooterTest/Source/kcpsession.cpp
 
 CMakeFiles/server.dir/Source/kcpsession.cpp.i: cmake_force
@@ -137,7 +150,7 @@ CMakeFiles/server.dir/Source/kcpsession.cpp.s: cmake_force
 
 CMakeFiles/server.dir/Source/message.pb.cc.o: CMakeFiles/server.dir/flags.make
 CMakeFiles/server.dir/Source/message.pb.cc.o: ../Source/message.pb.cc
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/e/Programming/state_test/server/server_ShooterTest/Build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/server.dir/Source/message.pb.cc.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/e/Programming/state_test/server/server_ShooterTest/Build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/server.dir/Source/message.pb.cc.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/server.dir/Source/message.pb.cc.o -c /mnt/e/Programming/state_test/server/server_ShooterTest/Source/message.pb.cc
 
 CMakeFiles/server.dir/Source/message.pb.cc.i: cmake_force
@@ -150,7 +163,7 @@ CMakeFiles/server.dir/Source/message.pb.cc.s: cmake_force
 
 CMakeFiles/server.dir/Source/packet.cpp.o: CMakeFiles/server.dir/flags.make
 CMakeFiles/server.dir/Source/packet.cpp.o: ../Source/packet.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/e/Programming/state_test/server/server_ShooterTest/Build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/server.dir/Source/packet.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/e/Programming/state_test/server/server_ShooterTest/Build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/server.dir/Source/packet.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/server.dir/Source/packet.cpp.o -c /mnt/e/Programming/state_test/server/server_ShooterTest/Source/packet.cpp
 
 CMakeFiles/server.dir/Source/packet.cpp.i: cmake_force
@@ -163,7 +176,7 @@ CMakeFiles/server.dir/Source/packet.cpp.s: cmake_force
 
 CMakeFiles/server.dir/Source/random_engine.cpp.o: CMakeFiles/server.dir/flags.make
 CMakeFiles/server.dir/Source/random_engine.cpp.o: ../Source/random_engine.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/e/Programming/state_test/server/server_ShooterTest/Build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/server.dir/Source/random_engine.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/e/Programming/state_test/server/server_ShooterTest/Build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/server.dir/Source/random_engine.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/server.dir/Source/random_engine.cpp.o -c /mnt/e/Programming/state_test/server/server_ShooterTest/Source/random_engine.cpp
 
 CMakeFiles/server.dir/Source/random_engine.cpp.i: cmake_force
@@ -174,9 +187,22 @@ CMakeFiles/server.dir/Source/random_engine.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/server.dir/Source/random_engine.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /mnt/e/Programming/state_test/server/server_ShooterTest/Source/random_engine.cpp -o CMakeFiles/server.dir/Source/random_engine.cpp.s
 
+CMakeFiles/server.dir/Source/server.cpp.o: CMakeFiles/server.dir/flags.make
+CMakeFiles/server.dir/Source/server.cpp.o: ../Source/server.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/e/Programming/state_test/server/server_ShooterTest/Build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object CMakeFiles/server.dir/Source/server.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/server.dir/Source/server.cpp.o -c /mnt/e/Programming/state_test/server/server_ShooterTest/Source/server.cpp
+
+CMakeFiles/server.dir/Source/server.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/server.dir/Source/server.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /mnt/e/Programming/state_test/server/server_ShooterTest/Source/server.cpp > CMakeFiles/server.dir/Source/server.cpp.i
+
+CMakeFiles/server.dir/Source/server.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/server.dir/Source/server.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /mnt/e/Programming/state_test/server/server_ShooterTest/Source/server.cpp -o CMakeFiles/server.dir/Source/server.cpp.s
+
 CMakeFiles/server.dir/Source/server_handle.cpp.o: CMakeFiles/server.dir/flags.make
 CMakeFiles/server.dir/Source/server_handle.cpp.o: ../Source/server_handle.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/e/Programming/state_test/server/server_ShooterTest/Build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/server.dir/Source/server_handle.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/e/Programming/state_test/server/server_ShooterTest/Build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object CMakeFiles/server.dir/Source/server_handle.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/server.dir/Source/server_handle.cpp.o -c /mnt/e/Programming/state_test/server/server_ShooterTest/Source/server_handle.cpp
 
 CMakeFiles/server.dir/Source/server_handle.cpp.i: cmake_force
@@ -189,7 +215,7 @@ CMakeFiles/server.dir/Source/server_handle.cpp.s: cmake_force
 
 CMakeFiles/server.dir/Source/server_main.cpp.o: CMakeFiles/server.dir/flags.make
 CMakeFiles/server.dir/Source/server_main.cpp.o: ../Source/server_main.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/e/Programming/state_test/server/server_ShooterTest/Build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object CMakeFiles/server.dir/Source/server_main.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/e/Programming/state_test/server/server_ShooterTest/Build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building CXX object CMakeFiles/server.dir/Source/server_main.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/server.dir/Source/server_main.cpp.o -c /mnt/e/Programming/state_test/server/server_ShooterTest/Source/server_main.cpp
 
 CMakeFiles/server.dir/Source/server_main.cpp.i: cmake_force
@@ -202,7 +228,7 @@ CMakeFiles/server.dir/Source/server_main.cpp.s: cmake_force
 
 CMakeFiles/server.dir/Source/server_send.cpp.o: CMakeFiles/server.dir/flags.make
 CMakeFiles/server.dir/Source/server_send.cpp.o: ../Source/server_send.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/e/Programming/state_test/server/server_ShooterTest/Build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object CMakeFiles/server.dir/Source/server_send.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/e/Programming/state_test/server/server_ShooterTest/Build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Building CXX object CMakeFiles/server.dir/Source/server_send.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/server.dir/Source/server_send.cpp.o -c /mnt/e/Programming/state_test/server/server_ShooterTest/Source/server_send.cpp
 
 CMakeFiles/server.dir/Source/server_send.cpp.i: cmake_force
@@ -217,6 +243,7 @@ CMakeFiles/server.dir/Source/server_send.cpp.s: cmake_force
 server_OBJECTS = \
 "CMakeFiles/server.dir/Source/Player.cpp.o" \
 "CMakeFiles/server.dir/Source/PlayerMovement.cpp.o" \
+"CMakeFiles/server.dir/Source/client.cpp.o" \
 "CMakeFiles/server.dir/Source/game.cpp.o" \
 "CMakeFiles/server.dir/Source/ikcp.c.o" \
 "CMakeFiles/server.dir/Source/kcpserver.cpp.o" \
@@ -224,6 +251,7 @@ server_OBJECTS = \
 "CMakeFiles/server.dir/Source/message.pb.cc.o" \
 "CMakeFiles/server.dir/Source/packet.cpp.o" \
 "CMakeFiles/server.dir/Source/random_engine.cpp.o" \
+"CMakeFiles/server.dir/Source/server.cpp.o" \
 "CMakeFiles/server.dir/Source/server_handle.cpp.o" \
 "CMakeFiles/server.dir/Source/server_main.cpp.o" \
 "CMakeFiles/server.dir/Source/server_send.cpp.o"
@@ -233,6 +261,7 @@ server_EXTERNAL_OBJECTS =
 
 server: CMakeFiles/server.dir/Source/Player.cpp.o
 server: CMakeFiles/server.dir/Source/PlayerMovement.cpp.o
+server: CMakeFiles/server.dir/Source/client.cpp.o
 server: CMakeFiles/server.dir/Source/game.cpp.o
 server: CMakeFiles/server.dir/Source/ikcp.c.o
 server: CMakeFiles/server.dir/Source/kcpserver.cpp.o
@@ -240,12 +269,13 @@ server: CMakeFiles/server.dir/Source/kcpsession.cpp.o
 server: CMakeFiles/server.dir/Source/message.pb.cc.o
 server: CMakeFiles/server.dir/Source/packet.cpp.o
 server: CMakeFiles/server.dir/Source/random_engine.cpp.o
+server: CMakeFiles/server.dir/Source/server.cpp.o
 server: CMakeFiles/server.dir/Source/server_handle.cpp.o
 server: CMakeFiles/server.dir/Source/server_main.cpp.o
 server: CMakeFiles/server.dir/Source/server_send.cpp.o
 server: CMakeFiles/server.dir/build.make
 server: CMakeFiles/server.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/mnt/e/Programming/state_test/server/server_ShooterTest/Build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Linking CXX executable server"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/mnt/e/Programming/state_test/server/server_ShooterTest/Build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Linking CXX executable server"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/server.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

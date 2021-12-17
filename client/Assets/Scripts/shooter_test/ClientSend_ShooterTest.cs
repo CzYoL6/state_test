@@ -12,11 +12,17 @@ using Google.Protobuf;
 public class ClientSend_ShooterTest : MonoBehaviour
 {
 
+    private static void SendTCPData(Packet _packet) {
+        Client.instance.tcp.SendData(_packet.ToArray());
+    }
+
+    private static void SendUDPData(Packet _packet) {
+        Client.instance.udp.SendData(_packet.ToArray());
+    }
 
     #region Packets
 
     public static void SendLocalPlayerInput(PlayerInput_ShooterTest input, float derivedRotation) {
-
 
         var msg = new UpdateShooterTest.PlayerInput_C_TO_S {
             W = input.w_Pressed,
@@ -29,8 +35,28 @@ public class ClientSend_ShooterTest : MonoBehaviour
         };
 
         //SendTCPData(_packet);
-        NetManager.Instance.SendMessage((int)UpdateShooterTest.TYPE.PlayerInputCToS, msg);
+        using(Packet packet = new Packet((int)UpdateShooterTest.TYPE.PlayerInputCToS)) {
+            packet.Write(msg.ToByteArray());
+            //Debug.Log("sending player input msg, len:" + packet.Length());
+            SendUDPData(packet);
+        }
     }
+
+    public static void SendNickname(string nickname) {
+
+
+        var msg = new UpdateShooterTest.PlayerNickname_C_TO_S {
+            Nickname = nickname
+        };
+
+        //SendTCPData(_packet);
+        using (Packet packet = new Packet((int)UpdateShooterTest.TYPE.PlayerNicknameCToS)) {
+            packet.Write(msg.ToByteArray());
+            packet.WriteLength();
+            SendTCPData(packet);
+        }
+    }
+    
 
     #endregion
 

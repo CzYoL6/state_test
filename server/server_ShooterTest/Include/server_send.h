@@ -1,31 +1,21 @@
-#ifndef SERVER_SEND
-#define SERVER_SEND
+// #ifndef SERVER_SEND
+// #define SERVER_SEND
+#pragma once
 
 #include "game.h"
-#include "kcpserver.h"
+#include "server.h"
 #include "message.pb.h"
 #include "packet.h"
 #include <assert.h>
 
 namespace SERVER_SEND {
-void UpdateInfo(int conv, Update_ShooterTest::UpdateInfo_S_TO_C *updateInfo){
-        //std::cout << "sending update msg..." << std::endl;
-    Packet *packet = new Packet(Update_ShooterTest::TYPE::updateInfo_S_TO_C);
-    //std::cout << "packet length1: " << packet->GetAllLength() << std::endl;
 
-    char tmp[64 * 1024];
-    memset(tmp, 0, sizeof(tmp));
-    updateInfo->SerializeToArray(tmp, updateInfo->ByteSizeLong());
-    packet->AddVal(tmp, updateInfo->ByteSizeLong());
-    //std::cout << "packet length2: " << updateInfo.ByteSizeLong() << " " << packet->GetAllLength() << std::endl;
+void WelcomeToGame(int id);
 
-    packet->InsertLengthInFront();
-    //std::cout << "packet length: " << packet->GetAllLength() << std::endl;
+void UpdateInfo(int id, Update_ShooterTest::UpdateInfo_S_TO_C *updateInfo);
 
-    KCPServer::GetInstance().Send(conv, packet->GetCircleBuffer()->GetBuffer(), packet->GetAllLength());
+void SpawnPlayer(char *new_player_info, int len, int in_which_id);
 
-    delete packet;
-}
 } // namespace SERVER_SEND
 
-#endif
+// #endif

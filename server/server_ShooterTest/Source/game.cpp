@@ -14,23 +14,38 @@ Game::Game() {
     b2Vec2 gravity(0.0f, 0.0f);
     world = new b2World(gravity);
 
+  
 }
 
 Game::~Game() {
-    // for (auto iter = playerMap.begin(); iter != playerMap.end(); iter++)
-    //     if (iter->second != -1)
-    //         delete slots[iter->second];
+    printf("destructing game...\n");
+    // for(int i = 1; i <= maxPlayerCnt; i++){
+    //     if(slots[i] != nullptr){
+    //         delete slots[i];
+    //     }
+    // }
     if(slots != nullptr){
         delete []slots;
     }
+    printf("1\n");
     if (updateInfoPtr != nullptr)
         delete updateInfoPtr;
+    printf("2\n");
     if (world != nullptr)
         delete world;
+    printf("3\n");
     if(inputBuffer != nullptr)
         delete  inputBuffer;
     
+    printf("game destructed.\n"); 
 }
+
+void  Game::Init(int max_player_cnt, int tick_rate){
+    SetMaxPlayerCnt(max_player_cnt);
+
+    tickRate = tick_rate;
+}
+
 
 // void Game::AddPlayer(int playerID, float x, float angle) {
 //     b2BodyDef bodyDef;
@@ -64,11 +79,7 @@ void Game::SimulatePhysics(float time_step, int vel_iter, int pos_iter) {
 }
 
 int Game::GetPlayerCount() {
-    return playerMap.size();
-}
-
-std::map<int, int>& Game::GetPlayerMap() {
-    return playerMap;
+    return player_map_socket_to_slotid.size();
 }
 
 void Game::StartGame() {
@@ -79,6 +90,13 @@ void Game::StartGame() {
     accumulator = 0.0;
     testTimer.Reset();
     // last = iclock64();
+    printf("game has startd.\n");
+}
+
+
+void Game::StopGame(){
+    hasStarted = false;
+    printf("game stopped.\n");
 }
 
 bool Game::HasStarted() {
@@ -150,15 +168,9 @@ void Game::Update() {
     //printf("frame time: %lf\n", past);
 
     while (accumulator >= physicsTimeStep && HasStarted()) {
-        //KCPServer::GetInstance().Update();
+        Timer timer_;
+        timer_.Reset();
 
-            Timer timer_;
-            timer_.Reset();
-
-        //IINT64 cur = iclock64();
-        //double hh = cur - last;
-        //printf("iclock elapsed time: %lf\n", hh);
-        //last = cur;
         double realTimeStep = testTimer.GetElapsedTime();
         printf("elapsed time: %lf\n", realTimeStep);
         fflush(NULL);
@@ -166,57 +178,40 @@ void Game::Update() {
 
         accumulator -= physicsTimeStep;
 
-        //last_time = cur_tick;
         tick++;
-        //std::cout<<"tick:" <<tick<<std::endl;
-        //update the input buffer size
         updateInfoPtr->set_inputbuffersize(inputBuffer->size());
-        //std::cout << inputBuffer->size() << std::endl;
-        // while(!inputBuffer->empty()){
-        //     auto input = inputBuffer->front();
-        //     inputBuffer->pop();
-
-        //     int playerID = input.id();
-        //     Player*player = playerMap[playerID];
-        //     if(player != nullptr){
-        //         if(input.frameid() <= player->GetLastProcessedTick()) continue;
-        //         else{
-        //             player->ApplyInput(input);
-        //         }
-        //     }
-        // }
-        for(auto iter : playerMap){
+        
+        for(auto iter : player_map_socket_to_slotid){
             Player *player = slots[iter.second];
             Update_ShooterTest::PlayerInput_C_TO_S input;
 
-
             int tmp = 0;
             //至少执行一次
-            if((player->has_been_full && !player->GetPlayerInputQueue()->empty()) || player->GetPlayerInputQueue()->size() >= 3 ){
+            if((player->has_been_full && !player->GetPlayerInputSize() == 0) || player->GetPlayerInputSize() >= 3 ){
                 player->has_been_full = true;
-                input = player->GetPlayerInputQueue()->front();
-                player->GetPlayerInputQueue()->pop();
+                input = player->PopInputFromQueue();
                 player->ApplyInput(input);
                 tmp++;
             }
             //if(tmp >= 2) std::cout << "!!!" << tick << " " << player->GetConv() << std::endl;
-            std::cout << player->GetConv() << " " << player->GetPlayerInputQueue()->size() << " " << tmp << std::endl;
+            std::cout << player->GetSlotid() << " " << player->GetPlayerInputSize() << " " << tmp << std::endl;
         }
         SimulatePhysics(physicsTimeStep, velocityIterations, positionIterations);
-        for (auto iter = playerMap.begin(); iter != playerMap.end(); iter++) {
+        for (auto iter = player_map_socket_to_slotid.begin(); iter != player_map_socket_to_slotid.end(); iter++) {
             Player *player = slots[iter->second];
             int lastProcessedTick = player->GetLastProcessedTick();
             updateInfoPtr->set_lastprocessedframeid(lastProcessedTick);
             Update_ShooterTest::PlayerInfo_S_TO_C *info = player->GetPlayerInfoPtr();
-            info->set_id(player->GetConv());
+            info->set_id(player->GetSlotid());
             info->set_x(player->GetPos().x);
             info->set_y(player->GetPos().y);
             info->set_angle(player->GetRotation());
              
-            SERVER_SEND::UpdateInfo(player->GetConv(),updateInfoPtr);
+            int socket = player->GetSocket();
+            SERVER_SEND::UpdateInfo(socket,updateInfoPtr);
         }
 
-            double consume_time = timer_.GetElapsedTime();
+        double consume_time = timer_.GetElapsedTime();
             //printf("consume time:  %lf\n", consume_time);
         isleep(physicsTimeStep * 1000 - consume_time * 1000);
             
@@ -224,19 +219,19 @@ void Game::Update() {
     
 }
 
-void Game::ApplyInputToPlayer(int conv, Update_ShooterTest::PlayerInput_C_TO_S input){
-    Player* player = slots[playerMap[conv]];
+void Game::ApplyInputToPlayer(int id, Update_ShooterTest::PlayerInput_C_TO_S input){
+    Player* player = slots[id];
     if(player != nullptr){
         player->ApplyInput(input);
     }
 }
 
 
-Player* Game::AddPlayer(int conv) {
+Player* Game::AddPlayer(int socket, int id) {
     
     b2BodyDef bodyDef;
     bodyDef.type = b2_dynamicBody;
-    bodyDef.position.Set(0, 0);
+    bodyDef.position.Set(-5.0f + id * 2.0f, 0);
 
     std::uniform_real_distribution<double> dr_anglePi(-M_PI, M_PI);
 
@@ -252,14 +247,52 @@ Player* Game::AddPlayer(int conv) {
     fixtureDef.friction = 0.3f;
     body->CreateFixture(&fixtureDef);
 
-    Player *player = new Player(conv, this, body);
+    Player *player = new Player(id, socket, this, body);
     bodyDef.userData.pointer = reinterpret_cast<uintptr_t>(player);
 
    
 
     player->SetPlayerInfoPtr(updateInfoPtr->add_playerinfos());
 
-    std::cout << "adding player " << conv<< " cnt:"<<playerMap.size() << std::endl;
+    player_map_socket_to_slotid.insert({socket,id});
+
     return player;
 
+}
+
+void Game::SetMaxPlayerCnt(int cnt){
+    std::cout << "max player cnt set to: " <<cnt<< std::endl;
+    maxPlayerCnt = cnt;
+    //slot 0 is ignored
+    slots = new Player*[cnt + 1];
+    for(int i = 0; i <= cnt; i++){
+        slots[i] = nullptr;
+    }
+}
+
+void Game::SetSlotidOfSocket(int slotid, int socket){
+    if(slotid == -1){
+        player_map_socket_to_slotid.erase(socket);
+        return;
+    }
+    player_map_socket_to_slotid[socket] = slotid;
+
+}
+
+void Game::DelPlayerBySlotidAndSocket(int slotid, int socket){
+    Player *player = GetPlayerBySlotid(slotid);
+    delete player;
+
+    SetSlot(slotid, nullptr);
+    SetSlotidOfSocket(-1, socket);
+
+    //clear the updateinfoptr, and add the rest players' into it
+    updateInfoPtr->clear_playerinfos();
+    for(auto iter : player_map_socket_to_slotid){
+        auto x = updateInfoPtr->add_playerinfos();
+        int slotid = iter.second;
+        Player *player = GetPlayerBySlotid(slotid);
+        // delete player->GetPlayerInfoPtr();
+        player->SetPlayerInfoPtr(x);
+    }
 }

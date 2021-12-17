@@ -9,7 +9,7 @@ C_DEFINES =
 
 C_INCLUDES = -I/mnt/e/Programming/state_test/server/server_ShooterTest/Include 
 
-CXX_FLAGS =  -g -O -std=c++11  
+CXX_FLAGS =  -g  -std=c++11 -pthread  
 
 CXX_DEFINES = 
 

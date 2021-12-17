@@ -1,18 +1,20 @@
 #include "Player.h"
 
-Player::Player(unsigned int _id, Game *_game, b2Body *_body_ptr)
-    : conv(_id), game(_game) {
+Player::Player(int _id, int _socket, Game *_game, b2Body *_body_ptr)
+    : slotid(_id), game(_game), socket(_socket) {
         movement = new PlayerMovement(_body_ptr);
         playerInputQueue = new std::queue<Update_ShooterTest::PlayerInput_C_TO_S>;
     }
 
 Player::~Player() {
+    printf("destructing player...\n");
     if (playerInfoPtr != nullptr)
         delete playerInfoPtr;
     if(movement != nullptr)
         delete movement;
     if(playerInputQueue != nullptr)
         delete playerInputQueue;
+    printf("player destructed.\n");
 }
 
 void Player::ApplyInput(const Update_ShooterTest::PlayerInput_C_TO_S& input){
@@ -47,4 +49,12 @@ void Player::ApplyInput(const Update_ShooterTest::PlayerInput_C_TO_S& input){
     desPos.Set(movement->GetPos().x + moveVec.x * deltaTime,
             movement->GetPos().y + moveVec.y * deltaTime);
     movement->SetTrans(desPos.x, desPos.y, input.rotation());
+}
+
+
+Update_ShooterTest::PlayerInput_C_TO_S Player::PopInputFromQueue(){
+
+    Update_ShooterTest::PlayerInput_C_TO_S input = playerInputQueue->front();
+    playerInputQueue->pop();
+    return input;
 }

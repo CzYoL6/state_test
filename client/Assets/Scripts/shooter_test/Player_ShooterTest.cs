@@ -14,13 +14,13 @@ public class Player_ShooterTest : MonoBehaviour
         movement = GetComponent<PlayerMovement_ShooterTest>();
     }
 
-    public virtual void Init(int _id, float x, float y) {
+    public virtual void Init(int _id, Vector2 pos, float rot) {
         id = _id;
         //Debug.Log(movement);
         /*movement.SetPos(new Vector2(x, y));
         movement.SetRotation(0f);*/
-        movement.SetPos(new Vector2(x, y));
-        movement.SetRotation(0f);
+        movement.SetPos(pos);
+        movement.SetRotation(rot);
         
     }
 

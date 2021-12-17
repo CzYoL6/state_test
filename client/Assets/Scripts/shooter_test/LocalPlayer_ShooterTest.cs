@@ -36,8 +36,9 @@ public class LocalPlayer_ShooterTest : Player_ShooterTest
         
         //predict
         if (GameManager_ShooterTest.Instance.prediction) {
-            previous = current;
+            if(current != null) SetTrans(current.pos.x, current.pos.y, current.rotation);
             ApplyInput(input);
+            previous = current;
             current = GenerateCurrentPlayerState();
         }
         PlayerStates_ShooterTest state = GenerateCurrentPlayerState();

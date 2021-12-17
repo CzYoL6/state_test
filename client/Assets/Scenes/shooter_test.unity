@@ -608,6 +608,8 @@ MonoBehaviour:
   tickRate: 128
   maxDiffPos: 0.01
   maxDiffRot: 0.01
+  updateHasBeenFull: 0
+  hasRecvFirstPacketFromServer: 0
 --- !u!4 &419343714
 Transform:
   m_ObjectHideFlags: 0
@@ -648,9 +650,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 419580961}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 98a6de24c153a624db65c26a36a7be64, type: 3}
+  m_Script: {fileID: 11500000, guid: d4e94aac06fa9cf4fa19583cd0d0fec0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ip: 127.0.0.1
+  port: 26950
+  myId: 0
 --- !u!4 &419580963
 Transform:
   m_ObjectHideFlags: 0
@@ -2019,7 +2024,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1539687010}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3483f2318299ed44687932d803af6d6d, type: 3}
+  m_Script: {fileID: 11500000, guid: ee0bd496e18339a4497f0d3c54474ad7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!4 &1539687012

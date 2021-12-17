@@ -18,7 +18,7 @@ class Game : public Singleton<Game>{
     unsigned int gameId{0};
     
     int tick{0};
-    std::map<int, int> playerMap; //[conv, slot_id]
+    std::map<int, int> player_map_socket_to_slotid; //[conv, slot_id]
     Player** slots;
     
     bool hasStarted{false};
@@ -33,12 +33,12 @@ class Game : public Singleton<Game>{
     // IINT64 last;
 
   public:
-    Game(/* args */);
+    Game();
     ~Game();
-
+    void Init(int max_player_cnt, int tick_rate);
     int GetPlayerCount();
-    std::map<int, int>& GetPlayerMap();
     void StartGame();
+    void StopGame();
     bool HasStarted();
     b2World *GetWorld();
 
@@ -54,22 +54,23 @@ class Game : public Singleton<Game>{
 
     void AddToInputBuffer(Update_ShooterTest::PlayerInput_C_TO_S input);
 
-    Player* AddPlayer(int conv);
+    Player* AddPlayer(int socket, int id);
 
     int tickRate;
     
-    void SetMaxPlayerCnt(int cnt){
-      std::cout << "max player cnt set to: " <<cnt<< std::endl;
-      maxPlayerCnt = cnt;
-      slots = new Player*[cnt + 1];
-      for(int i = 0; i <= cnt; i++){
-        slots[i] = nullptr;
-      }
-    }
-    int GetMaxPlayerCnt(){
-      return maxPlayerCnt;
-    }
-    Player** GetSlots(){
-      return slots;
-    }
+    void SetMaxPlayerCnt(int cnt);
+
+    int GetMaxPlayerCnt() { return maxPlayerCnt;}
+
+    Player* GetPlayerBySlotid(int slotid) { return slots[slotid];}
+
+    void SetSlot(int slotid, Player* player) { slots[slotid] = player; }
+    
+    int GetSlotidBySocket(int socket) { return player_map_socket_to_slotid[socket]; }
+
+    void SetSlotidOfSocket(int slotid, int socket);
+
+    void DelPlayerBySlotidAndSocket(int slotid, int socket);
+    
+
 };

@@ -177,6 +177,33 @@ Source/PlayerMovement.cpp.s:
 	$(MAKE) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/Source/PlayerMovement.cpp.s
 .PHONY : Source/PlayerMovement.cpp.s
 
+Source/client.o: Source/client.cpp.o
+
+.PHONY : Source/client.o
+
+# target to build an object file
+Source/client.cpp.o:
+	$(MAKE) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/Source/client.cpp.o
+.PHONY : Source/client.cpp.o
+
+Source/client.i: Source/client.cpp.i
+
+.PHONY : Source/client.i
+
+# target to preprocess a source file
+Source/client.cpp.i:
+	$(MAKE) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/Source/client.cpp.i
+.PHONY : Source/client.cpp.i
+
+Source/client.s: Source/client.cpp.s
+
+.PHONY : Source/client.s
+
+# target to generate assembly for a file
+Source/client.cpp.s:
+	$(MAKE) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/Source/client.cpp.s
+.PHONY : Source/client.cpp.s
+
 Source/game.o: Source/game.cpp.o
 
 .PHONY : Source/game.o
@@ -366,6 +393,33 @@ Source/random_engine.cpp.s:
 	$(MAKE) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/Source/random_engine.cpp.s
 .PHONY : Source/random_engine.cpp.s
 
+Source/server.o: Source/server.cpp.o
+
+.PHONY : Source/server.o
+
+# target to build an object file
+Source/server.cpp.o:
+	$(MAKE) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/Source/server.cpp.o
+.PHONY : Source/server.cpp.o
+
+Source/server.i: Source/server.cpp.i
+
+.PHONY : Source/server.i
+
+# target to preprocess a source file
+Source/server.cpp.i:
+	$(MAKE) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/Source/server.cpp.i
+.PHONY : Source/server.cpp.i
+
+Source/server.s: Source/server.cpp.s
+
+.PHONY : Source/server.s
+
+# target to generate assembly for a file
+Source/server.cpp.s:
+	$(MAKE) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/Source/server.cpp.s
+.PHONY : Source/server.cpp.s
+
 Source/server_handle.o: Source/server_handle.cpp.o
 
 .PHONY : Source/server_handle.o
@@ -462,6 +516,9 @@ help:
 	@echo "... Source/PlayerMovement.o"
 	@echo "... Source/PlayerMovement.i"
 	@echo "... Source/PlayerMovement.s"
+	@echo "... Source/client.o"
+	@echo "... Source/client.i"
+	@echo "... Source/client.s"
 	@echo "... Source/game.o"
 	@echo "... Source/game.i"
 	@echo "... Source/game.s"
@@ -483,6 +540,9 @@ help:
 	@echo "... Source/random_engine.o"
 	@echo "... Source/random_engine.i"
 	@echo "... Source/random_engine.s"
+	@echo "... Source/server.o"
+	@echo "... Source/server.i"
+	@echo "... Source/server.s"
 	@echo "... Source/server_handle.o"
 	@echo "... Source/server_handle.i"
 	@echo "... Source/server_handle.s"

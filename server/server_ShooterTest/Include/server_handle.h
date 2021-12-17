@@ -1,5 +1,6 @@
-#ifndef SERVER_HANDLE
-#define SERVER_HANDLE
+// #ifndef SERVER_HANDLE
+// #define SERVER_HANDLE
+#pragma once
 #include "game.h"
 #include "message.pb.h"
 #include "packet.h"
@@ -7,17 +8,10 @@
 
 namespace SERVER_HANDLE {
 
-void HandlePlayerInput(int conv, char *buf, int sze) {
-    //std::cout << "handling player input..." << std::endl;
-    Update_ShooterTest::PlayerInput_C_TO_S newMsg;
-    if (!newMsg.ParseFromArray(buf, sze))
-        return;
-    //std::cout << "parse finished..." << std::endl;
-    //std::cout << conv << " " << newMsg.id() << std::endl;
-    Player* player = Game::GetInstance().GetSlots()[Game::GetInstance().GetPlayerMap()[newMsg.id()]];
-    // if(player->GetPlayerInputQueue()->size() < 4)
-    player->GetPlayerInputQueue()->push(newMsg);
-}
+void HandlePlayerNickname(int id, char *buf, int sze);
+
+void HandlePlayerInput(int id, char *buf, int sze) ;
+
 }; // namespace SERVER_HANDLE
 
-#endif
+// #endif

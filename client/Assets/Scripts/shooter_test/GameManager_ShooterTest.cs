@@ -56,13 +56,13 @@ public class GameManager_ShooterTest : Singleton<GameManager_ShooterTest>
     }
 
     private void Update() {
-        NetManager.Instance.Tick();
+        if (!started) return;
 
         accumulateTime += Time.deltaTime;
         
         while(accumulateTime >= 1.0f/ tickRate) {
             stopwatch.Stop();
-            Debug.Log(stopwatch.ElapsedMilliseconds);
+            //Debug.Log(stopwatch.ElapsedMilliseconds);
             stopwatch.Restart();
 
             //lastTickTime = curTime;
@@ -111,7 +111,26 @@ public class GameManager_ShooterTest : Singleton<GameManager_ShooterTest>
             }
 
             foreach (var player in playerMap.Values) {
-                if (player.id == localPlayerID) continue;
+                if (player.id == localPlayerID) {
+                    if (prediction) {
+                        PlayerStates_ShooterTest playerState1_ = localPlayer != null ? localPlayer.previous : null;
+                        Vector2 posFrom_ = playerState1_ != null ? playerState1_.pos : Vector2.zero;
+                        float rotationFrom_ = playerState1_ != null ? playerState1_.rotation : 0;
+
+                        PlayerStates_ShooterTest playerState2_ = localPlayer != null ? localPlayer.current : null;
+                        Vector2 posTo_ = playerState2_ != null ? playerState2_.pos : Vector2.zero;
+                        float rotationTo_ = playerState2_ != null ? playerState2_.rotation : 0;
+
+                        //float lerp = (curTime - lastTickTime) / (1.0f / tickRate);
+                        float lerp_ = accumulateTime / (1.0f / tickRate);
+                        if (lerp_ > 1) lerp_ = 1;
+                        float lerpRot_ = Mathf.Lerp(rotationFrom_, rotationTo_, lerp_);
+                        Vector2 lerpPos_ = Vector2.Lerp(posFrom_, posTo_, lerp_);
+                        //Debug.Log($"state1: ({posFrom.x}, {posFrom.y})  state2:({posTo.x}, {posTo.y}) ");
+                        localPlayer?.SetTrans(lerpPos_.x, lerpPos_.y, lerpRot_);
+                    }
+                    continue;
+                }
                 UpdateShooterTest.PlayerInfo_S_TO_C playerState1 = null;
                 states1.TryGetValue(player.id, out playerState1);
                 Vector2 posFrom = playerState1 != null ? new Vector2(playerState1.X, playerState1.Y) : Vector2.zero;
@@ -127,7 +146,7 @@ public class GameManager_ShooterTest : Singleton<GameManager_ShooterTest>
                 if (lerp > 1) lerp = 1;
                 /*float lerpX = Mathf.Lerp(posFrom.x, posTo.x, lerp);
                 float lerpY = Mathf.Lerp(posFrom.y, posTo.y, lerp);*/
-                float lerpRot = Mathf.Lerp(rotationFrom, rotationTo, 1);
+                float lerpRot = Mathf.Lerp(rotationFrom, rotationTo, lerp);
                 Vector2 lerpPos = Vector2.Lerp(posFrom, posTo, lerp);
                 //Debug.Log($"state1: ({posFrom.x}, {posFrom.y})  state2:({posTo.x}, {posTo.y}) ");
                 player.SetTrans(lerpPos.x, lerpPos.y, lerpRot);
@@ -136,32 +155,14 @@ public class GameManager_ShooterTest : Singleton<GameManager_ShooterTest>
             
         }
 
-        if (prediction) {
-            PlayerStates_ShooterTest playerState1 = localPlayer != null ? localPlayer.previous : null;
-            Vector2 posFrom = playerState1 != null ? playerState1.pos : Vector2.zero;
-            float rotationFrom = playerState1 != null ? playerState1.rotation : 0;
-
-            PlayerStates_ShooterTest playerState2 = localPlayer != null ? localPlayer.current : null;
-            Vector2 posTo = playerState2 != null ? playerState2.pos : Vector2.zero;
-            float rotationTo = playerState2 != null ? playerState2.rotation : 0;
-
-            //float lerp = (curTime - lastTickTime) / (1.0f / tickRate);
-            float lerp = accumulateTime / (1.0f / tickRate);
-            if (lerp > 1) lerp = 1;
-            /*float lerpX = Mathf.Lerp(posFrom.x, posTo.x, lerp);
-            float lerpY = Mathf.Lerp(posFrom.y, posTo.y, lerp);*/
-            float lerpRot = Mathf.Lerp(rotationFrom, rotationTo, 1);
-            Vector2 lerpPos = Vector2.Lerp(posFrom, posTo, lerp);
-            //Debug.Log($"state1: ({posFrom.x}, {posFrom.y})  state2:({posTo.x}, {posTo.y}) ");
-            localPlayer?.SetTrans(lerpPos.x, lerpPos.y, lerpRot);
-        }
+        
         Physics2D.Simulate(0.0f);
 
 
     }
 
 
-    public void AddPlayer(int id, float x, float y) {
+    public void AddPlayer(int id, Vector2 pos, float rot) {
         GameObject newPlayerObject = Instantiate(playerPrefab, new Vector2(0, 0), Quaternion.identity);
         if (id == localPlayerID) {
             Destroy(newPlayerObject.GetComponent<Player_ShooterTest>());
@@ -169,9 +170,11 @@ public class GameManager_ShooterTest : Singleton<GameManager_ShooterTest>
             localPlayer.movement = localPlayer.GetComponent<PlayerMovement_ShooterTest>();
             localPlayer.id = id;
         }
-        newPlayerObject.GetComponent<Player_ShooterTest>().Init(id, x, y);
+        newPlayerObject.GetComponent<Player_ShooterTest>().Init(id, pos, rot);
+
         playerMap.Add(id, newPlayerObject.GetComponent<Player_ShooterTest>());
-        Debug.LogWarning($"Instantiate player {id} at ({x}, {y}) ");
+
+        Debug.Log($"Instantiate player {id} at ({pos.x}, {pos.y}), rot:{rot} ");
 
         
     }
@@ -232,7 +235,8 @@ public class GameManager_ShooterTest : Singleton<GameManager_ShooterTest>
         foreach (var info in msg.PlayerInfos) {
             //Debug.Log("player_" + info.Id + ", x:" + info.X + ", y:" + info.Y + ", angle:" + info.Angle);
             if (!playerMap.ContainsKey(info.Id)) {
-                AddPlayer(info.Id, info.X, info.Y);
+                Debug.LogWarning("no player " + info.Id);
+                continue;
             }
             Player_ShooterTest player = GetPlayerByID(info.Id);
             //保存本地玩家的更新信息
@@ -243,7 +247,7 @@ public class GameManager_ShooterTest : Singleton<GameManager_ShooterTest>
                     diffPos = (state.pos - (new Vector2(info.X, info.Y))).magnitude;
                     diffRot = Mathf.Abs( state.rotation - info.Angle);
 
-                    //Debug.Log($"playerid: {info.Id}, predicted: ({state.pos.x} ,{state.pos.y}) {state.rotation}, acknowledged: ({info.X}, {info.Y}) {info.Angle} ");
+                    Debug.Log($"playerid: {info.Id}, predicted: ({state.pos.x} ,{state.pos.y}) {state.rotation}, acknowledged: ({info.X}, {info.Y}) {info.Angle} ");
                 }
                 if (state != null && ((diffPos >= maxDiffPos) || (diffRot >= maxDiffRot))) {
                 //if (state != null && ((diffPos >= maxDiffPos) )) {
