@@ -8,39 +8,61 @@
 #include <map>
 #include "singleton.h"
 #include<chrono>
+#include <memory>
+#include <mutex>
 
 class Player;
 
-#define PIXEL_PER_METER 1
+#define PLAYER_INPUT_BUFFER_SIZE 3
+#define CLIENT_INTERP_RATIO 2
+
 
 class Game : public Singleton<Game>{
   private:
     unsigned int gameId{0};
     
     int tick{0};
+
     std::map<int, int> player_map_socket_to_slotid; //[conv, slot_id]
-    Player** slots;
-    
+
+    std::unique_ptr< std::shared_ptr<Player>[] > slots;
+  
+
     bool hasStarted{false};
-    b2World *world{nullptr};
-    Update_ShooterTest::UpdateInfo_S_TO_C *updateInfoPtr{nullptr};
-    std::queue<Update_ShooterTest::PlayerInput_C_TO_S> *inputBuffer{nullptr};
+
+    std::shared_ptr< b2World > world;
+
+    std::unique_ptr<Update_ShooterTest::UpdateInfo_S_TO_C> updateInfoPtr;
+
+    std::unique_ptr<std::queue<Update_ShooterTest::PlayerInput_C_TO_S>> inputBuffer;
 
     int maxPlayerCnt;
+    
     Timer timer;
+
     double accumulator;
+
     Timer testTimer;
     // IINT64 last;
 
+
   public:
+    std::mutex inputBufferMutex;
     Game();
+
     ~Game();
+
     void Init(int max_player_cnt, int tick_rate);
+    
     int GetPlayerCount();
+
     void StartGame();
+    
     void StopGame();
+
     bool HasStarted();
-    b2World *GetWorld();
+
+    std::shared_ptr<b2World> GetWorld();
 
     void SimulatePhysics(float time_step, int vel_iter, int pos_iter);
 
@@ -54,7 +76,7 @@ class Game : public Singleton<Game>{
 
     void AddToInputBuffer(Update_ShooterTest::PlayerInput_C_TO_S input);
 
-    Player* AddPlayer(int socket, int id);
+    std::shared_ptr<Player> AddPlayer(int socket, int id);
 
     int tickRate;
     
@@ -62,9 +84,11 @@ class Game : public Singleton<Game>{
 
     int GetMaxPlayerCnt() { return maxPlayerCnt;}
 
-    Player* GetPlayerBySlotid(int slotid) { return slots[slotid];}
+    std::shared_ptr<Player> GetPlayerBySlotid(int slotid) { return slots[slotid];}
 
-    void SetSlot(int slotid, Player* player) { slots[slotid] = player; }
+    void ResetSlot(int slotid){ slots[slotid].reset();}
+
+    void SetSlot(int slotid, const std::shared_ptr<Player>& player) {slots[slotid] = player;};
     
     int GetSlotidBySocket(int socket) { return player_map_socket_to_slotid[socket]; }
 

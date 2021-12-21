@@ -12,9 +12,13 @@ namespace SERVER_SEND {
 
 void WelcomeToGame(int id);
 
-void UpdateInfo(int id, Update_ShooterTest::UpdateInfo_S_TO_C *updateInfo);
+void UpdateInfo(int socket, std::unique_ptr<Update_ShooterTest::UpdateInfo_S_TO_C>& updateInfo);
 
 void SpawnPlayer(char *new_player_info, int len, int in_which_id);
+
+void PlayerLeft(int who_left, int socket);
+
+void RttTimeMeasure(int id, int reqId);
 
 } // namespace SERVER_SEND
 

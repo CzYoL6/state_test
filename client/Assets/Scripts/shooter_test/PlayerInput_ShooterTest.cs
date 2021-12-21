@@ -11,8 +11,12 @@ public class PlayerInput_ShooterTest
     public bool d_Pressed;
     public Vector2 mousePos;
 
+    //used for measuring ping
+    public int timeStampInMs;
+
     public PlayerInput_ShooterTest(bool w, bool s, bool a, bool d, float x, float y, int tick) {
         Reset(w, s, a, d, x, y, tick);
+        
     }
 
     public  void Reset(bool w, bool s, bool a, bool d, float x, float y, int tick) {

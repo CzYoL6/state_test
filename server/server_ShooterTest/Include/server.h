@@ -54,10 +54,12 @@ public:
     void SengThroughUdp(int socket, char *buf, int len);
 
     bool IsRunning() const {return running;}
+    
+    void Stop() {running = false;}
 
 private:
-    std::map<int, Client*> client_map_socket_to_client;
-    std::map<MY_ADDR, Client*> client_map_sockaddrin_to_client;
+    std::map<int, std::shared_ptr<Client>> client_map_socket_to_client;
+    std::map<MY_ADDR, std::shared_ptr<Client>> client_map_sockaddrin_to_client;
 
     int  SetNonBlockingMode(int socket);
 
@@ -73,7 +75,7 @@ private:
 
     //epoll
     int epollfd;
-    epoll_event *events;
+    epoll_event* events;
     void AddEpollEvent(int fd, uint epollevent);
     void DelEpollEvent(int fd);
     void ModEpollEvent(int fd, uint epollevent);
@@ -84,11 +86,10 @@ private:
     typedef void (*MESSAGE_HANDLER)(int, char*, int); //id buf len
     //a dictionary for message handler
     // std::map<Update_ShooterTest::TYPE, std::function<void(char*, int)>> *message_handler;
-    std::map<Update_ShooterTest::TYPE, MESSAGE_HANDLER> *message_handler;
+    std::unique_ptr<std::map<Update_ShooterTest::TYPE, MESSAGE_HANDLER>> message_handler;
 
     //init all message handler
     void InitMessageHandler();
-
 
     //called when new connection is established
     void OnNewConnection(int socket, const sockaddr_in &addr);

@@ -48,7 +48,7 @@ struct TableStruct_message_2eproto {
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::AuxiliaryParseTableField aux[]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
-  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[7]
+  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[12]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::FieldMetadata field_metadata[];
   static const ::PROTOBUF_NAMESPACE_ID::internal::SerializationTable serialization_table[];
@@ -56,15 +56,30 @@ struct TableStruct_message_2eproto {
 };
 extern const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_message_2eproto;
 namespace Update_ShooterTest {
+class HitAcknowledged_S_TO_C;
+struct HitAcknowledged_S_TO_CDefaultTypeInternal;
+extern HitAcknowledged_S_TO_CDefaultTypeInternal _HitAcknowledged_S_TO_C_default_instance_;
 class PlayerInfo_S_TO_C;
 struct PlayerInfo_S_TO_CDefaultTypeInternal;
 extern PlayerInfo_S_TO_CDefaultTypeInternal _PlayerInfo_S_TO_C_default_instance_;
 class PlayerInput_C_TO_S;
 struct PlayerInput_C_TO_SDefaultTypeInternal;
 extern PlayerInput_C_TO_SDefaultTypeInternal _PlayerInput_C_TO_S_default_instance_;
+class PlayerInputs_C_TO_S;
+struct PlayerInputs_C_TO_SDefaultTypeInternal;
+extern PlayerInputs_C_TO_SDefaultTypeInternal _PlayerInputs_C_TO_S_default_instance_;
+class PlayerLeft_S_TO_C;
+struct PlayerLeft_S_TO_CDefaultTypeInternal;
+extern PlayerLeft_S_TO_CDefaultTypeInternal _PlayerLeft_S_TO_C_default_instance_;
 class PlayerNickname_C_TO_S;
 struct PlayerNickname_C_TO_SDefaultTypeInternal;
 extern PlayerNickname_C_TO_SDefaultTypeInternal _PlayerNickname_C_TO_S_default_instance_;
+class RttMeasure_C_TO_S;
+struct RttMeasure_C_TO_SDefaultTypeInternal;
+extern RttMeasure_C_TO_SDefaultTypeInternal _RttMeasure_C_TO_S_default_instance_;
+class RttMeasure_S_TO_C;
+struct RttMeasure_S_TO_CDefaultTypeInternal;
+extern RttMeasure_S_TO_CDefaultTypeInternal _RttMeasure_S_TO_C_default_instance_;
 class SpawnPlayer_S_TO_C;
 struct SpawnPlayer_S_TO_CDefaultTypeInternal;
 extern SpawnPlayer_S_TO_CDefaultTypeInternal _SpawnPlayer_S_TO_C_default_instance_;
@@ -79,9 +94,14 @@ struct Welcome_S_TO_CDefaultTypeInternal;
 extern Welcome_S_TO_CDefaultTypeInternal _Welcome_S_TO_C_default_instance_;
 }  // namespace Update_ShooterTest
 PROTOBUF_NAMESPACE_OPEN
+template<> ::Update_ShooterTest::HitAcknowledged_S_TO_C* Arena::CreateMaybeMessage<::Update_ShooterTest::HitAcknowledged_S_TO_C>(Arena*);
 template<> ::Update_ShooterTest::PlayerInfo_S_TO_C* Arena::CreateMaybeMessage<::Update_ShooterTest::PlayerInfo_S_TO_C>(Arena*);
 template<> ::Update_ShooterTest::PlayerInput_C_TO_S* Arena::CreateMaybeMessage<::Update_ShooterTest::PlayerInput_C_TO_S>(Arena*);
+template<> ::Update_ShooterTest::PlayerInputs_C_TO_S* Arena::CreateMaybeMessage<::Update_ShooterTest::PlayerInputs_C_TO_S>(Arena*);
+template<> ::Update_ShooterTest::PlayerLeft_S_TO_C* Arena::CreateMaybeMessage<::Update_ShooterTest::PlayerLeft_S_TO_C>(Arena*);
 template<> ::Update_ShooterTest::PlayerNickname_C_TO_S* Arena::CreateMaybeMessage<::Update_ShooterTest::PlayerNickname_C_TO_S>(Arena*);
+template<> ::Update_ShooterTest::RttMeasure_C_TO_S* Arena::CreateMaybeMessage<::Update_ShooterTest::RttMeasure_C_TO_S>(Arena*);
+template<> ::Update_ShooterTest::RttMeasure_S_TO_C* Arena::CreateMaybeMessage<::Update_ShooterTest::RttMeasure_S_TO_C>(Arena*);
 template<> ::Update_ShooterTest::SpawnPlayer_S_TO_C* Arena::CreateMaybeMessage<::Update_ShooterTest::SpawnPlayer_S_TO_C>(Arena*);
 template<> ::Update_ShooterTest::StartGame_S_TO_C* Arena::CreateMaybeMessage<::Update_ShooterTest::StartGame_S_TO_C>(Arena*);
 template<> ::Update_ShooterTest::UpdateInfo_S_TO_C* Arena::CreateMaybeMessage<::Update_ShooterTest::UpdateInfo_S_TO_C>(Arena*);
@@ -97,12 +117,17 @@ enum TYPE : int {
   playerInput_C_TO_S = 4,
   spawnPlayer_S_TO_C = 5,
   startGame_S_TO_C = 6,
+  playerLeft_S_TO_C = 7,
+  playerInputs_C_TO_S = 8,
+  rttMeasure_C_TO_S = 9,
+  rttMeasure_S_TO_C = 10,
+  hitAcknowledged_S_TO_C = 11,
   TYPE_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::min(),
   TYPE_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::max()
 };
 bool TYPE_IsValid(int value);
 constexpr TYPE TYPE_MIN = updateInfo_S_TO_C;
-constexpr TYPE TYPE_MAX = startGame_S_TO_C;
+constexpr TYPE TYPE_MAX = hitAcknowledged_S_TO_C;
 constexpr int TYPE_ARRAYSIZE = TYPE_MAX + 1;
 
 const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* TYPE_descriptor();
@@ -120,6 +145,512 @@ inline bool TYPE_Parse(
     TYPE_descriptor(), name, value);
 }
 // ===================================================================
+
+class RttMeasure_C_TO_S final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:Update_ShooterTest.RttMeasure_C_TO_S) */ {
+ public:
+  inline RttMeasure_C_TO_S() : RttMeasure_C_TO_S(nullptr) {}
+  ~RttMeasure_C_TO_S() override;
+  explicit constexpr RttMeasure_C_TO_S(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  RttMeasure_C_TO_S(const RttMeasure_C_TO_S& from);
+  RttMeasure_C_TO_S(RttMeasure_C_TO_S&& from) noexcept
+    : RttMeasure_C_TO_S() {
+    *this = ::std::move(from);
+  }
+
+  inline RttMeasure_C_TO_S& operator=(const RttMeasure_C_TO_S& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline RttMeasure_C_TO_S& operator=(RttMeasure_C_TO_S&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const RttMeasure_C_TO_S& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const RttMeasure_C_TO_S* internal_default_instance() {
+    return reinterpret_cast<const RttMeasure_C_TO_S*>(
+               &_RttMeasure_C_TO_S_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    0;
+
+  friend void swap(RttMeasure_C_TO_S& a, RttMeasure_C_TO_S& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(RttMeasure_C_TO_S* other) {
+    if (other == this) return;
+    if (GetOwningArena() == other->GetOwningArena()) {
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(RttMeasure_C_TO_S* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline RttMeasure_C_TO_S* New() const final {
+    return new RttMeasure_C_TO_S();
+  }
+
+  RttMeasure_C_TO_S* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<RttMeasure_C_TO_S>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const RttMeasure_C_TO_S& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom(const RttMeasure_C_TO_S& from);
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message* to, const ::PROTOBUF_NAMESPACE_ID::Message& from);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(RttMeasure_C_TO_S* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "Update_ShooterTest.RttMeasure_C_TO_S";
+  }
+  protected:
+  explicit RttMeasure_C_TO_S(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  private:
+  static void ArenaDtor(void* object);
+  inline void RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kRttTimeFieldNumber = 2,
+    kPacketIdFieldNumber = 1,
+  };
+  // double rttTime = 2;
+  void clear_rtttime();
+  double rtttime() const;
+  void set_rtttime(double value);
+  private:
+  double _internal_rtttime() const;
+  void _internal_set_rtttime(double value);
+  public:
+
+  // int32 packetId = 1;
+  void clear_packetid();
+  ::PROTOBUF_NAMESPACE_ID::int32 packetid() const;
+  void set_packetid(::PROTOBUF_NAMESPACE_ID::int32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_packetid() const;
+  void _internal_set_packetid(::PROTOBUF_NAMESPACE_ID::int32 value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:Update_ShooterTest.RttMeasure_C_TO_S)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  double rtttime_;
+  ::PROTOBUF_NAMESPACE_ID::int32 packetid_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_message_2eproto;
+};
+// -------------------------------------------------------------------
+
+class RttMeasure_S_TO_C final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:Update_ShooterTest.RttMeasure_S_TO_C) */ {
+ public:
+  inline RttMeasure_S_TO_C() : RttMeasure_S_TO_C(nullptr) {}
+  ~RttMeasure_S_TO_C() override;
+  explicit constexpr RttMeasure_S_TO_C(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  RttMeasure_S_TO_C(const RttMeasure_S_TO_C& from);
+  RttMeasure_S_TO_C(RttMeasure_S_TO_C&& from) noexcept
+    : RttMeasure_S_TO_C() {
+    *this = ::std::move(from);
+  }
+
+  inline RttMeasure_S_TO_C& operator=(const RttMeasure_S_TO_C& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline RttMeasure_S_TO_C& operator=(RttMeasure_S_TO_C&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const RttMeasure_S_TO_C& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const RttMeasure_S_TO_C* internal_default_instance() {
+    return reinterpret_cast<const RttMeasure_S_TO_C*>(
+               &_RttMeasure_S_TO_C_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    1;
+
+  friend void swap(RttMeasure_S_TO_C& a, RttMeasure_S_TO_C& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(RttMeasure_S_TO_C* other) {
+    if (other == this) return;
+    if (GetOwningArena() == other->GetOwningArena()) {
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(RttMeasure_S_TO_C* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline RttMeasure_S_TO_C* New() const final {
+    return new RttMeasure_S_TO_C();
+  }
+
+  RttMeasure_S_TO_C* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<RttMeasure_S_TO_C>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const RttMeasure_S_TO_C& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom(const RttMeasure_S_TO_C& from);
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message* to, const ::PROTOBUF_NAMESPACE_ID::Message& from);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(RttMeasure_S_TO_C* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "Update_ShooterTest.RttMeasure_S_TO_C";
+  }
+  protected:
+  explicit RttMeasure_S_TO_C(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  private:
+  static void ArenaDtor(void* object);
+  inline void RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kPacketIdFieldNumber = 1,
+  };
+  // int32 packetId = 1;
+  void clear_packetid();
+  ::PROTOBUF_NAMESPACE_ID::int32 packetid() const;
+  void set_packetid(::PROTOBUF_NAMESPACE_ID::int32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_packetid() const;
+  void _internal_set_packetid(::PROTOBUF_NAMESPACE_ID::int32 value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:Update_ShooterTest.RttMeasure_S_TO_C)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  ::PROTOBUF_NAMESPACE_ID::int32 packetid_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_message_2eproto;
+};
+// -------------------------------------------------------------------
+
+class HitAcknowledged_S_TO_C final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:Update_ShooterTest.HitAcknowledged_S_TO_C) */ {
+ public:
+  inline HitAcknowledged_S_TO_C() : HitAcknowledged_S_TO_C(nullptr) {}
+  ~HitAcknowledged_S_TO_C() override;
+  explicit constexpr HitAcknowledged_S_TO_C(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  HitAcknowledged_S_TO_C(const HitAcknowledged_S_TO_C& from);
+  HitAcknowledged_S_TO_C(HitAcknowledged_S_TO_C&& from) noexcept
+    : HitAcknowledged_S_TO_C() {
+    *this = ::std::move(from);
+  }
+
+  inline HitAcknowledged_S_TO_C& operator=(const HitAcknowledged_S_TO_C& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline HitAcknowledged_S_TO_C& operator=(HitAcknowledged_S_TO_C&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const HitAcknowledged_S_TO_C& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const HitAcknowledged_S_TO_C* internal_default_instance() {
+    return reinterpret_cast<const HitAcknowledged_S_TO_C*>(
+               &_HitAcknowledged_S_TO_C_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    2;
+
+  friend void swap(HitAcknowledged_S_TO_C& a, HitAcknowledged_S_TO_C& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(HitAcknowledged_S_TO_C* other) {
+    if (other == this) return;
+    if (GetOwningArena() == other->GetOwningArena()) {
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(HitAcknowledged_S_TO_C* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline HitAcknowledged_S_TO_C* New() const final {
+    return new HitAcknowledged_S_TO_C();
+  }
+
+  HitAcknowledged_S_TO_C* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<HitAcknowledged_S_TO_C>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const HitAcknowledged_S_TO_C& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom(const HitAcknowledged_S_TO_C& from);
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message* to, const ::PROTOBUF_NAMESPACE_ID::Message& from);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(HitAcknowledged_S_TO_C* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "Update_ShooterTest.HitAcknowledged_S_TO_C";
+  }
+  protected:
+  explicit HitAcknowledged_S_TO_C(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  private:
+  static void ArenaDtor(void* object);
+  inline void RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kAttackerSlotidFieldNumber = 1,
+    kEnemySlotidFieldNumber = 2,
+    kDamageFieldNumber = 3,
+    kDeadFieldNumber = 4,
+    kEPosXFieldNumber = 5,
+    kEPosYFieldNumber = 6,
+    kERotFieldNumber = 7,
+  };
+  // int32 attacker_slotid = 1;
+  void clear_attacker_slotid();
+  ::PROTOBUF_NAMESPACE_ID::int32 attacker_slotid() const;
+  void set_attacker_slotid(::PROTOBUF_NAMESPACE_ID::int32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_attacker_slotid() const;
+  void _internal_set_attacker_slotid(::PROTOBUF_NAMESPACE_ID::int32 value);
+  public:
+
+  // int32 enemy_slotid = 2;
+  void clear_enemy_slotid();
+  ::PROTOBUF_NAMESPACE_ID::int32 enemy_slotid() const;
+  void set_enemy_slotid(::PROTOBUF_NAMESPACE_ID::int32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_enemy_slotid() const;
+  void _internal_set_enemy_slotid(::PROTOBUF_NAMESPACE_ID::int32 value);
+  public:
+
+  // int32 damage = 3;
+  void clear_damage();
+  ::PROTOBUF_NAMESPACE_ID::int32 damage() const;
+  void set_damage(::PROTOBUF_NAMESPACE_ID::int32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_damage() const;
+  void _internal_set_damage(::PROTOBUF_NAMESPACE_ID::int32 value);
+  public:
+
+  // bool dead = 4;
+  void clear_dead();
+  bool dead() const;
+  void set_dead(bool value);
+  private:
+  bool _internal_dead() const;
+  void _internal_set_dead(bool value);
+  public:
+
+  // float e_pos_x = 5;
+  void clear_e_pos_x();
+  float e_pos_x() const;
+  void set_e_pos_x(float value);
+  private:
+  float _internal_e_pos_x() const;
+  void _internal_set_e_pos_x(float value);
+  public:
+
+  // float e_pos_y = 6;
+  void clear_e_pos_y();
+  float e_pos_y() const;
+  void set_e_pos_y(float value);
+  private:
+  float _internal_e_pos_y() const;
+  void _internal_set_e_pos_y(float value);
+  public:
+
+  // float e_rot = 7;
+  void clear_e_rot();
+  float e_rot() const;
+  void set_e_rot(float value);
+  private:
+  float _internal_e_rot() const;
+  void _internal_set_e_rot(float value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:Update_ShooterTest.HitAcknowledged_S_TO_C)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  ::PROTOBUF_NAMESPACE_ID::int32 attacker_slotid_;
+  ::PROTOBUF_NAMESPACE_ID::int32 enemy_slotid_;
+  ::PROTOBUF_NAMESPACE_ID::int32 damage_;
+  bool dead_;
+  float e_pos_x_;
+  float e_pos_y_;
+  float e_rot_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_message_2eproto;
+};
+// -------------------------------------------------------------------
 
 class Welcome_S_TO_C final :
     public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:Update_ShooterTest.Welcome_S_TO_C) */ {
@@ -169,7 +700,7 @@ class Welcome_S_TO_C final :
                &_Welcome_S_TO_C_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    0;
+    3;
 
   friend void swap(Welcome_S_TO_C& a, Welcome_S_TO_C& b) {
     a.Swap(&b);
@@ -264,6 +795,149 @@ class Welcome_S_TO_C final :
 };
 // -------------------------------------------------------------------
 
+class PlayerLeft_S_TO_C final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:Update_ShooterTest.PlayerLeft_S_TO_C) */ {
+ public:
+  inline PlayerLeft_S_TO_C() : PlayerLeft_S_TO_C(nullptr) {}
+  ~PlayerLeft_S_TO_C() override;
+  explicit constexpr PlayerLeft_S_TO_C(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  PlayerLeft_S_TO_C(const PlayerLeft_S_TO_C& from);
+  PlayerLeft_S_TO_C(PlayerLeft_S_TO_C&& from) noexcept
+    : PlayerLeft_S_TO_C() {
+    *this = ::std::move(from);
+  }
+
+  inline PlayerLeft_S_TO_C& operator=(const PlayerLeft_S_TO_C& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline PlayerLeft_S_TO_C& operator=(PlayerLeft_S_TO_C&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const PlayerLeft_S_TO_C& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const PlayerLeft_S_TO_C* internal_default_instance() {
+    return reinterpret_cast<const PlayerLeft_S_TO_C*>(
+               &_PlayerLeft_S_TO_C_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    4;
+
+  friend void swap(PlayerLeft_S_TO_C& a, PlayerLeft_S_TO_C& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(PlayerLeft_S_TO_C* other) {
+    if (other == this) return;
+    if (GetOwningArena() == other->GetOwningArena()) {
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(PlayerLeft_S_TO_C* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline PlayerLeft_S_TO_C* New() const final {
+    return new PlayerLeft_S_TO_C();
+  }
+
+  PlayerLeft_S_TO_C* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<PlayerLeft_S_TO_C>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const PlayerLeft_S_TO_C& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom(const PlayerLeft_S_TO_C& from);
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message* to, const ::PROTOBUF_NAMESPACE_ID::Message& from);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(PlayerLeft_S_TO_C* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "Update_ShooterTest.PlayerLeft_S_TO_C";
+  }
+  protected:
+  explicit PlayerLeft_S_TO_C(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  private:
+  static void ArenaDtor(void* object);
+  inline void RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kSlotidFieldNumber = 1,
+  };
+  // int32 slotid = 1;
+  void clear_slotid();
+  ::PROTOBUF_NAMESPACE_ID::int32 slotid() const;
+  void set_slotid(::PROTOBUF_NAMESPACE_ID::int32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_slotid() const;
+  void _internal_set_slotid(::PROTOBUF_NAMESPACE_ID::int32 value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:Update_ShooterTest.PlayerLeft_S_TO_C)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  ::PROTOBUF_NAMESPACE_ID::int32 slotid_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_message_2eproto;
+};
+// -------------------------------------------------------------------
+
 class PlayerNickname_C_TO_S final :
     public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:Update_ShooterTest.PlayerNickname_C_TO_S) */ {
  public:
@@ -312,7 +986,7 @@ class PlayerNickname_C_TO_S final :
                &_PlayerNickname_C_TO_S_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    1;
+    5;
 
   friend void swap(PlayerNickname_C_TO_S& a, PlayerNickname_C_TO_S& b) {
     a.Swap(&b);
@@ -460,7 +1134,7 @@ class SpawnPlayer_S_TO_C final :
                &_SpawnPlayer_S_TO_C_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    2;
+    6;
 
   friend void swap(SpawnPlayer_S_TO_C& a, SpawnPlayer_S_TO_C& b) {
     a.Swap(&b);
@@ -651,7 +1325,7 @@ class StartGame_S_TO_C final :
                &_StartGame_S_TO_C_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    3;
+    7;
 
   friend void swap(StartGame_S_TO_C& a, StartGame_S_TO_C& b) {
     a.Swap(&b);
@@ -767,7 +1441,7 @@ class PlayerInfo_S_TO_C final :
                &_PlayerInfo_S_TO_C_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    4;
+    8;
 
   friend void swap(PlayerInfo_S_TO_C& a, PlayerInfo_S_TO_C& b) {
     a.Swap(&b);
@@ -943,7 +1617,7 @@ class UpdateInfo_S_TO_C final :
                &_UpdateInfo_S_TO_C_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    5;
+    9;
 
   friend void swap(UpdateInfo_S_TO_C& a, UpdateInfo_S_TO_C& b) {
     a.Swap(&b);
@@ -1117,7 +1791,7 @@ class PlayerInput_C_TO_S final :
                &_PlayerInput_C_TO_S_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    6;
+    10;
 
   friend void swap(PlayerInput_C_TO_S& a, PlayerInput_C_TO_S& b) {
     a.Swap(&b);
@@ -1193,8 +1867,8 @@ class PlayerInput_C_TO_S final :
     kSFieldNumber = 3,
     kAFieldNumber = 4,
     kDFieldNumber = 5,
-    kRotationFieldNumber = 6,
-    kIdFieldNumber = 7,
+    kMouseXFieldNumber = 6,
+    kMouseYFieldNumber = 7,
   };
   // int32 frameID = 1;
   void clear_frameid();
@@ -1241,22 +1915,22 @@ class PlayerInput_C_TO_S final :
   void _internal_set_d(bool value);
   public:
 
-  // float rotation = 6;
-  void clear_rotation();
-  float rotation() const;
-  void set_rotation(float value);
+  // float mouseX = 6;
+  void clear_mousex();
+  float mousex() const;
+  void set_mousex(float value);
   private:
-  float _internal_rotation() const;
-  void _internal_set_rotation(float value);
+  float _internal_mousex() const;
+  void _internal_set_mousex(float value);
   public:
 
-  // int32 id = 7;
-  void clear_id();
-  ::PROTOBUF_NAMESPACE_ID::int32 id() const;
-  void set_id(::PROTOBUF_NAMESPACE_ID::int32 value);
+  // float mouseY = 7;
+  void clear_mousey();
+  float mousey() const;
+  void set_mousey(float value);
   private:
-  ::PROTOBUF_NAMESPACE_ID::int32 _internal_id() const;
-  void _internal_set_id(::PROTOBUF_NAMESPACE_ID::int32 value);
+  float _internal_mousey() const;
+  void _internal_set_mousey(float value);
   public:
 
   // @@protoc_insertion_point(class_scope:Update_ShooterTest.PlayerInput_C_TO_S)
@@ -1271,7 +1945,170 @@ class PlayerInput_C_TO_S final :
   bool s_;
   bool a_;
   bool d_;
-  float rotation_;
+  float mousex_;
+  float mousey_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_message_2eproto;
+};
+// -------------------------------------------------------------------
+
+class PlayerInputs_C_TO_S final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:Update_ShooterTest.PlayerInputs_C_TO_S) */ {
+ public:
+  inline PlayerInputs_C_TO_S() : PlayerInputs_C_TO_S(nullptr) {}
+  ~PlayerInputs_C_TO_S() override;
+  explicit constexpr PlayerInputs_C_TO_S(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  PlayerInputs_C_TO_S(const PlayerInputs_C_TO_S& from);
+  PlayerInputs_C_TO_S(PlayerInputs_C_TO_S&& from) noexcept
+    : PlayerInputs_C_TO_S() {
+    *this = ::std::move(from);
+  }
+
+  inline PlayerInputs_C_TO_S& operator=(const PlayerInputs_C_TO_S& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline PlayerInputs_C_TO_S& operator=(PlayerInputs_C_TO_S&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const PlayerInputs_C_TO_S& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const PlayerInputs_C_TO_S* internal_default_instance() {
+    return reinterpret_cast<const PlayerInputs_C_TO_S*>(
+               &_PlayerInputs_C_TO_S_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    11;
+
+  friend void swap(PlayerInputs_C_TO_S& a, PlayerInputs_C_TO_S& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(PlayerInputs_C_TO_S* other) {
+    if (other == this) return;
+    if (GetOwningArena() == other->GetOwningArena()) {
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(PlayerInputs_C_TO_S* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline PlayerInputs_C_TO_S* New() const final {
+    return new PlayerInputs_C_TO_S();
+  }
+
+  PlayerInputs_C_TO_S* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<PlayerInputs_C_TO_S>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const PlayerInputs_C_TO_S& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom(const PlayerInputs_C_TO_S& from);
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message* to, const ::PROTOBUF_NAMESPACE_ID::Message& from);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(PlayerInputs_C_TO_S* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "Update_ShooterTest.PlayerInputs_C_TO_S";
+  }
+  protected:
+  explicit PlayerInputs_C_TO_S(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  private:
+  static void ArenaDtor(void* object);
+  inline void RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kInputsFieldNumber = 1,
+    kIdFieldNumber = 2,
+  };
+  // repeated .Update_ShooterTest.PlayerInput_C_TO_S inputs = 1;
+  int inputs_size() const;
+  private:
+  int _internal_inputs_size() const;
+  public:
+  void clear_inputs();
+  ::Update_ShooterTest::PlayerInput_C_TO_S* mutable_inputs(int index);
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Update_ShooterTest::PlayerInput_C_TO_S >*
+      mutable_inputs();
+  private:
+  const ::Update_ShooterTest::PlayerInput_C_TO_S& _internal_inputs(int index) const;
+  ::Update_ShooterTest::PlayerInput_C_TO_S* _internal_add_inputs();
+  public:
+  const ::Update_ShooterTest::PlayerInput_C_TO_S& inputs(int index) const;
+  ::Update_ShooterTest::PlayerInput_C_TO_S* add_inputs();
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Update_ShooterTest::PlayerInput_C_TO_S >&
+      inputs() const;
+
+  // int32 id = 2;
+  void clear_id();
+  ::PROTOBUF_NAMESPACE_ID::int32 id() const;
+  void set_id(::PROTOBUF_NAMESPACE_ID::int32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_id() const;
+  void _internal_set_id(::PROTOBUF_NAMESPACE_ID::int32 value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:Update_ShooterTest.PlayerInputs_C_TO_S)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Update_ShooterTest::PlayerInput_C_TO_S > inputs_;
   ::PROTOBUF_NAMESPACE_ID::int32 id_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_message_2eproto;
@@ -1285,6 +2122,218 @@ class PlayerInput_C_TO_S final :
   #pragma GCC diagnostic push
   #pragma GCC diagnostic ignored "-Wstrict-aliasing"
 #endif  // __GNUC__
+// RttMeasure_C_TO_S
+
+// int32 packetId = 1;
+inline void RttMeasure_C_TO_S::clear_packetid() {
+  packetid_ = 0;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 RttMeasure_C_TO_S::_internal_packetid() const {
+  return packetid_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 RttMeasure_C_TO_S::packetid() const {
+  // @@protoc_insertion_point(field_get:Update_ShooterTest.RttMeasure_C_TO_S.packetId)
+  return _internal_packetid();
+}
+inline void RttMeasure_C_TO_S::_internal_set_packetid(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  
+  packetid_ = value;
+}
+inline void RttMeasure_C_TO_S::set_packetid(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _internal_set_packetid(value);
+  // @@protoc_insertion_point(field_set:Update_ShooterTest.RttMeasure_C_TO_S.packetId)
+}
+
+// double rttTime = 2;
+inline void RttMeasure_C_TO_S::clear_rtttime() {
+  rtttime_ = 0;
+}
+inline double RttMeasure_C_TO_S::_internal_rtttime() const {
+  return rtttime_;
+}
+inline double RttMeasure_C_TO_S::rtttime() const {
+  // @@protoc_insertion_point(field_get:Update_ShooterTest.RttMeasure_C_TO_S.rttTime)
+  return _internal_rtttime();
+}
+inline void RttMeasure_C_TO_S::_internal_set_rtttime(double value) {
+  
+  rtttime_ = value;
+}
+inline void RttMeasure_C_TO_S::set_rtttime(double value) {
+  _internal_set_rtttime(value);
+  // @@protoc_insertion_point(field_set:Update_ShooterTest.RttMeasure_C_TO_S.rttTime)
+}
+
+// -------------------------------------------------------------------
+
+// RttMeasure_S_TO_C
+
+// int32 packetId = 1;
+inline void RttMeasure_S_TO_C::clear_packetid() {
+  packetid_ = 0;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 RttMeasure_S_TO_C::_internal_packetid() const {
+  return packetid_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 RttMeasure_S_TO_C::packetid() const {
+  // @@protoc_insertion_point(field_get:Update_ShooterTest.RttMeasure_S_TO_C.packetId)
+  return _internal_packetid();
+}
+inline void RttMeasure_S_TO_C::_internal_set_packetid(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  
+  packetid_ = value;
+}
+inline void RttMeasure_S_TO_C::set_packetid(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _internal_set_packetid(value);
+  // @@protoc_insertion_point(field_set:Update_ShooterTest.RttMeasure_S_TO_C.packetId)
+}
+
+// -------------------------------------------------------------------
+
+// HitAcknowledged_S_TO_C
+
+// int32 attacker_slotid = 1;
+inline void HitAcknowledged_S_TO_C::clear_attacker_slotid() {
+  attacker_slotid_ = 0;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 HitAcknowledged_S_TO_C::_internal_attacker_slotid() const {
+  return attacker_slotid_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 HitAcknowledged_S_TO_C::attacker_slotid() const {
+  // @@protoc_insertion_point(field_get:Update_ShooterTest.HitAcknowledged_S_TO_C.attacker_slotid)
+  return _internal_attacker_slotid();
+}
+inline void HitAcknowledged_S_TO_C::_internal_set_attacker_slotid(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  
+  attacker_slotid_ = value;
+}
+inline void HitAcknowledged_S_TO_C::set_attacker_slotid(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _internal_set_attacker_slotid(value);
+  // @@protoc_insertion_point(field_set:Update_ShooterTest.HitAcknowledged_S_TO_C.attacker_slotid)
+}
+
+// int32 enemy_slotid = 2;
+inline void HitAcknowledged_S_TO_C::clear_enemy_slotid() {
+  enemy_slotid_ = 0;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 HitAcknowledged_S_TO_C::_internal_enemy_slotid() const {
+  return enemy_slotid_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 HitAcknowledged_S_TO_C::enemy_slotid() const {
+  // @@protoc_insertion_point(field_get:Update_ShooterTest.HitAcknowledged_S_TO_C.enemy_slotid)
+  return _internal_enemy_slotid();
+}
+inline void HitAcknowledged_S_TO_C::_internal_set_enemy_slotid(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  
+  enemy_slotid_ = value;
+}
+inline void HitAcknowledged_S_TO_C::set_enemy_slotid(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _internal_set_enemy_slotid(value);
+  // @@protoc_insertion_point(field_set:Update_ShooterTest.HitAcknowledged_S_TO_C.enemy_slotid)
+}
+
+// int32 damage = 3;
+inline void HitAcknowledged_S_TO_C::clear_damage() {
+  damage_ = 0;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 HitAcknowledged_S_TO_C::_internal_damage() const {
+  return damage_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 HitAcknowledged_S_TO_C::damage() const {
+  // @@protoc_insertion_point(field_get:Update_ShooterTest.HitAcknowledged_S_TO_C.damage)
+  return _internal_damage();
+}
+inline void HitAcknowledged_S_TO_C::_internal_set_damage(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  
+  damage_ = value;
+}
+inline void HitAcknowledged_S_TO_C::set_damage(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _internal_set_damage(value);
+  // @@protoc_insertion_point(field_set:Update_ShooterTest.HitAcknowledged_S_TO_C.damage)
+}
+
+// bool dead = 4;
+inline void HitAcknowledged_S_TO_C::clear_dead() {
+  dead_ = false;
+}
+inline bool HitAcknowledged_S_TO_C::_internal_dead() const {
+  return dead_;
+}
+inline bool HitAcknowledged_S_TO_C::dead() const {
+  // @@protoc_insertion_point(field_get:Update_ShooterTest.HitAcknowledged_S_TO_C.dead)
+  return _internal_dead();
+}
+inline void HitAcknowledged_S_TO_C::_internal_set_dead(bool value) {
+  
+  dead_ = value;
+}
+inline void HitAcknowledged_S_TO_C::set_dead(bool value) {
+  _internal_set_dead(value);
+  // @@protoc_insertion_point(field_set:Update_ShooterTest.HitAcknowledged_S_TO_C.dead)
+}
+
+// float e_pos_x = 5;
+inline void HitAcknowledged_S_TO_C::clear_e_pos_x() {
+  e_pos_x_ = 0;
+}
+inline float HitAcknowledged_S_TO_C::_internal_e_pos_x() const {
+  return e_pos_x_;
+}
+inline float HitAcknowledged_S_TO_C::e_pos_x() const {
+  // @@protoc_insertion_point(field_get:Update_ShooterTest.HitAcknowledged_S_TO_C.e_pos_x)
+  return _internal_e_pos_x();
+}
+inline void HitAcknowledged_S_TO_C::_internal_set_e_pos_x(float value) {
+  
+  e_pos_x_ = value;
+}
+inline void HitAcknowledged_S_TO_C::set_e_pos_x(float value) {
+  _internal_set_e_pos_x(value);
+  // @@protoc_insertion_point(field_set:Update_ShooterTest.HitAcknowledged_S_TO_C.e_pos_x)
+}
+
+// float e_pos_y = 6;
+inline void HitAcknowledged_S_TO_C::clear_e_pos_y() {
+  e_pos_y_ = 0;
+}
+inline float HitAcknowledged_S_TO_C::_internal_e_pos_y() const {
+  return e_pos_y_;
+}
+inline float HitAcknowledged_S_TO_C::e_pos_y() const {
+  // @@protoc_insertion_point(field_get:Update_ShooterTest.HitAcknowledged_S_TO_C.e_pos_y)
+  return _internal_e_pos_y();
+}
+inline void HitAcknowledged_S_TO_C::_internal_set_e_pos_y(float value) {
+  
+  e_pos_y_ = value;
+}
+inline void HitAcknowledged_S_TO_C::set_e_pos_y(float value) {
+  _internal_set_e_pos_y(value);
+  // @@protoc_insertion_point(field_set:Update_ShooterTest.HitAcknowledged_S_TO_C.e_pos_y)
+}
+
+// float e_rot = 7;
+inline void HitAcknowledged_S_TO_C::clear_e_rot() {
+  e_rot_ = 0;
+}
+inline float HitAcknowledged_S_TO_C::_internal_e_rot() const {
+  return e_rot_;
+}
+inline float HitAcknowledged_S_TO_C::e_rot() const {
+  // @@protoc_insertion_point(field_get:Update_ShooterTest.HitAcknowledged_S_TO_C.e_rot)
+  return _internal_e_rot();
+}
+inline void HitAcknowledged_S_TO_C::_internal_set_e_rot(float value) {
+  
+  e_rot_ = value;
+}
+inline void HitAcknowledged_S_TO_C::set_e_rot(float value) {
+  _internal_set_e_rot(value);
+  // @@protoc_insertion_point(field_set:Update_ShooterTest.HitAcknowledged_S_TO_C.e_rot)
+}
+
+// -------------------------------------------------------------------
+
 // Welcome_S_TO_C
 
 // int32 slotid = 1;
@@ -1305,6 +2354,30 @@ inline void Welcome_S_TO_C::_internal_set_slotid(::PROTOBUF_NAMESPACE_ID::int32 
 inline void Welcome_S_TO_C::set_slotid(::PROTOBUF_NAMESPACE_ID::int32 value) {
   _internal_set_slotid(value);
   // @@protoc_insertion_point(field_set:Update_ShooterTest.Welcome_S_TO_C.slotid)
+}
+
+// -------------------------------------------------------------------
+
+// PlayerLeft_S_TO_C
+
+// int32 slotid = 1;
+inline void PlayerLeft_S_TO_C::clear_slotid() {
+  slotid_ = 0;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 PlayerLeft_S_TO_C::_internal_slotid() const {
+  return slotid_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 PlayerLeft_S_TO_C::slotid() const {
+  // @@protoc_insertion_point(field_get:Update_ShooterTest.PlayerLeft_S_TO_C.slotid)
+  return _internal_slotid();
+}
+inline void PlayerLeft_S_TO_C::_internal_set_slotid(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  
+  slotid_ = value;
+}
+inline void PlayerLeft_S_TO_C::set_slotid(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _internal_set_slotid(value);
+  // @@protoc_insertion_point(field_set:Update_ShooterTest.PlayerLeft_S_TO_C.slotid)
 }
 
 // -------------------------------------------------------------------
@@ -1763,49 +2836,123 @@ inline void PlayerInput_C_TO_S::set_d(bool value) {
   // @@protoc_insertion_point(field_set:Update_ShooterTest.PlayerInput_C_TO_S.d)
 }
 
-// float rotation = 6;
-inline void PlayerInput_C_TO_S::clear_rotation() {
-  rotation_ = 0;
+// float mouseX = 6;
+inline void PlayerInput_C_TO_S::clear_mousex() {
+  mousex_ = 0;
 }
-inline float PlayerInput_C_TO_S::_internal_rotation() const {
-  return rotation_;
+inline float PlayerInput_C_TO_S::_internal_mousex() const {
+  return mousex_;
 }
-inline float PlayerInput_C_TO_S::rotation() const {
-  // @@protoc_insertion_point(field_get:Update_ShooterTest.PlayerInput_C_TO_S.rotation)
-  return _internal_rotation();
+inline float PlayerInput_C_TO_S::mousex() const {
+  // @@protoc_insertion_point(field_get:Update_ShooterTest.PlayerInput_C_TO_S.mouseX)
+  return _internal_mousex();
 }
-inline void PlayerInput_C_TO_S::_internal_set_rotation(float value) {
+inline void PlayerInput_C_TO_S::_internal_set_mousex(float value) {
   
-  rotation_ = value;
+  mousex_ = value;
 }
-inline void PlayerInput_C_TO_S::set_rotation(float value) {
-  _internal_set_rotation(value);
-  // @@protoc_insertion_point(field_set:Update_ShooterTest.PlayerInput_C_TO_S.rotation)
+inline void PlayerInput_C_TO_S::set_mousex(float value) {
+  _internal_set_mousex(value);
+  // @@protoc_insertion_point(field_set:Update_ShooterTest.PlayerInput_C_TO_S.mouseX)
 }
 
-// int32 id = 7;
-inline void PlayerInput_C_TO_S::clear_id() {
+// float mouseY = 7;
+inline void PlayerInput_C_TO_S::clear_mousey() {
+  mousey_ = 0;
+}
+inline float PlayerInput_C_TO_S::_internal_mousey() const {
+  return mousey_;
+}
+inline float PlayerInput_C_TO_S::mousey() const {
+  // @@protoc_insertion_point(field_get:Update_ShooterTest.PlayerInput_C_TO_S.mouseY)
+  return _internal_mousey();
+}
+inline void PlayerInput_C_TO_S::_internal_set_mousey(float value) {
+  
+  mousey_ = value;
+}
+inline void PlayerInput_C_TO_S::set_mousey(float value) {
+  _internal_set_mousey(value);
+  // @@protoc_insertion_point(field_set:Update_ShooterTest.PlayerInput_C_TO_S.mouseY)
+}
+
+// -------------------------------------------------------------------
+
+// PlayerInputs_C_TO_S
+
+// repeated .Update_ShooterTest.PlayerInput_C_TO_S inputs = 1;
+inline int PlayerInputs_C_TO_S::_internal_inputs_size() const {
+  return inputs_.size();
+}
+inline int PlayerInputs_C_TO_S::inputs_size() const {
+  return _internal_inputs_size();
+}
+inline void PlayerInputs_C_TO_S::clear_inputs() {
+  inputs_.Clear();
+}
+inline ::Update_ShooterTest::PlayerInput_C_TO_S* PlayerInputs_C_TO_S::mutable_inputs(int index) {
+  // @@protoc_insertion_point(field_mutable:Update_ShooterTest.PlayerInputs_C_TO_S.inputs)
+  return inputs_.Mutable(index);
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Update_ShooterTest::PlayerInput_C_TO_S >*
+PlayerInputs_C_TO_S::mutable_inputs() {
+  // @@protoc_insertion_point(field_mutable_list:Update_ShooterTest.PlayerInputs_C_TO_S.inputs)
+  return &inputs_;
+}
+inline const ::Update_ShooterTest::PlayerInput_C_TO_S& PlayerInputs_C_TO_S::_internal_inputs(int index) const {
+  return inputs_.Get(index);
+}
+inline const ::Update_ShooterTest::PlayerInput_C_TO_S& PlayerInputs_C_TO_S::inputs(int index) const {
+  // @@protoc_insertion_point(field_get:Update_ShooterTest.PlayerInputs_C_TO_S.inputs)
+  return _internal_inputs(index);
+}
+inline ::Update_ShooterTest::PlayerInput_C_TO_S* PlayerInputs_C_TO_S::_internal_add_inputs() {
+  return inputs_.Add();
+}
+inline ::Update_ShooterTest::PlayerInput_C_TO_S* PlayerInputs_C_TO_S::add_inputs() {
+  ::Update_ShooterTest::PlayerInput_C_TO_S* _add = _internal_add_inputs();
+  // @@protoc_insertion_point(field_add:Update_ShooterTest.PlayerInputs_C_TO_S.inputs)
+  return _add;
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Update_ShooterTest::PlayerInput_C_TO_S >&
+PlayerInputs_C_TO_S::inputs() const {
+  // @@protoc_insertion_point(field_list:Update_ShooterTest.PlayerInputs_C_TO_S.inputs)
+  return inputs_;
+}
+
+// int32 id = 2;
+inline void PlayerInputs_C_TO_S::clear_id() {
   id_ = 0;
 }
-inline ::PROTOBUF_NAMESPACE_ID::int32 PlayerInput_C_TO_S::_internal_id() const {
+inline ::PROTOBUF_NAMESPACE_ID::int32 PlayerInputs_C_TO_S::_internal_id() const {
   return id_;
 }
-inline ::PROTOBUF_NAMESPACE_ID::int32 PlayerInput_C_TO_S::id() const {
-  // @@protoc_insertion_point(field_get:Update_ShooterTest.PlayerInput_C_TO_S.id)
+inline ::PROTOBUF_NAMESPACE_ID::int32 PlayerInputs_C_TO_S::id() const {
+  // @@protoc_insertion_point(field_get:Update_ShooterTest.PlayerInputs_C_TO_S.id)
   return _internal_id();
 }
-inline void PlayerInput_C_TO_S::_internal_set_id(::PROTOBUF_NAMESPACE_ID::int32 value) {
+inline void PlayerInputs_C_TO_S::_internal_set_id(::PROTOBUF_NAMESPACE_ID::int32 value) {
   
   id_ = value;
 }
-inline void PlayerInput_C_TO_S::set_id(::PROTOBUF_NAMESPACE_ID::int32 value) {
+inline void PlayerInputs_C_TO_S::set_id(::PROTOBUF_NAMESPACE_ID::int32 value) {
   _internal_set_id(value);
-  // @@protoc_insertion_point(field_set:Update_ShooterTest.PlayerInput_C_TO_S.id)
+  // @@protoc_insertion_point(field_set:Update_ShooterTest.PlayerInputs_C_TO_S.id)
 }
 
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

@@ -25,17 +25,26 @@ public class GameManager_ShooterTest : Singleton<GameManager_ShooterTest>
 
     public bool prediction, reconciliation, compensation, interpolation;
 
-    [HideInInspector]public float tickRate;
+    [HideInInspector]public int tickRate;
 
     public float maxDiffPos , maxDiffRot;
 
-    private float lastTickTime, accumulateTime;
+    private double accumulateTime;
+    private double accumulateTimeForInterp;
+    private double time_;
+
     public bool updateHasBeenFull;
 
     public bool hasRecvFirstPacketFromServer;   //从收到第一个packet开始递增tick
 
-    private Stopwatch stopwatch = new Stopwatch();
-    
+    private double tmptime;
+
+    public double[] lastTimeRttPackageSent;
+    public int rttTimeReqCnt;
+
+    public Queue<double> rttTime;
+    public double TotalRttTime;   //  1s内的总值
+
 
     public void StartGame() {
         tickRate = InfoKeeper.Instance.tickRate;
@@ -43,30 +52,56 @@ public class GameManager_ShooterTest : Singleton<GameManager_ShooterTest>
         playerMap = new Dictionary<int, Player_ShooterTest>();
         updates = new Queue<UpdateShooterTest.UpdateInfo_S_TO_C>();
         interpList = new List<UpdateShooterTest.UpdateInfo_S_TO_C>();
-        lastTickTime = 0.0f;
+
+
         accumulateTime = 0.0f;
+        accumulateTimeForInterp = 0.0f;
+
+
         tickNum = 0;
         updateHasBeenFull = false;
 
-        stopwatch.Restart();
-    }
-    private void FixedUpdate() {
-        
+        tmptime = Time.realtimeSinceStartupAsDouble;
 
+        lastTimeRttPackageSent = new double[tickRate];
+        rttTimeReqCnt = 0;
+        rttTime = new Queue<double>();
+        TotalRttTime = 0.0f;
+
+        time_ = Time.realtimeSinceStartupAsDouble ;
+
+    }
+
+    private void GetAvgRttTime() {
+        ++rttTimeReqCnt;
+        lastTimeRttPackageSent[rttTimeReqCnt % tickRate] = Time.realtimeSinceStartupAsDouble;
+        ClientSend_ShooterTest.SendRttTimeMeasure(TotalRttTime / tickRate, rttTimeReqCnt);
     }
 
     private void Update() {
         if (!started) return;
 
+        //double curTime = Time.realtimeSinceStartupAsDouble;
         accumulateTime += Time.deltaTime;
-        
-        while(accumulateTime >= 1.0f/ tickRate) {
-            stopwatch.Stop();
-            //Debug.Log(stopwatch.ElapsedMilliseconds);
-            stopwatch.Restart();
+        //accumulateTime += curTime - time_;
+        //Debug.Log(Time.deltaTime+ " " + (curTime - time_) );
+        //time_ = curTime;
+
+        double timeStep = 1.0f / tickRate;
+        /*stopwatchForTick.Stop();
+        accumulateTime += stopwatchForTick.ElapsedMilliseconds * 0.001f;
+        stopwatchForTick.Restart();*/
+        while (accumulateTime >= timeStep) {
+
+            //获取延迟
+            GetAvgRttTime();
+
+            //double tmp = Time.realtimeSinceStartupAsDouble;
+            //Debug.Log(tmp - tmptime);
+            //tmptime = tmp;
 
             //lastTickTime = curTime;
-            accumulateTime -= 1.0f / tickRate;
+            accumulateTime -= timeStep;
             if (!started && localPlayer == null) return;
 
 
@@ -82,12 +117,13 @@ public class GameManager_ShooterTest : Singleton<GameManager_ShooterTest>
             HandleUpdatePacket(update);*/
 
             if (localPlayer != null) localPlayer.Update_();
-            Physics2D.Simulate(1.0f / tickRate);
+            //Physics2D.Simulate((float)timeStep);
             tickNum++;
 
             
         }
 
+        //Debug.Log(((float)(accumulateTime / timeStep)).ToString());
         //enity interpolation
         if (interpolation && interpList.Count >= 2) {
 
@@ -121,10 +157,11 @@ public class GameManager_ShooterTest : Singleton<GameManager_ShooterTest>
                         Vector2 posTo_ = playerState2_ != null ? playerState2_.pos : Vector2.zero;
                         float rotationTo_ = playerState2_ != null ? playerState2_.rotation : 0;
 
+
                         //float lerp = (curTime - lastTickTime) / (1.0f / tickRate);
-                        float lerp_ = accumulateTime / (1.0f / tickRate);
+                        float lerp_ = (float)(accumulateTime / timeStep);
                         if (lerp_ > 1) lerp_ = 1;
-                        float lerpRot_ = Mathf.Lerp(rotationFrom_, rotationTo_, lerp_);
+                        float lerpRot_ = Mathf.Lerp(rotationFrom_, rotationTo_, 1);
                         Vector2 lerpPos_ = Vector2.Lerp(posFrom_, posTo_, lerp_);
                         //Debug.Log($"state1: ({posFrom.x}, {posFrom.y})  state2:({posTo.x}, {posTo.y}) ");
                         localPlayer?.SetTrans(lerpPos_.x, lerpPos_.y, lerpRot_);
@@ -141,12 +178,13 @@ public class GameManager_ShooterTest : Singleton<GameManager_ShooterTest>
                 Vector2 posTo = playerState2 != null ? new Vector2(playerState2.X, playerState2.Y) : Vector2.zero;
                 float rotationTo = playerState2 != null ? playerState2.Angle : 0;
 
+
                 //float lerp = (curTime - lastTickTime) / (1.0f / tickRate);
-                float lerp = accumulateTime / (1.0f / tickRate);
+                float lerp = (float)(accumulateTime / timeStep);
                 if (lerp > 1) lerp = 1;
                 /*float lerpX = Mathf.Lerp(posFrom.x, posTo.x, lerp);
                 float lerpY = Mathf.Lerp(posFrom.y, posTo.y, lerp);*/
-                float lerpRot = Mathf.Lerp(rotationFrom, rotationTo, lerp);
+                float lerpRot = Mathf.Lerp(rotationFrom, rotationTo, 1);
                 Vector2 lerpPos = Vector2.Lerp(posFrom, posTo, lerp);
                 //Debug.Log($"state1: ({posFrom.x}, {posFrom.y})  state2:({posTo.x}, {posTo.y}) ");
                 player.SetTrans(lerpPos.x, lerpPos.y, lerpRot);
@@ -179,6 +217,12 @@ public class GameManager_ShooterTest : Singleton<GameManager_ShooterTest>
         
     }
 
+    public void DelPlayer(int id) {
+        var player = GetPlayerByID(id);
+        playerMap.Remove(id);
+        Destroy(player.gameObject);
+    }
+
     public Player_ShooterTest GetPlayerByID(int id) {
         Player_ShooterTest player = null;
         playerMap.TryGetValue(id, out player);
@@ -206,8 +250,11 @@ public class GameManager_ShooterTest : Singleton<GameManager_ShooterTest>
             Physics2D.Simulate(1.0f/tickRate);
             comfirmTick++;
             states[comfirmTick % 1024] = localPlayer.GenerateCurrentPlayerState();
-
+            localPlayer.ZeroSpeed();
         }
+
+        localPlayer.previous = states[(comfirmTick - 1) % 1024];
+        localPlayer.current = states[(comfirmTick) % 1024];
         Debug.Log("reconcile tick " + tmp.ToString() + " to tick " + tickNum.ToString());
     }
 
@@ -221,11 +268,10 @@ public class GameManager_ShooterTest : Singleton<GameManager_ShooterTest>
         //tick+1为当前正在进行的一个tick
         interpList.Add(msg);
         if (interpList.Count > 0) {
-            while (localPlayer != null &&interpList.Count > 0 && interpList[0].LastProcessedFrameID < localPlayer.lastProcessedTickNum - interpRatio - 1) 
+            //保留interRatio + 1个状态用于插值， 插值时间interpRatio / tickRate
+            while (localPlayer != null &&interpList.Count > 0 && interpList[0].LastProcessedFrameID < localPlayer.lastProcessedTickNum - interpRatio + 1) 
                 interpList.Remove(interpList[0]);
         }
-        
-
 
         PlayerStates_ShooterTest state = null ;
         if(localPlayer != null) state = localPlayer.statesList[(frameID + 1) % 1024];

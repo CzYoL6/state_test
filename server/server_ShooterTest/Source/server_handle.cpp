@@ -1,16 +1,18 @@
 #include "server_handle.h"
 #include "server_send.h"
 
-void SERVER_HANDLE::HandlePlayerInput(int id, char *buf, int sze) {
-    //std::cout << "handling player input..." << std::endl;
-    Update_ShooterTest::PlayerInput_C_TO_S newMsg;
+void SERVER_HANDLE::HandlePlayerInputs(int id, char *buf, int sze) {
+    //std::cout << "handling player inputs..." << std::endl;
+    Update_ShooterTest::PlayerInputs_C_TO_S newMsg;
     if (!newMsg.ParseFromArray(buf, sze))
         return;
     //std::cout << "parse finished..." << std::endl;
     //std::cout << conv << " " << newMsg.id() << std::endl;
-    Player* player = Game::GetInstance().GetPlayerBySlotid(id);
+    auto player = Game::GetInstance().GetPlayerBySlotid(id);
     // if(player->GetPlayerInputQueue()->size() < 4)
-    player->AddToPlayerInputQueue(newMsg);
+
+    std::lock_guard<std::mutex> l(Game::GetInstance().inputBufferMutex);
+    player->TryAddToPlayerInputQueue(newMsg);
 }
 
 
@@ -18,7 +20,7 @@ void SERVER_HANDLE::HandlePlayerNickname(int id, char *buf, int sze){
     Update_ShooterTest::PlayerNickname_C_TO_S newMsg;
     if(!newMsg.ParseFromArray(buf, sze)) return;
 
-    Player* player = Game::GetInstance().GetPlayerBySlotid(id);
+    auto player = Game::GetInstance().GetPlayerBySlotid(id);
 
     player->SetNickname(newMsg.nickname());
     printf("player %d's nickname set to %s\n", id, newMsg.nickname().c_str());
@@ -66,4 +68,18 @@ void SERVER_HANDLE::HandlePlayerNickname(int id, char *buf, int sze){
         delete packet;
         packet = nullptr;
     }
+}
+void SERVER_HANDLE::HandleRttTimeMeasure(int id, char *buf, int sze) {
+    Update_ShooterTest::RttMeasure_C_TO_S newMsg;
+    if(!newMsg.ParseFromArray(buf, sze)) return;
+
+    int reqId = newMsg.packetid();
+    double avgRttTime = newMsg.rtttime();
+    auto player = Game::GetInstance().GetPlayerBySlotid(id);
+    {
+        std::lock_guard<std::mutex> l(player->avgRttTimeMutex);
+        player->SetAvgRttTime(avgRttTime);
+    }
+    printf("reqId: %d, avgRttTime: %lf\n", reqId, avgRttTime);
+    SERVER_SEND::RttTimeMeasure(id, reqId);
 }

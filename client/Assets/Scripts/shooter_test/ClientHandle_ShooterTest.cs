@@ -14,7 +14,9 @@ public class ClientHandle_ShooterTest : MonoBehaviour
         //Debug.Log($"Update info.");
         //Debug.Log("UnreadLenght: " + _packet.UnreadLength());
         UpdateShooterTest.UpdateInfo_S_TO_C msg = UpdateShooterTest.UpdateInfo_S_TO_C.Parser.ParseFrom(_packet.ReadBytes(_packet.UnreadLength()));
+        
         GameManager_ShooterTest.Instance.updates.Enqueue(msg);
+        //Debug.Log(System.DateTime.Now.Millisecond - GameManager_ShooterTest.Instance.localPlayer.inputsList[msg.LastProcessedFrameID % 1024].timeStampInMs);
         //TODO: 根据inputbuffer调整tickrate
 
     }
@@ -45,6 +47,33 @@ public class ClientHandle_ShooterTest : MonoBehaviour
         Debug.Log($"receive spawn player message from server. slot id:{slotid}, nickname:{nickname}, pos:({pos.x},{pos.y}), angle:{rotation}");
 
         GameManager_ShooterTest.Instance.AddPlayer(slotid, pos, rotation);
+
+    }
+
+    public static void PlayerLeft(Packet _packet) {
+        UpdateShooterTest.PlayerLeft_S_TO_C msg = UpdateShooterTest.PlayerLeft_S_TO_C.Parser.ParseFrom(_packet.ReadBytes(_packet.UnreadLength()));
+        int slotid = msg.Slotid;
+        Debug.Log($"player {slotid} left.");
+
+        GameManager_ShooterTest.Instance.DelPlayer(slotid);
+
+    }
+
+    public static void RttTimeMeasure(Packet _packet) {
+        UpdateShooterTest.RttMeasure_S_TO_C msg = UpdateShooterTest.RttMeasure_S_TO_C.Parser.ParseFrom(_packet.ReadBytes(_packet.UnreadLength()));
+        int reqId = msg.PacketId;
+        double rtt = Time.realtimeSinceStartupAsDouble - GameManager_ShooterTest.Instance.lastTimeRttPackageSent[reqId % GameManager_ShooterTest.Instance.tickRate];
+        GameManager_ShooterTest.Instance.TotalRttTime += rtt;
+        GameManager_ShooterTest.Instance.rttTime.Enqueue(rtt);
+        while (GameManager_ShooterTest.Instance.rttTime.Count > GameManager_ShooterTest.Instance.tickRate)
+            GameManager_ShooterTest.Instance.TotalRttTime -= GameManager_ShooterTest.Instance.rttTime.Dequeue();
+        double avgRttTime = (GameManager_ShooterTest.Instance.TotalRttTime / GameManager_ShooterTest.Instance.rttTime.Count);
+        Debug.Log("rttTime: " + rtt + " avgTime: " + avgRttTime);
+
+
+        UIManager.Instance.rttTimeText.SetText(((int)(avgRttTime * 1000)).ToString());
+
+        //ClientSend_ShooterTest.SendRttTimeMeasure(GameManager_ShooterTest.Instance.rttTime, ++GameManager_ShooterTest.Instance.rttTimeReqCnt);
 
     }
 }

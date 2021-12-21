@@ -9,7 +9,7 @@ public class Test : MonoBehaviour
     public int port;
     void Start()
     {
-        Application.targetFrameRate = 60;
+        //Application.targetFrameRate = 60;
         Init();
         DontDestroyOnLoad(this);
         /*Client.instance.ConnectToServer(host, port);*/

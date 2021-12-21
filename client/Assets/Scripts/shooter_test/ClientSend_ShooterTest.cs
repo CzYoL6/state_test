@@ -22,20 +22,25 @@ public class ClientSend_ShooterTest : MonoBehaviour
 
     #region Packets
 
-    public static void SendLocalPlayerInput(PlayerInput_ShooterTest input, float derivedRotation) {
-
-        var msg = new UpdateShooterTest.PlayerInput_C_TO_S {
-            W = input.w_Pressed,
-            S = input.s_Pressed,
-            A = input.a_Pressed,
-            D = input.d_Pressed,
-            FrameID = input.tickNum,
-            Rotation = derivedRotation,
-            Id = GameManager_ShooterTest.Instance.localPlayerID
-        };
+    public static void SendLocalPlayerInputs() {
+        var msg = new UpdateShooterTest.PlayerInputs_C_TO_S();
+        msg.Id = GameManager_ShooterTest.Instance.localPlayerID;
+        foreach(var i in GameManager_ShooterTest.Instance.localPlayer.inputsToSend) {
+            var newInput = new UpdateShooterTest.PlayerInput_C_TO_S {
+                W = i.w_Pressed,
+                S = i.s_Pressed,
+                A = i.a_Pressed,
+                D = i.d_Pressed,
+                FrameID = i.tickNum,
+                MouseX = i.mousePos.x,
+                MouseY = i.mousePos.y
+            };
+            msg.Inputs.Add(newInput);
+        }
+        
 
         //SendTCPData(_packet);
-        using(Packet packet = new Packet((int)UpdateShooterTest.TYPE.PlayerInputCToS)) {
+        using(Packet packet = new Packet((int)UpdateShooterTest.TYPE.PlayerInputsCToS)) {
             packet.Write(msg.ToByteArray());
             //Debug.Log("sending player input msg, len:" + packet.Length());
             SendUDPData(packet);
@@ -56,7 +61,20 @@ public class ClientSend_ShooterTest : MonoBehaviour
             SendTCPData(packet);
         }
     }
-    
+
+    public static void SendRttTimeMeasure(double rttTime, int reqId) {
+       
+        var msg = new UpdateShooterTest.RttMeasure_C_TO_S {
+            RttTime = rttTime,
+            PacketId = reqId
+        };
+
+        //SendTCPData(_packet);
+        using (Packet packet = new Packet((int)UpdateShooterTest.TYPE.RttMeasureCToS)) {
+            packet.Write(msg.ToByteArray());
+            SendUDPData(packet);
+        }
+    }
 
     #endregion
 

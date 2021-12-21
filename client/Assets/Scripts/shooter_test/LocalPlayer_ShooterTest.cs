@@ -6,6 +6,7 @@ public class LocalPlayer_ShooterTest : Player_ShooterTest
 {
     public PlayerStates_ShooterTest[] statesList;
     public PlayerInput_ShooterTest[] inputsList;
+    public Queue<PlayerInput_ShooterTest> inputsToSend;
 
     public int lastProcessedTickNum;
 
@@ -18,6 +19,7 @@ public class LocalPlayer_ShooterTest : Player_ShooterTest
         movement = GetComponent<PlayerMovement_ShooterTest>();
         statesList = new  PlayerStates_ShooterTest[1024];
         inputsList = new PlayerInput_ShooterTest[1024];
+        inputsToSend = new Queue<PlayerInput_ShooterTest>();
         shadow = GameObject.Find("Shadow");
         previous = null;
         current = null;
@@ -38,6 +40,9 @@ public class LocalPlayer_ShooterTest : Player_ShooterTest
         if (GameManager_ShooterTest.Instance.prediction) {
             if(current != null) SetTrans(current.pos.x, current.pos.y, current.rotation);
             ApplyInput(input);
+
+            Physics2D.Simulate(1.0f / GameManager_ShooterTest.Instance.tickRate);
+
             previous = current;
             current = GenerateCurrentPlayerState();
         }
@@ -46,11 +51,21 @@ public class LocalPlayer_ShooterTest : Player_ShooterTest
 
         inputsList[GameManager_ShooterTest.Instance.tickNum % 1024] = (input);
 
-        
+        //send all unacknowledged inputs to server
+        inputsToSend.Enqueue(input);
+        while(inputsToSend.Count > 0) {
+            PlayerInput_ShooterTest i = inputsToSend.Peek();
+            if (i.tickNum <= lastProcessedTickNum) inputsToSend.Dequeue();
+            else break;
+        }
 
+        /*string s = "";
+        foreach (var x in inputsToSend) {
+            s += x.tickNum + " ";
+        }
+        Debug.Log(s);*/
 
-        //send
-        ClientSend_ShooterTest.SendLocalPlayerInput(input, MathHelper.TwoPoints2Degree(input.mousePos, movement.GetPos()));
+        ClientSend_ShooterTest.SendLocalPlayerInputs();
     }
 
     public override void ApplyInput(PlayerInput_ShooterTest input) {

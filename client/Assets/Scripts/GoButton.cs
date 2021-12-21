@@ -24,7 +24,7 @@ public class GoButton : MonoBehaviour
     public void Go() {
         InfoKeeper.Instance.ip = ipIF.text;
         InfoKeeper.Instance.port = int.Parse(portIF.text);
-        InfoKeeper.Instance.tickRate = float.Parse(tickIF.text);
+        InfoKeeper.Instance.tickRate = int.Parse(tickIF.text);
         SceneManager.LoadScene(2);
     }
 }

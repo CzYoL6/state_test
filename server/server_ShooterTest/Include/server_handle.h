@@ -10,7 +10,9 @@ namespace SERVER_HANDLE {
 
 void HandlePlayerNickname(int id, char *buf, int sze);
 
-void HandlePlayerInput(int id, char *buf, int sze) ;
+void HandlePlayerInputs(int id, char *buf, int sze) ;
+
+void HandleRttTimeMeasure(int id, char *buf, int sze) ;
 
 }; // namespace SERVER_HANDLE
 

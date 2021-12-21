@@ -5,7 +5,7 @@
 
 
 Server::Server() {
-    message_handler = new std::map<Update_ShooterTest::TYPE, MESSAGE_HANDLER>;
+    message_handler = std::make_unique<std::map<Update_ShooterTest::TYPE, MESSAGE_HANDLER>>();
     tcp_listen_socket = udp_server_socket = -1;
     memset(&tcp_listen_addr, 0, sizeof(tcp_listen_addr));
     memset(&udp_server_addr, 0, sizeof(udp_server_addr));
@@ -22,13 +22,11 @@ Server::Server() {
 
 Server::~Server() {
     printf("destructing server...\n");
-    if(events != nullptr) delete[] events;
-    if(message_handler != nullptr) delete message_handler;
-    for(auto iter : client_map_socket_to_client){
-        delete iter.second;
-
-    }
     Close();
+    if(events != nullptr) {
+        delete[] events;
+        events = nullptr;
+    }
     printf("server destructed.\n");
 }
 
@@ -137,13 +135,13 @@ void Server::OnNewConnection(int socket, const sockaddr_in &addr){
     int i;
     for(i = 1; i <= Game::GetInstance().GetMaxPlayerCnt(); i++){
         if(Game::GetInstance().GetPlayerBySlotid(i) == nullptr){
-            Player* new_player = Game::GetInstance().AddPlayer(socket, i);
+            auto new_player = Game::GetInstance().AddPlayer(socket, i);
             Game::GetInstance().SetSlot(i, new_player);
             break;
         }
     }
      //create a new client, and player
-    Client* new_client = new Client(i);
+    std::shared_ptr<Client> new_client = std::make_shared<Client>(i);
     client_map_socket_to_client[socket] = new_client;
     new_client->SetUdpClientAddr(addr);
     client_map_sockaddrin_to_client.insert({MY_ADDR(addr), new_client});
@@ -159,15 +157,14 @@ void Server::OnNewConnection(int socket, const sockaddr_in &addr){
 void Server::OnConnectionClose(int socket){    
     //delete the player
     printf("deleting associated objects.\n");
-    Client *client = client_map_socket_to_client[socket];
+    auto client = client_map_socket_to_client[socket];
     client_map_sockaddrin_to_client.erase(MY_ADDR(*(client->GetUdpClientAddr())));
-    delete client;
+    // delete client;
     client_map_socket_to_client.erase(socket);
 
     int slotid = Game::GetInstance().GetSlotidBySocket(socket);
 
     Game::GetInstance().DelPlayerBySlotidAndSocket(slotid, socket);
-
 
     if(Game::GetInstance().GetPlayerCount()== 0) Game::GetInstance().StopGame();
 }
@@ -241,8 +238,21 @@ void Server::Poll(){
                     }
                     else{
                         //printf("received %d bytes from udp. trying to parse.\n", ret);
-                        Client* client = client_map_sockaddrin_to_client[udp_cli_addr];
-                        ParsePacket(client->GetId(), tmp_buf, ret);
+                        auto client = client_map_sockaddrin_to_client[udp_cli_addr];
+                        if(client == nullptr) 
+                            printf("no such client.\n");
+                        else {
+                            // char udp_cli_addr_str[1024];
+                            // memset(udp_cli_addr_str, 0, sizeof(udp_cli_addr_str));
+                            // int new_cli_port_number = ntohs(udp_cli_addr.sin_port);
+                            // if(inet_ntop(AF_INET, &udp_cli_addr.sin_addr, udp_cli_addr_str, sizeof(udp_cli_addr_str)) ==  nullptr){
+                            //     perror("error getting ip address through inet_ntop.\n");
+                            //     running = false;
+                            // }
+                            // printf("received udp packet from %s:%d\n", udp_cli_addr_str, new_cli_port_number);
+                            ParsePacket(client->GetId(), tmp_buf, ret);
+
+                        }
                     }
                 }
             }
@@ -276,7 +286,10 @@ void Server::Poll(){
                         }
                         else{
                             //printf("received %d bytes from tcp. added to buffer. trying to parse.\n", ret);
-                            client_map_socket_to_client[fd]->AddToTcpRecvBuffer(tmp_buf, ret);
+                            {
+                                std::lock_guard<std::mutex> l(client_map_socket_to_client[fd]->recv_mutex);
+                                client_map_socket_to_client[fd]->AddToTcpRecvBuffer(tmp_buf, ret);
+                            }
                             client_map_socket_to_client[fd]->TryHandleMessage();
                         }
                         //adding the data to the circle buffer
@@ -288,9 +301,13 @@ void Server::Poll(){
 
                 if(event & EPOLLOUT){
                     char tmp_buf[2048];
-                    auto send_buffer = client_map_socket_to_client[fd]->tcp_send_buffer;
-
-                    int sze_to_send = send_buffer->Read(tmp_buf, send_buffer->GetLength());
+                    int sze_to_send;
+                    {
+                        std::lock_guard<std::mutex> l(client_map_socket_to_client[fd]->send_mutex);
+                        auto &send_buffer = client_map_socket_to_client[fd]->tcp_send_buffer;
+                        sze_to_send = send_buffer->Read(tmp_buf, send_buffer->GetLength());
+                    }
+                
                     SendThroughTcp(fd, tmp_buf, sze_to_send, false);
 
                 }
@@ -335,7 +352,8 @@ void  Server::Close(){
 
 void Server::InitMessageHandler(){
     message_handler->insert({Update_ShooterTest::TYPE::playerNickname_C_TO_S, &SERVER_HANDLE::HandlePlayerNickname});
-    message_handler->insert({Update_ShooterTest::TYPE::playerInput_C_TO_S, &SERVER_HANDLE::HandlePlayerInput});
+    message_handler->insert({Update_ShooterTest::TYPE::playerInputs_C_TO_S, &SERVER_HANDLE::HandlePlayerInputs});
+    message_handler->insert({Update_ShooterTest::TYPE::rttMeasure_C_TO_S, &SERVER_HANDLE::HandleRttTimeMeasure});
     printf("message handlers initiated.\n");
 }
 
@@ -346,6 +364,7 @@ resend:
     if(ret == -1){
         if(errno == EINTR)  goto resend;
         else if(errno == EWOULDBLOCK) {
+            std::lock_guard<std::mutex> l(client_map_socket_to_client[socket]->send_mutex);
             client_map_socket_to_client[socket]->AddToTcpSendBuffer(buf, len);
             ModEpollEvent(socket, EPOLLIN | EPOLLOUT | EPOLLET);
         }

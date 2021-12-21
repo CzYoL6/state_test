@@ -17,7 +17,14 @@
 
 void signal_exit(int signum){
     printf("\nserver terminated. \n");
+    Server::GetInstance().Stop();
     exit(0);
+}
+
+void ServerPoll(){
+    while(Server::GetInstance().IsRunning()){
+        Server::GetInstance().Poll();
+    }
 }
 
 int main(int argc, char **argv) {
@@ -31,15 +38,14 @@ int main(int argc, char **argv) {
 
     // while(1);
 
+    std::thread t(ServerPoll);
 
     while (Server::GetInstance().IsRunning()) {
-        Server::GetInstance().Poll();
-
         if (Game::GetInstance().HasStarted()) {
             Game::GetInstance().Update();
-            
         }
     }
 
+    if(t.joinable()) t.join();
     return 0;
 }

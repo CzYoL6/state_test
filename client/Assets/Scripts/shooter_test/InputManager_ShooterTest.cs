@@ -15,6 +15,8 @@ public class InputManager_ShooterTest : Singleton<InputManager_ShooterTest>
         //Debug.Log("wasd:" + w.ToString() + a.ToString() + s.ToString() + d.ToString());
 
         PlayerInput_ShooterTest i = new PlayerInput_ShooterTest(w, s, a, d, mousePos.x, mousePos.y, GameManager_ShooterTest.Instance.tickNum);
+        int timeStampInMs = System.DateTime.Now.Millisecond;
+        i.timeStampInMs = timeStampInMs;
         return i;
 
     }

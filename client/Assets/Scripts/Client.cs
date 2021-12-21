@@ -220,12 +220,7 @@ public class Client : MonoBehaviour {
                 byte[] _data = socket.EndReceive(_result, ref endPoint);
                 socket.BeginReceive(ReceiveCallback, null);
 
-                if (_data.Length < 4) {
-                    instance.Disconnect();
-                    return;
-                }
-
-                HandleData(_data);
+                HandleData(_data,false);
             }
             catch(Exception e) {
                 Debug.Log($"Error receiving data to server via UDP: {e}");
@@ -272,6 +267,8 @@ public class Client : MonoBehaviour {
             {UpdateShooterTest.TYPE.WelcomeSToC, ClientHandle_ShooterTest.Welcome },
             {UpdateShooterTest.TYPE.SpawnPlayerSToC, ClientHandle_ShooterTest.SpawnPlayer },
             {UpdateShooterTest.TYPE.UpdateInfoSToC, ClientHandle_ShooterTest.UpdateInfo },
+            {UpdateShooterTest.TYPE.PlayerLeftSToC, ClientHandle_ShooterTest.PlayerLeft },
+            {UpdateShooterTest.TYPE.RttMeasureSToC, ClientHandle_ShooterTest.RttTimeMeasure },
         };
         Debug.Log("Initialized packets.");
     }

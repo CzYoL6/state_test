@@ -12,9 +12,39 @@ enum TYPE{
     playerInput_C_TO_S = 4;
     spawnPlayer_S_TO_C = 5;
     startGame_S_TO_C = 6;
+    playerLeft_S_TO_C = 7;
+    playerInputs_C_TO_S = 8;
+
+
+    rttMeasure_C_TO_S = 9;
+    rttMeasure_S_TO_C = 10;
+    hitAcknowledged_S_TO_C = 11;
+}
+
+message RttMeasure_C_TO_S{
+    int32 packetId = 1;
+    double rttTime = 2;
+}
+message RttMeasure_S_TO_C{
+    int32 packetId = 1;
+}
+
+message HitAcknowledged_S_TO_C{
+    int32 attacker_slotid = 1;
+    int32 enemy_slotid = 2;
+    int32 damage = 3;
+    bool dead = 4;
+    //debug:
+    float e_pos_x = 5;
+    float e_pos_y = 6;
+    float e_rot =  7;
 }
 
 message Welcome_S_TO_C{
+    int32 slotid = 1;
+}
+
+message PlayerLeft_S_TO_C{
     int32 slotid = 1;
 }
 
@@ -54,6 +84,12 @@ message PlayerInput_C_TO_S{
     bool s = 3;
     bool a = 4;
     bool d = 5;
-    float rotation = 6;
-    int32 id=7;
+    // float rotation = 6;
+    float mouseX = 6;
+    float mouseY = 7;
+}
+
+message PlayerInputs_C_TO_S{
+    repeated PlayerInput_C_TO_S inputs = 1;
+    int32 id = 2;
 }

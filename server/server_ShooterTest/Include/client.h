@@ -3,6 +3,7 @@
 
 #include "circle_buffer.hpp"
 #include "server.h"
+#include <mutex>
 
 class Client{
 
@@ -17,10 +18,13 @@ public:
     void SetUdpClientAddr(const sockaddr_in& addr);
     sockaddr_in* GetUdpClientAddr(){ return &udp_client_addr;}
     int GetId(){return  id;}
-    bool TryHandleMessage();
+    void TryHandleMessage();
+    std::mutex recv_mutex;
+    std::mutex send_mutex;
+
 private:
-    CircleBuffer<char> *tcp_recv_buffer;
-    CircleBuffer<char> *tcp_send_buffer;
+    std::unique_ptr<CircleBuffer<char>> tcp_recv_buffer;
+    std::unique_ptr<CircleBuffer<char>> tcp_send_buffer;
     sockaddr_in udp_client_addr;
     int id;
 };
