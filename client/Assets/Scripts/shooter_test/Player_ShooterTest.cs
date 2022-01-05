@@ -58,6 +58,7 @@ public class Player_ShooterTest : MonoBehaviour
 
         movement.RotateToPoint(input.mousePos);
 
+        
         //Debug.Log(input.w_Pressed.ToString() + input.s_Pressed.ToString() + input.a_Pressed.ToString() + input.d_Pressed.ToString() + " " + moveVec.x + " " + moveVec.y);
 
     }

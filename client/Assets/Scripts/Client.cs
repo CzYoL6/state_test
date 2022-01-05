@@ -186,11 +186,12 @@ public class Client : MonoBehaviour {
 
         /// <summary>Attempts to connect to the server via UDP.</summary>
         /// <param name="_localPort">The port number to bind the UDP socket to.</param>
-        public void Connect(int _localPort) {
-            socket = new UdpClient(_localPort);
+        public void Connect(IPAddress ip, int port) {
+            IPEndPoint udpend = new IPEndPoint(ip, port);
+            socket = new UdpClient(udpend);
             endPoint = new IPEndPoint(IPAddress.Parse(instance.ip), instance.port);
             socket.Connect(endPoint);
-            Debug.Log(socket.Client.LocalEndPoint + " " + socket.Client.RemoteEndPoint + " " + endPoint);
+            Debug.Log("udp: " + socket.Client.LocalEndPoint + ", tcp: " + Client.instance.tcp.socket.Client.LocalEndPoint);
             socket.BeginReceive(ReceiveCallback, null);
 
             //Debug.Log("successfully set udp connection.\n");
@@ -269,6 +270,7 @@ public class Client : MonoBehaviour {
             {UpdateShooterTest.TYPE.UpdateInfoSToC, ClientHandle_ShooterTest.UpdateInfo },
             {UpdateShooterTest.TYPE.PlayerLeftSToC, ClientHandle_ShooterTest.PlayerLeft },
             {UpdateShooterTest.TYPE.RttMeasureSToC, ClientHandle_ShooterTest.RttTimeMeasure },
+            {UpdateShooterTest.TYPE.HitAcknowledgedSToC, ClientHandle_ShooterTest.HitInfo },
         };
         Debug.Log("Initialized packets.");
     }

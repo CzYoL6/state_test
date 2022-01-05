@@ -18,6 +18,7 @@
 #include<functional>
 #include "client.h"
 #include "singleton.h"
+#include <mutex>
 
 class Client;
 
@@ -33,55 +34,67 @@ struct MY_ADDR{
         if(addr1.ip != addr2.ip) return addr1.ip < addr2.ip;
         return addr1.port < addr2.port;
     }
+    friend const bool operator == (const MY_ADDR& addr1, const MY_ADDR& addr2) {
+        if(addr1.ip != addr2.ip) return false;
+        if(addr1.port != addr2.port) return false;
+        return true;
+    }
+    
 };
 
 class Server : public Singleton<Server>{
 public:
-    Server();
-    ~Server();
-    void Close();
+    std::mutex                                          server_mutex;
+                                                        Server();
+                                                        ~Server();
+    void                                                Close();
     //start the server
-    void Start(const char* tcp_ip, int tcp_port, const char *udp_ip, int udp_port);
-    
+    void                                                Start(const char* tcp_ip, int tcp_port, const char *udp_ip, int udp_port);
     //this will be used in a thread
-    void Poll();
-    bool ParsePacket(int id, char *buf, int len);
+    void                                                Poll();
 
+    bool                                                ParsePacket(int id, char *buf, int len);
     //add the data into the send buffer
-    void SendThroughTcp(int socket, char *buf, int len, bool first_attempt); 
-    
+    void                                                SendThroughTcp(int socket, char *buf, int len, bool first_attempt); 
     //directly send via udp. find the addr associated with the tcp socket
-    void SengThroughUdp(int socket, char *buf, int len);
+    void                                                SendThroughUdp(int socket, char *buf, int len);
 
-    bool IsRunning() const {return running;}
+    bool                                                IsRunning() const {return running;}
     
-    void Stop() {running = false;}
+    void                                                Stop() {running = false;}
 
 private:
-    std::map<int, std::shared_ptr<Client>> client_map_socket_to_client;
-    std::map<MY_ADDR, std::shared_ptr<Client>> client_map_sockaddrin_to_client;
+    std::map<int, std::shared_ptr<Client>>              client_map_socket_to_client;
 
-    int  SetNonBlockingMode(int socket);
+    std::map<MY_ADDR, std::shared_ptr<Client>>          client_map_sockaddrin_to_client;
 
+    int                                                 SetNonBlockingMode(int socket);
     //tcp
-    int tcp_listen_socket;
-    sockaddr_in tcp_listen_addr;
-    void SetUpTcpServer(const char *tcp_ip, int tcp_port);
+    int                                                 tcp_listen_socket;
 
+    sockaddr_in                                         tcp_listen_addr;
+
+    void                                                SetUpTcpServer(const char *tcp_ip, int tcp_port);
     //udp
-    int udp_server_socket;
-    sockaddr_in udp_server_addr;
-    void SetUpUdpServer(const char *udp_ip, int udp_port);
+    int                                                 udp_server_socket;
 
+    sockaddr_in                                         udp_server_addr;
+
+    void                                                SetUpUdpServer(const char *udp_ip, int udp_port);
     //epoll
-    int epollfd;
-    epoll_event* events;
-    void AddEpollEvent(int fd, uint epollevent);
-    void DelEpollEvent(int fd);
-    void ModEpollEvent(int fd, uint epollevent);
-    void SetUpEpoll();
+    int                                                 epollfd;
 
-    bool running;
+    epoll_event*                                        events;
+
+    void                                                AddEpollEvent(int fd, uint epollevent);
+
+    void                                                DelEpollEvent(int fd);
+
+    void                                                ModEpollEvent(int fd, uint epollevent);
+
+    void                                                SetUpEpoll();
+
+    bool                                                running;
 
     typedef void (*MESSAGE_HANDLER)(int, char*, int); //id buf len
     //a dictionary for message handler
@@ -89,12 +102,11 @@ private:
     std::unique_ptr<std::map<Update_ShooterTest::TYPE, MESSAGE_HANDLER>> message_handler;
 
     //init all message handler
-    void InitMessageHandler();
-
+    void                                                InitMessageHandler();
     //called when new connection is established
-    void OnNewConnection(int socket, const sockaddr_in &addr);
+    void                                                OnNewConnection(int socket, const sockaddr_in &addr);
     //called when connection closed
-    void OnConnectionClose(int socket);
+    void                                                OnConnectionClose(int socket);
 
 };
 

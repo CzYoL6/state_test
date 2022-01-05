@@ -19,13 +19,16 @@ public:
     sockaddr_in* GetUdpClientAddr(){ return &udp_client_addr;}
     int GetId(){return  id;}
     void TryHandleMessage();
-    std::mutex recv_mutex;
-    std::mutex send_mutex;
+    void SetUdpAddrInitialized(bool t){ udp_addr_initialized = t;}
+    bool HasUdpAddrInitialized(){return udp_addr_initialized;}
+    // std::mutex recv_buffer_mutex;
+    // std::mutex send_buffer_mutex;
 
 private:
     std::unique_ptr<CircleBuffer<char>> tcp_recv_buffer;
     std::unique_ptr<CircleBuffer<char>> tcp_send_buffer;
     sockaddr_in udp_client_addr;
+    bool udp_addr_initialized;
     int id;
 };
 

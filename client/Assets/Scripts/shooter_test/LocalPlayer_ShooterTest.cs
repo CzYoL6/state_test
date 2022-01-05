@@ -34,8 +34,13 @@ public class LocalPlayer_ShooterTest : Player_ShooterTest
         PlayerInput_ShooterTest input = InputManager_ShooterTest.Instance.SampleInput();
 
         //Debug.Log("!" + input.w_Pressed.ToString() + input.s_Pressed.ToString() + input.a_Pressed.ToString() + input.d_Pressed.ToString());
+        if (input.mouseDown) {
+            Vector2 dir = input.mousePos - GetPos();
+            Debug.DrawLine(GetPos(), GetPos() + dir * 100);
+            GameManager_ShooterTest.Instance.hitInfoDebugger.GetComponent<LineRenderer>().SetPosition(0, GetPos());
+            GameManager_ShooterTest.Instance.hitInfoDebugger.GetComponent<LineRenderer>().SetPosition(1, GetPos() + dir * 5);
+        }
 
-        
         //predict
         if (GameManager_ShooterTest.Instance.prediction) {
             if(current != null) SetTrans(current.pos.x, current.pos.y, current.rotation);
@@ -70,7 +75,10 @@ public class LocalPlayer_ShooterTest : Player_ShooterTest
 
     public override void ApplyInput(PlayerInput_ShooterTest input) {
         base.ApplyInput(input);
+
         
+
+
     }
 
     public void SetShodowTrans(Vector2 pos, float rotation) {

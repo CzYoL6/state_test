@@ -569,6 +569,9 @@ class HitAcknowledged_S_TO_C final :
     kEPosXFieldNumber = 5,
     kEPosYFieldNumber = 6,
     kERotFieldNumber = 7,
+    kAPosXFieldNumber = 8,
+    kAPosYFieldNumber = 9,
+    kARotFieldNumber = 10,
   };
   // int32 attacker_slotid = 1;
   void clear_attacker_slotid();
@@ -633,6 +636,33 @@ class HitAcknowledged_S_TO_C final :
   void _internal_set_e_rot(float value);
   public:
 
+  // float a_pos_x = 8;
+  void clear_a_pos_x();
+  float a_pos_x() const;
+  void set_a_pos_x(float value);
+  private:
+  float _internal_a_pos_x() const;
+  void _internal_set_a_pos_x(float value);
+  public:
+
+  // float a_pos_y = 9;
+  void clear_a_pos_y();
+  float a_pos_y() const;
+  void set_a_pos_y(float value);
+  private:
+  float _internal_a_pos_y() const;
+  void _internal_set_a_pos_y(float value);
+  public:
+
+  // float a_rot = 10;
+  void clear_a_rot();
+  float a_rot() const;
+  void set_a_rot(float value);
+  private:
+  float _internal_a_rot() const;
+  void _internal_set_a_rot(float value);
+  public:
+
   // @@protoc_insertion_point(class_scope:Update_ShooterTest.HitAcknowledged_S_TO_C)
  private:
   class _Internal;
@@ -647,6 +677,9 @@ class HitAcknowledged_S_TO_C final :
   float e_pos_x_;
   float e_pos_y_;
   float e_rot_;
+  float a_pos_x_;
+  float a_pos_y_;
+  float a_rot_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_message_2eproto;
 };
@@ -771,8 +804,23 @@ class Welcome_S_TO_C final :
   // accessors -------------------------------------------------------
 
   enum : int {
+    kTokenFieldNumber = 2,
     kSlotidFieldNumber = 1,
   };
+  // string token = 2;
+  void clear_token();
+  const std::string& token() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_token(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_token();
+  PROTOBUF_MUST_USE_RESULT std::string* release_token();
+  void set_allocated_token(std::string* token);
+  private:
+  const std::string& _internal_token() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_token(const std::string& value);
+  std::string* _internal_mutable_token();
+  public:
+
   // int32 slotid = 1;
   void clear_slotid();
   ::PROTOBUF_NAMESPACE_ID::int32 slotid() const;
@@ -789,6 +837,7 @@ class Welcome_S_TO_C final :
   template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr token_;
   ::PROTOBUF_NAMESPACE_ID::int32 slotid_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_message_2eproto;
@@ -1869,6 +1918,7 @@ class PlayerInput_C_TO_S final :
     kDFieldNumber = 5,
     kMouseXFieldNumber = 6,
     kMouseYFieldNumber = 7,
+    kMouseDownFieldNumber = 8,
   };
   // int32 frameID = 1;
   void clear_frameid();
@@ -1933,6 +1983,15 @@ class PlayerInput_C_TO_S final :
   void _internal_set_mousey(float value);
   public:
 
+  // bool mouseDown = 8;
+  void clear_mousedown();
+  bool mousedown() const;
+  void set_mousedown(bool value);
+  private:
+  bool _internal_mousedown() const;
+  void _internal_set_mousedown(bool value);
+  public:
+
   // @@protoc_insertion_point(class_scope:Update_ShooterTest.PlayerInput_C_TO_S)
  private:
   class _Internal;
@@ -1947,6 +2006,7 @@ class PlayerInput_C_TO_S final :
   bool d_;
   float mousex_;
   float mousey_;
+  bool mousedown_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_message_2eproto;
 };
@@ -2332,6 +2392,66 @@ inline void HitAcknowledged_S_TO_C::set_e_rot(float value) {
   // @@protoc_insertion_point(field_set:Update_ShooterTest.HitAcknowledged_S_TO_C.e_rot)
 }
 
+// float a_pos_x = 8;
+inline void HitAcknowledged_S_TO_C::clear_a_pos_x() {
+  a_pos_x_ = 0;
+}
+inline float HitAcknowledged_S_TO_C::_internal_a_pos_x() const {
+  return a_pos_x_;
+}
+inline float HitAcknowledged_S_TO_C::a_pos_x() const {
+  // @@protoc_insertion_point(field_get:Update_ShooterTest.HitAcknowledged_S_TO_C.a_pos_x)
+  return _internal_a_pos_x();
+}
+inline void HitAcknowledged_S_TO_C::_internal_set_a_pos_x(float value) {
+  
+  a_pos_x_ = value;
+}
+inline void HitAcknowledged_S_TO_C::set_a_pos_x(float value) {
+  _internal_set_a_pos_x(value);
+  // @@protoc_insertion_point(field_set:Update_ShooterTest.HitAcknowledged_S_TO_C.a_pos_x)
+}
+
+// float a_pos_y = 9;
+inline void HitAcknowledged_S_TO_C::clear_a_pos_y() {
+  a_pos_y_ = 0;
+}
+inline float HitAcknowledged_S_TO_C::_internal_a_pos_y() const {
+  return a_pos_y_;
+}
+inline float HitAcknowledged_S_TO_C::a_pos_y() const {
+  // @@protoc_insertion_point(field_get:Update_ShooterTest.HitAcknowledged_S_TO_C.a_pos_y)
+  return _internal_a_pos_y();
+}
+inline void HitAcknowledged_S_TO_C::_internal_set_a_pos_y(float value) {
+  
+  a_pos_y_ = value;
+}
+inline void HitAcknowledged_S_TO_C::set_a_pos_y(float value) {
+  _internal_set_a_pos_y(value);
+  // @@protoc_insertion_point(field_set:Update_ShooterTest.HitAcknowledged_S_TO_C.a_pos_y)
+}
+
+// float a_rot = 10;
+inline void HitAcknowledged_S_TO_C::clear_a_rot() {
+  a_rot_ = 0;
+}
+inline float HitAcknowledged_S_TO_C::_internal_a_rot() const {
+  return a_rot_;
+}
+inline float HitAcknowledged_S_TO_C::a_rot() const {
+  // @@protoc_insertion_point(field_get:Update_ShooterTest.HitAcknowledged_S_TO_C.a_rot)
+  return _internal_a_rot();
+}
+inline void HitAcknowledged_S_TO_C::_internal_set_a_rot(float value) {
+  
+  a_rot_ = value;
+}
+inline void HitAcknowledged_S_TO_C::set_a_rot(float value) {
+  _internal_set_a_rot(value);
+  // @@protoc_insertion_point(field_set:Update_ShooterTest.HitAcknowledged_S_TO_C.a_rot)
+}
+
 // -------------------------------------------------------------------
 
 // Welcome_S_TO_C
@@ -2354,6 +2474,52 @@ inline void Welcome_S_TO_C::_internal_set_slotid(::PROTOBUF_NAMESPACE_ID::int32 
 inline void Welcome_S_TO_C::set_slotid(::PROTOBUF_NAMESPACE_ID::int32 value) {
   _internal_set_slotid(value);
   // @@protoc_insertion_point(field_set:Update_ShooterTest.Welcome_S_TO_C.slotid)
+}
+
+// string token = 2;
+inline void Welcome_S_TO_C::clear_token() {
+  token_.ClearToEmpty();
+}
+inline const std::string& Welcome_S_TO_C::token() const {
+  // @@protoc_insertion_point(field_get:Update_ShooterTest.Welcome_S_TO_C.token)
+  return _internal_token();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void Welcome_S_TO_C::set_token(ArgT0&& arg0, ArgT... args) {
+ 
+ token_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:Update_ShooterTest.Welcome_S_TO_C.token)
+}
+inline std::string* Welcome_S_TO_C::mutable_token() {
+  std::string* _s = _internal_mutable_token();
+  // @@protoc_insertion_point(field_mutable:Update_ShooterTest.Welcome_S_TO_C.token)
+  return _s;
+}
+inline const std::string& Welcome_S_TO_C::_internal_token() const {
+  return token_.Get();
+}
+inline void Welcome_S_TO_C::_internal_set_token(const std::string& value) {
+  
+  token_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, value, GetArenaForAllocation());
+}
+inline std::string* Welcome_S_TO_C::_internal_mutable_token() {
+  
+  return token_.Mutable(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, GetArenaForAllocation());
+}
+inline std::string* Welcome_S_TO_C::release_token() {
+  // @@protoc_insertion_point(field_release:Update_ShooterTest.Welcome_S_TO_C.token)
+  return token_.Release(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArenaForAllocation());
+}
+inline void Welcome_S_TO_C::set_allocated_token(std::string* token) {
+  if (token != nullptr) {
+    
+  } else {
+    
+  }
+  token_.SetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), token,
+      GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set_allocated:Update_ShooterTest.Welcome_S_TO_C.token)
 }
 
 // -------------------------------------------------------------------
@@ -2874,6 +3040,26 @@ inline void PlayerInput_C_TO_S::_internal_set_mousey(float value) {
 inline void PlayerInput_C_TO_S::set_mousey(float value) {
   _internal_set_mousey(value);
   // @@protoc_insertion_point(field_set:Update_ShooterTest.PlayerInput_C_TO_S.mouseY)
+}
+
+// bool mouseDown = 8;
+inline void PlayerInput_C_TO_S::clear_mousedown() {
+  mousedown_ = false;
+}
+inline bool PlayerInput_C_TO_S::_internal_mousedown() const {
+  return mousedown_;
+}
+inline bool PlayerInput_C_TO_S::mousedown() const {
+  // @@protoc_insertion_point(field_get:Update_ShooterTest.PlayerInput_C_TO_S.mouseDown)
+  return _internal_mousedown();
+}
+inline void PlayerInput_C_TO_S::_internal_set_mousedown(bool value) {
+  
+  mousedown_ = value;
+}
+inline void PlayerInput_C_TO_S::set_mousedown(bool value) {
+  _internal_set_mousedown(value);
+  // @@protoc_insertion_point(field_set:Update_ShooterTest.PlayerInput_C_TO_S.mouseDown)
 }
 
 // -------------------------------------------------------------------

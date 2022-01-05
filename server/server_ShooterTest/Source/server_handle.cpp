@@ -8,10 +8,12 @@ void SERVER_HANDLE::HandlePlayerInputs(int id, char *buf, int sze) {
         return;
     //std::cout << "parse finished..." << std::endl;
     //std::cout << conv << " " << newMsg.id() << std::endl;
+
+
+
     auto player = Game::GetInstance().GetPlayerBySlotid(id);
     // if(player->GetPlayerInputQueue()->size() < 4)
 
-    std::lock_guard<std::mutex> l(Game::GetInstance().inputBufferMutex);
     player->TryAddToPlayerInputQueue(newMsg);
 }
 
@@ -41,7 +43,7 @@ void SERVER_HANDLE::HandlePlayerNickname(int id, char *buf, int sze){
     packet->InsertLengthInFront();
 
     for(int i = 1; i <= Game::GetInstance().GetMaxPlayerCnt(); i++){
-        if(Game::GetInstance().GetPlayerBySlotid(i) == nullptr) continue;
+        if(Game::GetInstance().GetPlayerBySlotid(i) == nullptr || Game::GetInstance().GetPlayerBySlotid(i)->IsAI()) continue;
         SERVER_SEND::SpawnPlayer(packet->GetCircleBuffer()->GetBuffer(), packet->GetAllLength(), i);
     }
     
@@ -76,10 +78,8 @@ void SERVER_HANDLE::HandleRttTimeMeasure(int id, char *buf, int sze) {
     int reqId = newMsg.packetid();
     double avgRttTime = newMsg.rtttime();
     auto player = Game::GetInstance().GetPlayerBySlotid(id);
-    {
-        std::lock_guard<std::mutex> l(player->avgRttTimeMutex);
-        player->SetAvgRttTime(avgRttTime);
-    }
-    printf("reqId: %d, avgRttTime: %lf\n", reqId, avgRttTime);
+        
+    player->SetAvgRttTime(avgRttTime);
+    //printf("reqId: %d, avgRttTime: %lf\n", reqId, avgRttTime);
     SERVER_SEND::RttTimeMeasure(id, reqId);
 }

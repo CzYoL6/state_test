@@ -24,19 +24,17 @@ void signal_exit(int signum){
 void ServerPoll(){
     while(Server::GetInstance().IsRunning()){
         Server::GetInstance().Poll();
+        std::this_thread::sleep_for(std::chrono::milliseconds(1));
     }
 }
 
 int main(int argc, char **argv) {
+    //freopen("log.txt", "w", stdout);
     signal(SIGINT, signal_exit);
 
-    Game::GetInstance().Init(atoi(argv[5]), atoi(argv[6]));
+    Game::GetInstance().Init(atoi(argv[5]), atoi(argv[6]), atoi(argv[7]));
     Server::GetInstance().Start(argv[1], atoi(argv[2]), argv[3], atoi(argv[4]));
 
-    // std::thread server_thread(&Server::Poll, &server);
-    // server_thread.join();
-
-    // while(1);
 
     std::thread t(ServerPoll);
 

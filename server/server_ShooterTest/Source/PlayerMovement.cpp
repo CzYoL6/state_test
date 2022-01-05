@@ -9,7 +9,7 @@ void PlayerMovement::SetTrans(float x, float y, float rot){
     );
 }
 
-PlayerMovement::PlayerMovement(b2Body* _body):body(_body){}
+PlayerMovement::PlayerMovement(){}
 
 PlayerMovement::~PlayerMovement(){}
 

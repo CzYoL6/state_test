@@ -56,6 +56,9 @@ void Server::SetUpTcpServer(const char* tcp_ip, int tcp_port){
         perror("error changing tcp socket option.\n");
         running = false;
     }
+    int optval = 1;
+    setsockopt(tcp_listen_socket, SOL_SOCKET, SO_REUSEADDR, &optval, sizeof(optval));
+    setsockopt(tcp_listen_socket, SOL_SOCKET, SO_REUSEPORT, &optval, sizeof(optval));
     if(bind(tcp_listen_socket, (const struct sockaddr *)&tcp_listen_addr, sizeof(tcp_listen_addr)) == -1){
         perror("error binding tcp socket to address.\n");
         running = false;
@@ -88,10 +91,15 @@ void Server::SetUpUdpServer(const char *udp_ip, int udp_port){
         perror("error changing udp socket option.\n");
         running = false;
     }
+    int optval = 1;
+    setsockopt(udp_server_socket, SOL_SOCKET, SO_REUSEADDR, &optval, sizeof(optval));
+    setsockopt(udp_server_socket, SOL_SOCKET, SO_REUSEPORT, &optval, sizeof(optval));
     if(bind(udp_server_socket, (const struct sockaddr *)&udp_server_addr, sizeof(udp_server_addr)) == -1){
         perror("error binding udp socket to address.\n");
         running = false;
     }
+
+
     printf("udp server successfully started at %s:%d, socket %d\n", udp_ip, udp_port, udp_server_socket);
     AddEpollEvent(udp_server_socket, EPOLLIN | EPOLLET);
 
@@ -111,6 +119,9 @@ bool Server::ParsePacket(int id, char *buf, int len) {
     memcpy(&type, buf, sizeof(Update_ShooterTest::TYPE));
     //printf("handling packet, length: %d, type: %d\n", len,  (int)type);
     MESSAGE_HANDLER msg_h = (*message_handler)[type];
+
+    std::lock_guard<std::mutex> l(Game::GetInstance().game_state_mutex);
+    
     msg_h(id, buf + sizeof(Update_ShooterTest::TYPE), len - sizeof(Update_ShooterTest::TYPE));
     //printf("handling finished.\n");
     return true;
@@ -131,36 +142,34 @@ int  Server::SetNonBlockingMode(int socket){
 }
 
 void Server::OnNewConnection(int socket, const sockaddr_in &addr){
-
-    int i;
-    for(i = 1; i <= Game::GetInstance().GetMaxPlayerCnt(); i++){
-        if(Game::GetInstance().GetPlayerBySlotid(i) == nullptr){
-            auto new_player = Game::GetInstance().AddPlayer(socket, i);
-            Game::GetInstance().SetSlot(i, new_player);
-            break;
-        }
-    }
+    std::lock_guard<std::mutex> l(Game::GetInstance().game_state_mutex);
+    std::lock_guard<std::mutex> g(server_mutex);
+    int slotid = Game::GetInstance().AddNewPlayer(socket);
+    
      //create a new client, and player
-    std::shared_ptr<Client> new_client = std::make_shared<Client>(i);
+    std::shared_ptr<Client> new_client = std::make_shared<Client>(slotid);
     client_map_socket_to_client[socket] = new_client;
-    new_client->SetUdpClientAddr(addr);
-    client_map_sockaddrin_to_client.insert({MY_ADDR(addr), new_client});
+    // new_client->SetUdpClientAddr(addr);
+    // client_map_sockaddrin_to_client.insert({MY_ADDR(addr), new_client});
 
     printf("adding new player successfully to slot %d, current player count: %d.\n",
-            i,
-            Game::GetInstance().GetPlayerCount());
+        slotid,
+        Game::GetInstance().GetPlayerCount());
 
     SERVER_SEND::WelcomeToGame(socket);
 
 }
 
 void Server::OnConnectionClose(int socket){    
+    std::lock_guard<std::mutex> l(Game::GetInstance().game_state_mutex);
+    std::lock_guard<std::mutex> g(server_mutex);
     //delete the player
     printf("deleting associated objects.\n");
     auto client = client_map_socket_to_client[socket];
     client_map_sockaddrin_to_client.erase(MY_ADDR(*(client->GetUdpClientAddr())));
     // delete client;
     client_map_socket_to_client.erase(socket);
+
 
     int slotid = Game::GetInstance().GetSlotidBySocket(socket);
 
@@ -237,10 +246,29 @@ void Server::Poll(){
                         }
                     }
                     else{
+                        auto slotid = *((int*)(tmp_buf));
+
                         //printf("received %d bytes from udp. trying to parse.\n", ret);
-                        auto client = client_map_sockaddrin_to_client[udp_cli_addr];
-                        if(client == nullptr) 
+                        // auto client = client_map_sockaddrin_to_client[udp_cli_addr];
+
+                        std::shared_ptr<Player> player ;
+                        {
+                            std::lock_guard<std::mutex> l(Game::GetInstance().game_state_mutex);
+
+                            player = Game::GetInstance().GetPlayerBySlotid(slotid);
+                        }
+                        if(player == nullptr) {
+                            // char new_cli_ip_addr_str[1024];
+                            // memset(new_cli_ip_addr_str, 0, sizeof(new_cli_ip_addr_str));
+                            // int new_cli_port_number = ntohs(udp_cli_addr.sin_port);
+                            // if(inet_ntop(AF_INET, &udp_cli_addr.sin_addr, new_cli_ip_addr_str, sizeof(new_cli_ip_addr_str)) ==  nullptr){
+                            //     perror("error getting ip address through inet_ntop.\n");
+                            //     running = false;
+                            // }
+                            // printf("no such client %s:%d.\n", new_cli_ip_addr_str, new_cli_port_number);
                             printf("no such client.\n");
+                        }
+                            
                         else {
                             // char udp_cli_addr_str[1024];
                             // memset(udp_cli_addr_str, 0, sizeof(udp_cli_addr_str));
@@ -250,7 +278,13 @@ void Server::Poll(){
                             //     running = false;
                             // }
                             // printf("received udp packet from %s:%d\n", udp_cli_addr_str, new_cli_port_number);
-                            ParsePacket(client->GetId(), tmp_buf, ret);
+                            auto client = client_map_socket_to_client[player->GetSocket()];
+                            if(!client->HasUdpAddrInitialized()){
+                                client->SetUdpClientAddr(udp_cli_addr);
+                                client_map_sockaddrin_to_client.insert({MY_ADDR(udp_cli_addr), client});
+                                client->SetUdpAddrInitialized(true);
+                            }
+                            ParsePacket(client->GetId(), tmp_buf + 4, ret - 4);
 
                         }
                     }
@@ -287,7 +321,6 @@ void Server::Poll(){
                         else{
                             //printf("received %d bytes from tcp. added to buffer. trying to parse.\n", ret);
                             {
-                                std::lock_guard<std::mutex> l(client_map_socket_to_client[fd]->recv_mutex);
                                 client_map_socket_to_client[fd]->AddToTcpRecvBuffer(tmp_buf, ret);
                             }
                             client_map_socket_to_client[fd]->TryHandleMessage();
@@ -303,7 +336,7 @@ void Server::Poll(){
                     char tmp_buf[2048];
                     int sze_to_send;
                     {
-                        std::lock_guard<std::mutex> l(client_map_socket_to_client[fd]->send_mutex);
+                        // std::lock_guard<std::mutex> l(client_map_socket_to_client[fd]->send_buffer_mutex);
                         auto &send_buffer = client_map_socket_to_client[fd]->tcp_send_buffer;
                         sze_to_send = send_buffer->Read(tmp_buf, send_buffer->GetLength());
                     }
@@ -354,6 +387,7 @@ void Server::InitMessageHandler(){
     message_handler->insert({Update_ShooterTest::TYPE::playerNickname_C_TO_S, &SERVER_HANDLE::HandlePlayerNickname});
     message_handler->insert({Update_ShooterTest::TYPE::playerInputs_C_TO_S, &SERVER_HANDLE::HandlePlayerInputs});
     message_handler->insert({Update_ShooterTest::TYPE::rttMeasure_C_TO_S, &SERVER_HANDLE::HandleRttTimeMeasure});
+
     printf("message handlers initiated.\n");
 }
 
@@ -364,7 +398,6 @@ resend:
     if(ret == -1){
         if(errno == EINTR)  goto resend;
         else if(errno == EWOULDBLOCK) {
-            std::lock_guard<std::mutex> l(client_map_socket_to_client[socket]->send_mutex);
             client_map_socket_to_client[socket]->AddToTcpSendBuffer(buf, len);
             ModEpollEvent(socket, EPOLLIN | EPOLLOUT | EPOLLET);
         }
@@ -382,9 +415,20 @@ resend:
     }
 }   
 
-void Server::SengThroughUdp(int socket, char *buf, int len){
+void Server::SendThroughUdp(int socket, char *buf, int len){
+    if(!client_map_socket_to_client[socket]->HasUdpAddrInitialized()) return;
+
     sockaddr_in* udp_peer_addr = client_map_socket_to_client[socket]->GetUdpClientAddr();
 resend_udp:
+    // char udp_cli_addr_str[1024];
+    // memset(udp_cli_addr_str, 0, sizeof(udp_cli_addr_str));
+    // int new_cli_port_number = ntohs(udp_peer_addr->sin_port);
+    // if(inet_ntop(AF_INET, &(udp_peer_addr->sin_addr), udp_cli_addr_str, sizeof(udp_cli_addr_str)) ==  nullptr){
+    //     perror("error getting ip address through inet_ntop.\n");
+    //     running = false;
+    // }
+    
+    // printf("sending udp packet to %s:%d\n", udp_cli_addr_str, new_cli_port_number);
     int ret = sendto(udp_server_socket, buf, len, 0, (const struct sockaddr *)udp_peer_addr, sizeof(*udp_peer_addr));
     if(ret == -1){
         if(errno == EINTR) goto resend_udp;

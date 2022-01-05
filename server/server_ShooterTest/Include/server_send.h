@@ -20,6 +20,8 @@ void PlayerLeft(int who_left, int socket);
 
 void RttTimeMeasure(int id, int reqId);
 
+void HitInfo(int id, const Update_ShooterTest::HitAcknowledged_S_TO_C &hit);
+
 } // namespace SERVER_SEND
 
 // #endif

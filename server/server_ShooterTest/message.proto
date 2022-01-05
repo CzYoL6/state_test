@@ -38,10 +38,14 @@ message HitAcknowledged_S_TO_C{
     float e_pos_x = 5;
     float e_pos_y = 6;
     float e_rot =  7;
+    float a_pos_x = 8;
+    float a_pos_y = 9;
+    float a_rot = 10;
 }
 
 message Welcome_S_TO_C{
     int32 slotid = 1;
+    string token = 2;
 }
 
 message PlayerLeft_S_TO_C{
@@ -87,6 +91,7 @@ message PlayerInput_C_TO_S{
     // float rotation = 6;
     float mouseX = 6;
     float mouseY = 7;
+    bool mouseDown = 8;
 }
 
 message PlayerInputs_C_TO_S{

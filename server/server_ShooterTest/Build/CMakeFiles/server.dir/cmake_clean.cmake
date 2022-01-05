@@ -8,6 +8,7 @@ file(REMOVE_RECURSE
   "CMakeFiles/server.dir/Source/kcpsession.cpp.o"
   "CMakeFiles/server.dir/Source/message.pb.cc.o"
   "CMakeFiles/server.dir/Source/packet.cpp.o"
+  "CMakeFiles/server.dir/Source/physics.cpp.o"
   "CMakeFiles/server.dir/Source/random_engine.cpp.o"
   "CMakeFiles/server.dir/Source/server.cpp.o"
   "CMakeFiles/server.dir/Source/server_handle.cpp.o"

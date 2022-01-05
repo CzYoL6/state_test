@@ -26,46 +26,48 @@ namespace UpdateShooterTest {
           string.Concat(
             "Cg1tZXNzYWdlLnByb3RvEhJVcGRhdGVfU2hvb3RlclRlc3QiNgoRUnR0TWVh",
             "c3VyZV9DX1RPX1MSEAoIcGFja2V0SWQYASABKAUSDwoHcnR0VGltZRgCIAEo",
-            "ASIlChFSdHRNZWFzdXJlX1NfVE9fQxIQCghwYWNrZXRJZBgBIAEoBSKWAQoW",
+            "ASIlChFSdHRNZWFzdXJlX1NfVE9fQxIQCghwYWNrZXRJZBgBIAEoBSLHAQoW",
             "SGl0QWNrbm93bGVkZ2VkX1NfVE9fQxIXCg9hdHRhY2tlcl9zbG90aWQYASAB",
             "KAUSFAoMZW5lbXlfc2xvdGlkGAIgASgFEg4KBmRhbWFnZRgDIAEoBRIMCgRk",
             "ZWFkGAQgASgIEg8KB2VfcG9zX3gYBSABKAISDwoHZV9wb3NfeRgGIAEoAhIN",
-            "CgVlX3JvdBgHIAEoAiIgCg5XZWxjb21lX1NfVE9fQxIOCgZzbG90aWQYASAB",
-            "KAUiIwoRUGxheWVyTGVmdF9TX1RPX0MSDgoGc2xvdGlkGAEgASgFIikKFVBs",
-            "YXllck5pY2tuYW1lX0NfVE9fUxIQCghuaWNrbmFtZRgBIAEoCSJbChJTcGF3",
-            "blBsYXllcl9TX1RPX0MSDgoGc2xvdGlkGAEgASgFEhAKCG5pY2tuYW1lGAIg",
-            "ASgJEgkKAXgYAyABKAISCQoBeRgEIAEoAhINCgVhbmdsZRgFIAEoAiISChBT",
-            "dGFydEdhbWVfU19UT19DIkQKEVBsYXllckluZm9fU19UT19DEgkKAXgYASAB",
-            "KAISCQoBeRgCIAEoAhINCgVhbmdsZRgDIAEoAhIKCgJpZBgEIAEoBSKGAQoR",
-            "VXBkYXRlSW5mb19TX1RPX0MSHAoUbGFzdFByb2Nlc3NlZEZyYW1lSUQYASAB",
-            "KAUSOgoLcGxheWVySW5mb3MYAiADKAsyJS5VcGRhdGVfU2hvb3RlclRlc3Qu",
-            "UGxheWVySW5mb19TX1RPX0MSFwoPaW5wdXRCdWZmZXJTaXplGAMgASgFInEK",
-            "ElBsYXllcklucHV0X0NfVE9fUxIPCgdmcmFtZUlEGAEgASgFEgkKAXcYAiAB",
-            "KAgSCQoBcxgDIAEoCBIJCgFhGAQgASgIEgkKAWQYBSABKAgSDgoGbW91c2VY",
-            "GAYgASgCEg4KBm1vdXNlWRgHIAEoAiJZChNQbGF5ZXJJbnB1dHNfQ19UT19T",
-            "EjYKBmlucHV0cxgBIAMoCzImLlVwZGF0ZV9TaG9vdGVyVGVzdC5QbGF5ZXJJ",
-            "bnB1dF9DX1RPX1MSCgoCaWQYAiABKAUqowIKBFRZUEUSFQoRdXBkYXRlSW5m",
-            "b19TX1RPX0MQABIZChVwbGF5ZXJOaWNrbmFtZV9DX1RPX1MQARISCg53ZWxj",
-            "b21lX1NfVE9fQxACEhUKEXBsYXllckluZm9fU19UT19DEAMSFgoScGxheWVy",
-            "SW5wdXRfQ19UT19TEAQSFgoSc3Bhd25QbGF5ZXJfU19UT19DEAUSFAoQc3Rh",
-            "cnRHYW1lX1NfVE9fQxAGEhUKEXBsYXllckxlZnRfU19UT19DEAcSFwoTcGxh",
-            "eWVySW5wdXRzX0NfVE9fUxAIEhUKEXJ0dE1lYXN1cmVfQ19UT19TEAkSFQoR",
-            "cnR0TWVhc3VyZV9TX1RPX0MQChIaChZoaXRBY2tub3dsZWRnZWRfU19UT19D",
-            "EAtiBnByb3RvMw=="));
+            "CgVlX3JvdBgHIAEoAhIPCgdhX3Bvc194GAggASgCEg8KB2FfcG9zX3kYCSAB",
+            "KAISDQoFYV9yb3QYCiABKAIiLwoOV2VsY29tZV9TX1RPX0MSDgoGc2xvdGlk",
+            "GAEgASgFEg0KBXRva2VuGAIgASgJIiMKEVBsYXllckxlZnRfU19UT19DEg4K",
+            "BnNsb3RpZBgBIAEoBSIpChVQbGF5ZXJOaWNrbmFtZV9DX1RPX1MSEAoIbmlj",
+            "a25hbWUYASABKAkiWwoSU3Bhd25QbGF5ZXJfU19UT19DEg4KBnNsb3RpZBgB",
+            "IAEoBRIQCghuaWNrbmFtZRgCIAEoCRIJCgF4GAMgASgCEgkKAXkYBCABKAIS",
+            "DQoFYW5nbGUYBSABKAIiEgoQU3RhcnRHYW1lX1NfVE9fQyJEChFQbGF5ZXJJ",
+            "bmZvX1NfVE9fQxIJCgF4GAEgASgCEgkKAXkYAiABKAISDQoFYW5nbGUYAyAB",
+            "KAISCgoCaWQYBCABKAUihgEKEVVwZGF0ZUluZm9fU19UT19DEhwKFGxhc3RQ",
+            "cm9jZXNzZWRGcmFtZUlEGAEgASgFEjoKC3BsYXllckluZm9zGAIgAygLMiUu",
+            "VXBkYXRlX1Nob290ZXJUZXN0LlBsYXllckluZm9fU19UT19DEhcKD2lucHV0",
+            "QnVmZmVyU2l6ZRgDIAEoBSKEAQoSUGxheWVySW5wdXRfQ19UT19TEg8KB2Zy",
+            "YW1lSUQYASABKAUSCQoBdxgCIAEoCBIJCgFzGAMgASgIEgkKAWEYBCABKAgS",
+            "CQoBZBgFIAEoCBIOCgZtb3VzZVgYBiABKAISDgoGbW91c2VZGAcgASgCEhEK",
+            "CW1vdXNlRG93bhgIIAEoCCJZChNQbGF5ZXJJbnB1dHNfQ19UT19TEjYKBmlu",
+            "cHV0cxgBIAMoCzImLlVwZGF0ZV9TaG9vdGVyVGVzdC5QbGF5ZXJJbnB1dF9D",
+            "X1RPX1MSCgoCaWQYAiABKAUqowIKBFRZUEUSFQoRdXBkYXRlSW5mb19TX1RP",
+            "X0MQABIZChVwbGF5ZXJOaWNrbmFtZV9DX1RPX1MQARISCg53ZWxjb21lX1Nf",
+            "VE9fQxACEhUKEXBsYXllckluZm9fU19UT19DEAMSFgoScGxheWVySW5wdXRf",
+            "Q19UT19TEAQSFgoSc3Bhd25QbGF5ZXJfU19UT19DEAUSFAoQc3RhcnRHYW1l",
+            "X1NfVE9fQxAGEhUKEXBsYXllckxlZnRfU19UT19DEAcSFwoTcGxheWVySW5w",
+            "dXRzX0NfVE9fUxAIEhUKEXJ0dE1lYXN1cmVfQ19UT19TEAkSFQoRcnR0TWVh",
+            "c3VyZV9TX1RPX0MQChIaChZoaXRBY2tub3dsZWRnZWRfU19UT19DEAtiBnBy",
+            "b3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(new[] {typeof(global::UpdateShooterTest.TYPE), }, new pbr::GeneratedClrTypeInfo[] {
             new pbr::GeneratedClrTypeInfo(typeof(global::UpdateShooterTest.RttMeasure_C_TO_S), global::UpdateShooterTest.RttMeasure_C_TO_S.Parser, new[]{ "PacketId", "RttTime" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::UpdateShooterTest.RttMeasure_S_TO_C), global::UpdateShooterTest.RttMeasure_S_TO_C.Parser, new[]{ "PacketId" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::UpdateShooterTest.HitAcknowledged_S_TO_C), global::UpdateShooterTest.HitAcknowledged_S_TO_C.Parser, new[]{ "AttackerSlotid", "EnemySlotid", "Damage", "Dead", "EPosX", "EPosY", "ERot" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::UpdateShooterTest.Welcome_S_TO_C), global::UpdateShooterTest.Welcome_S_TO_C.Parser, new[]{ "Slotid" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::UpdateShooterTest.HitAcknowledged_S_TO_C), global::UpdateShooterTest.HitAcknowledged_S_TO_C.Parser, new[]{ "AttackerSlotid", "EnemySlotid", "Damage", "Dead", "EPosX", "EPosY", "ERot", "APosX", "APosY", "ARot" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::UpdateShooterTest.Welcome_S_TO_C), global::UpdateShooterTest.Welcome_S_TO_C.Parser, new[]{ "Slotid", "Token" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::UpdateShooterTest.PlayerLeft_S_TO_C), global::UpdateShooterTest.PlayerLeft_S_TO_C.Parser, new[]{ "Slotid" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::UpdateShooterTest.PlayerNickname_C_TO_S), global::UpdateShooterTest.PlayerNickname_C_TO_S.Parser, new[]{ "Nickname" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::UpdateShooterTest.SpawnPlayer_S_TO_C), global::UpdateShooterTest.SpawnPlayer_S_TO_C.Parser, new[]{ "Slotid", "Nickname", "X", "Y", "Angle" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::UpdateShooterTest.StartGame_S_TO_C), global::UpdateShooterTest.StartGame_S_TO_C.Parser, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::UpdateShooterTest.PlayerInfo_S_TO_C), global::UpdateShooterTest.PlayerInfo_S_TO_C.Parser, new[]{ "X", "Y", "Angle", "Id" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::UpdateShooterTest.UpdateInfo_S_TO_C), global::UpdateShooterTest.UpdateInfo_S_TO_C.Parser, new[]{ "LastProcessedFrameID", "PlayerInfos", "InputBufferSize" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::UpdateShooterTest.PlayerInput_C_TO_S), global::UpdateShooterTest.PlayerInput_C_TO_S.Parser, new[]{ "FrameID", "W", "S", "A", "D", "MouseX", "MouseY" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::UpdateShooterTest.PlayerInput_C_TO_S), global::UpdateShooterTest.PlayerInput_C_TO_S.Parser, new[]{ "FrameID", "W", "S", "A", "D", "MouseX", "MouseY", "MouseDown" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::UpdateShooterTest.PlayerInputs_C_TO_S), global::UpdateShooterTest.PlayerInputs_C_TO_S.Parser, new[]{ "Inputs", "Id" }, null, null, null)
           }));
     }
@@ -409,6 +411,9 @@ namespace UpdateShooterTest {
       ePosX_ = other.ePosX_;
       ePosY_ = other.ePosY_;
       eRot_ = other.eRot_;
+      aPosX_ = other.aPosX_;
+      aPosY_ = other.aPosY_;
+      aRot_ = other.aRot_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -497,6 +502,39 @@ namespace UpdateShooterTest {
       }
     }
 
+    /// <summary>Field number for the "a_pos_x" field.</summary>
+    public const int APosXFieldNumber = 8;
+    private float aPosX_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public float APosX {
+      get { return aPosX_; }
+      set {
+        aPosX_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "a_pos_y" field.</summary>
+    public const int APosYFieldNumber = 9;
+    private float aPosY_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public float APosY {
+      get { return aPosY_; }
+      set {
+        aPosY_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "a_rot" field.</summary>
+    public const int ARotFieldNumber = 10;
+    private float aRot_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public float ARot {
+      get { return aRot_; }
+      set {
+        aRot_ = value;
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
       return Equals(other as HitAcknowledged_S_TO_C);
@@ -517,6 +555,9 @@ namespace UpdateShooterTest {
       if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(EPosX, other.EPosX)) return false;
       if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(EPosY, other.EPosY)) return false;
       if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(ERot, other.ERot)) return false;
+      if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(APosX, other.APosX)) return false;
+      if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(APosY, other.APosY)) return false;
+      if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(ARot, other.ARot)) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -530,6 +571,9 @@ namespace UpdateShooterTest {
       if (EPosX != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(EPosX);
       if (EPosY != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(EPosY);
       if (ERot != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(ERot);
+      if (APosX != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(APosX);
+      if (APosY != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(APosY);
+      if (ARot != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(ARot);
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -571,6 +615,18 @@ namespace UpdateShooterTest {
         output.WriteRawTag(61);
         output.WriteFloat(ERot);
       }
+      if (APosX != 0F) {
+        output.WriteRawTag(69);
+        output.WriteFloat(APosX);
+      }
+      if (APosY != 0F) {
+        output.WriteRawTag(77);
+        output.WriteFloat(APosY);
+      }
+      if (ARot != 0F) {
+        output.WriteRawTag(85);
+        output.WriteFloat(ARot);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -598,6 +654,15 @@ namespace UpdateShooterTest {
         size += 1 + 4;
       }
       if (ERot != 0F) {
+        size += 1 + 4;
+      }
+      if (APosX != 0F) {
+        size += 1 + 4;
+      }
+      if (APosY != 0F) {
+        size += 1 + 4;
+      }
+      if (ARot != 0F) {
         size += 1 + 4;
       }
       if (_unknownFields != null) {
@@ -631,6 +696,15 @@ namespace UpdateShooterTest {
       }
       if (other.ERot != 0F) {
         ERot = other.ERot;
+      }
+      if (other.APosX != 0F) {
+        APosX = other.APosX;
+      }
+      if (other.APosY != 0F) {
+        APosY = other.APosY;
+      }
+      if (other.ARot != 0F) {
+        ARot = other.ARot;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
@@ -671,6 +745,18 @@ namespace UpdateShooterTest {
             ERot = input.ReadFloat();
             break;
           }
+          case 69: {
+            APosX = input.ReadFloat();
+            break;
+          }
+          case 77: {
+            APosY = input.ReadFloat();
+            break;
+          }
+          case 85: {
+            ARot = input.ReadFloat();
+            break;
+          }
         }
       }
     }
@@ -703,6 +789,7 @@ namespace UpdateShooterTest {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public Welcome_S_TO_C(Welcome_S_TO_C other) : this() {
       slotid_ = other.slotid_;
+      token_ = other.token_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -722,6 +809,17 @@ namespace UpdateShooterTest {
       }
     }
 
+    /// <summary>Field number for the "token" field.</summary>
+    public const int TokenFieldNumber = 2;
+    private string token_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string Token {
+      get { return token_; }
+      set {
+        token_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
       return Equals(other as Welcome_S_TO_C);
@@ -736,6 +834,7 @@ namespace UpdateShooterTest {
         return true;
       }
       if (Slotid != other.Slotid) return false;
+      if (Token != other.Token) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -743,6 +842,7 @@ namespace UpdateShooterTest {
     public override int GetHashCode() {
       int hash = 1;
       if (Slotid != 0) hash ^= Slotid.GetHashCode();
+      if (Token.Length != 0) hash ^= Token.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -760,6 +860,10 @@ namespace UpdateShooterTest {
         output.WriteRawTag(8);
         output.WriteInt32(Slotid);
       }
+      if (Token.Length != 0) {
+        output.WriteRawTag(18);
+        output.WriteString(Token);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -770,6 +874,9 @@ namespace UpdateShooterTest {
       int size = 0;
       if (Slotid != 0) {
         size += 1 + pb::CodedOutputStream.ComputeInt32Size(Slotid);
+      }
+      if (Token.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Token);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -785,6 +892,9 @@ namespace UpdateShooterTest {
       if (other.Slotid != 0) {
         Slotid = other.Slotid;
       }
+      if (other.Token.Length != 0) {
+        Token = other.Token;
+      }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
 
@@ -798,6 +908,10 @@ namespace UpdateShooterTest {
             break;
           case 8: {
             Slotid = input.ReadInt32();
+            break;
+          }
+          case 18: {
+            Token = input.ReadString();
             break;
           }
         }
@@ -1828,6 +1942,7 @@ namespace UpdateShooterTest {
       d_ = other.d_;
       mouseX_ = other.mouseX_;
       mouseY_ = other.mouseY_;
+      mouseDown_ = other.mouseDown_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -1916,6 +2031,17 @@ namespace UpdateShooterTest {
       }
     }
 
+    /// <summary>Field number for the "mouseDown" field.</summary>
+    public const int MouseDownFieldNumber = 8;
+    private bool mouseDown_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool MouseDown {
+      get { return mouseDown_; }
+      set {
+        mouseDown_ = value;
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
       return Equals(other as PlayerInput_C_TO_S);
@@ -1936,6 +2062,7 @@ namespace UpdateShooterTest {
       if (D != other.D) return false;
       if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(MouseX, other.MouseX)) return false;
       if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(MouseY, other.MouseY)) return false;
+      if (MouseDown != other.MouseDown) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -1949,6 +2076,7 @@ namespace UpdateShooterTest {
       if (D != false) hash ^= D.GetHashCode();
       if (MouseX != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(MouseX);
       if (MouseY != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(MouseY);
+      if (MouseDown != false) hash ^= MouseDown.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -1990,6 +2118,10 @@ namespace UpdateShooterTest {
         output.WriteRawTag(61);
         output.WriteFloat(MouseY);
       }
+      if (MouseDown != false) {
+        output.WriteRawTag(64);
+        output.WriteBool(MouseDown);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -2018,6 +2150,9 @@ namespace UpdateShooterTest {
       }
       if (MouseY != 0F) {
         size += 1 + 4;
+      }
+      if (MouseDown != false) {
+        size += 1 + 1;
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -2050,6 +2185,9 @@ namespace UpdateShooterTest {
       }
       if (other.MouseY != 0F) {
         MouseY = other.MouseY;
+      }
+      if (other.MouseDown != false) {
+        MouseDown = other.MouseDown;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
@@ -2088,6 +2226,10 @@ namespace UpdateShooterTest {
           }
           case 61: {
             MouseY = input.ReadFloat();
+            break;
+          }
+          case 64: {
+            MouseDown = input.ReadBool();
             break;
           }
         }

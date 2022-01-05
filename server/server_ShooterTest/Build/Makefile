@@ -366,6 +366,33 @@ Source/packet.cpp.s:
 	$(MAKE) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/Source/packet.cpp.s
 .PHONY : Source/packet.cpp.s
 
+Source/physics.o: Source/physics.cpp.o
+
+.PHONY : Source/physics.o
+
+# target to build an object file
+Source/physics.cpp.o:
+	$(MAKE) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/Source/physics.cpp.o
+.PHONY : Source/physics.cpp.o
+
+Source/physics.i: Source/physics.cpp.i
+
+.PHONY : Source/physics.i
+
+# target to preprocess a source file
+Source/physics.cpp.i:
+	$(MAKE) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/Source/physics.cpp.i
+.PHONY : Source/physics.cpp.i
+
+Source/physics.s: Source/physics.cpp.s
+
+.PHONY : Source/physics.s
+
+# target to generate assembly for a file
+Source/physics.cpp.s:
+	$(MAKE) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/Source/physics.cpp.s
+.PHONY : Source/physics.cpp.s
+
 Source/random_engine.o: Source/random_engine.cpp.o
 
 .PHONY : Source/random_engine.o
@@ -537,6 +564,9 @@ help:
 	@echo "... Source/packet.o"
 	@echo "... Source/packet.i"
 	@echo "... Source/packet.s"
+	@echo "... Source/physics.o"
+	@echo "... Source/physics.i"
+	@echo "... Source/physics.s"
 	@echo "... Source/random_engine.o"
 	@echo "... Source/random_engine.i"
 	@echo "... Source/random_engine.s"

@@ -15,7 +15,7 @@ void SERVER_SEND::UpdateInfo(int socket, std::unique_ptr<Update_ShooterTest::Upd
     //packet->InsertLengthInFront();
     //std::cout << "packet length: " << packet->GetAllLength() << std::endl;
 
-    Server::GetInstance().SengThroughUdp(socket, packet->GetCircleBuffer()->GetBuffer(), packet->GetAllLength());
+    Server::GetInstance().SendThroughUdp(socket, packet->GetCircleBuffer()->GetBuffer(), packet->GetAllLength());
 }
 
 
@@ -82,8 +82,24 @@ void SERVER_SEND::RttTimeMeasure(int id, int reqId){
     packet->AddVal(tmp, msg.ByteSizeLong());
 
     int socket = Game::GetInstance().GetPlayerBySlotid(id)->GetSocket();
-    Server::GetInstance().SengThroughUdp(socket, packet->GetCircleBuffer()->GetBuffer(), packet->GetAllLength());
+    Server::GetInstance().SendThroughUdp(socket, packet->GetCircleBuffer()->GetBuffer(), packet->GetAllLength());
     //printf("send!!!%d\n", packet->GetAllLength());
     delete packet;
     packet = nullptr;
+}
+
+
+void SERVER_SEND::HitInfo(int id, const Update_ShooterTest::HitAcknowledged_S_TO_C &hit){
+    Packet *packet = new Packet(Update_ShooterTest::TYPE::hitAcknowledged_S_TO_C);
+    char tmp[2048];
+    hit.SerializePartialToArray(tmp, hit.ByteSizeLong());
+    packet->AddVal(tmp, hit.ByteSizeLong());
+    packet->InsertLengthInFront();
+
+    int socket = Game::GetInstance().GetPlayerBySlotid(id)->GetSocket();
+    Server::GetInstance().SendThroughTcp(socket, packet->GetCircleBuffer()->GetBuffer(), packet->GetAllLength(), true);
+    //printf("send!!!%d\n", packet->GetAllLength());
+    delete packet;
+    packet = nullptr;
+
 }

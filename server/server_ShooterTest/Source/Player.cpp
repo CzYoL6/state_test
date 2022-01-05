@@ -1,9 +1,9 @@
 #include "Player.h"
 #include "util.h"
 
-Player::Player(int _id, int _socket, Game *_game, b2Body *_body_ptr)
+Player::Player(int _id, int _socket, Game *_game)
     : slotid(_id), game(_game), socket(_socket), avgRttTime(0) {
-        movement = std::make_unique<PlayerMovement>(_body_ptr);
+        movement = std::make_unique<PlayerMovement>();
         playerInputQueue = std::make_unique<std::queue<Update_ShooterTest::PlayerInput_C_TO_S>>();
         playerInfoPtr = nullptr;
         stateInfo = std::make_unique<Update_ShooterTest::PlayerInfo_S_TO_C[]>(PLAYER_STATE_BUFFER_SIZE);
@@ -27,7 +27,6 @@ Player::~Player() {
 }
 
 void Player::ApplyInput(const Update_ShooterTest::PlayerInput_C_TO_S& input){
-    int svr_tick = Game::GetInstance().GetCurTick();
     lastProcessedTickNum = input.frameid();
     //std::cout << "player " << id << " last " << lastProcessedTickNum << std::endl;
     //设置速度
@@ -64,8 +63,15 @@ void Player::ApplyInput(const Update_ShooterTest::PlayerInput_C_TO_S& input){
     //                                   )
     //                    );
     movement->SetRotation(TwoPoint2Degree(input.mousex(), input.mousey(), movement->GetPos().x, movement->GetPos().y));
+    
 
-    RecordPlayerState(svr_tick);
+    if(input.mousedown()){
+        b2Vec2 dir;
+        dir.Set(input.mousex(), input.mousey());
+        dir -= movement->GetPos();
+
+        Game::GetInstance().CheckPlayerShoot(slotid, dir);
+    }
 }
 
 void Player::RecordPlayerState(int svr_tick){
@@ -110,13 +116,45 @@ void Player::TryAddToPlayerInputQueue(Update_ShooterTest::PlayerInputs_C_TO_S& i
 
 
 void Player::RollBackToAgo(double timeago){
-    int tick_num_to_go = Game::GetInstance().GetCurTick() - timeago / Game::GetInstance().tickRate;
+    int tick_num_to_go = Game::GetInstance().GetCurTick() - (timeago / Game::GetInstance().tickRate) - 2;
     const Update_ShooterTest::PlayerInfo_S_TO_C &state = stateInfo[tick_num_to_go % PLAYER_STATE_BUFFER_SIZE];
     movement->SetTrans(state.x(), state.y(), state.angle());
 }
 
 
 void Player::RollForwardBackToPresent(){
-    const Update_ShooterTest::PlayerInfo_S_TO_C &state = stateInfo[Game::GetInstance().GetCurTick() % PLAYER_STATE_BUFFER_SIZE];
+    int latest_tick = hasBeenProcessedOnThisSvrTick ? Game::GetInstance().GetCurTick() : (Game::GetInstance().GetCurTick() - 1);
+    const Update_ShooterTest::PlayerInfo_S_TO_C &state = stateInfo[latest_tick % PLAYER_STATE_BUFFER_SIZE];
     movement->SetTrans(state.x(), state.y(), state.angle());
+}
+
+void Player::SetAvgRttTime(double v){
+    avgRttTime = v;
+}
+
+void Player::AIChangeDir(bool change){
+    if(change){ 
+        int _dir = (dir + 1) % 4;
+        dir = static_cast<AI_DIR>(_dir);
+    }
+    if(dir == 0){
+        b2Vec2 left;
+        left.Set(-2.5f,0);
+        movement->SetVel(left);
+    }
+    else if (dir == 1){
+        b2Vec2 right;
+        right.Set(2.5f,0);
+        movement->SetVel(right);
+    }
+    else if(dir == 2){
+        b2Vec2 up;
+        up.Set(0,2.5f);
+        movement->SetVel(up);
+    }
+    else{ 
+        b2Vec2 down;
+        down.Set(0,-2.5f);
+        movement->SetVel(down);
+    }
 }

@@ -28,7 +28,7 @@ public class ClientHandle_ShooterTest : MonoBehaviour
 
         GameManager_ShooterTest.Instance.localPlayerID = slotid;
 
-        Client.instance.udp.Connect(((IPEndPoint)Client.instance.tcp.socket.Client.LocalEndPoint).Port);
+        Client.instance.udp.Connect(((IPEndPoint)Client.instance.tcp.socket.Client.LocalEndPoint).Address, ((IPEndPoint)Client.instance.tcp.socket.Client.LocalEndPoint).Port);
         Debug.Log((IPEndPoint)Client.instance.tcp.socket.Client.LocalEndPoint);
 
        /* ClientSend_ShooterTest.TestUdp();*/
@@ -75,5 +75,24 @@ public class ClientHandle_ShooterTest : MonoBehaviour
 
         //ClientSend_ShooterTest.SendRttTimeMeasure(GameManager_ShooterTest.Instance.rttTime, ++GameManager_ShooterTest.Instance.rttTimeReqCnt);
 
+    }
+
+    public static void HitInfo(Packet _packet) {
+        UpdateShooterTest.HitAcknowledged_S_TO_C msg = UpdateShooterTest.HitAcknowledged_S_TO_C.Parser.ParseFrom(_packet.ReadBytes(_packet.UnreadLength()));
+        int attackerId = msg.AttackerSlotid;
+        int damage = msg.Damage;
+        int enemyId = msg.EnemySlotid;
+        Vector2 enemyPos = new Vector2(msg.EPosX, msg.EPosY);
+        float enemyRot = msg.ERot;
+        bool dead = msg.Dead;
+        Vector2 attackerPos = new Vector2(msg.APosX, msg.APosY);
+        float attackerRot = msg.ARot;
+        GameManager_ShooterTest.Instance.hitInfoDebugger.transform.position = enemyPos;
+        GameManager_ShooterTest.Instance.hitInfoDebugger.transform.rotation = Quaternion.Euler(0,0,enemyRot);
+        GameManager_ShooterTest.Instance.attackerInfoDebugger.transform.position = attackerPos;
+        GameManager_ShooterTest.Instance.attackerInfoDebugger.transform.rotation = Quaternion.Euler(0, 0, attackerRot);
+        GameManager_ShooterTest.Instance.attackerInfoDebugger.GetComponent<LineRenderer>().SetPosition(0, attackerPos);
+        GameManager_ShooterTest.Instance.attackerInfoDebugger.GetComponent<LineRenderer>().SetPosition(1, attackerPos + 
+                new Vector2(GameManager_ShooterTest.Instance.attackerInfoDebugger.transform.up.x, GameManager_ShooterTest.Instance.attackerInfoDebugger.transform.up.y) * 5);
     }
 }

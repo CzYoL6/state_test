@@ -45,6 +45,17 @@ public class GameManager_ShooterTest : Singleton<GameManager_ShooterTest>
     public Queue<double> rttTime;
     public double TotalRttTime;   //  1s内的总值
 
+    public GameObject hitInfoDebugger;
+
+    public GameObject attackerInfoDebugger;
+
+    public GameObject shadowNoInterp;
+
+    private void Start() {
+        hitInfoDebugger = GameObject.Find("HitInfo");
+        attackerInfoDebugger = GameObject.Find("AttackerInfo");
+        shadowNoInterp = GameObject.Find("ShadowNoInterp");
+    }
 
     public void StartGame() {
         tickRate = InfoKeeper.Instance.tickRate;
@@ -251,6 +262,8 @@ public class GameManager_ShooterTest : Singleton<GameManager_ShooterTest>
             comfirmTick++;
             states[comfirmTick % 1024] = localPlayer.GenerateCurrentPlayerState();
             localPlayer.ZeroSpeed();
+
+            
         }
 
         localPlayer.previous = states[(comfirmTick - 1) % 1024];
@@ -264,6 +277,8 @@ public class GameManager_ShooterTest : Singleton<GameManager_ShooterTest>
         //Debug.Log("msg.PlayerInfos.size: " + msg.PlayerInfos.Count);
 
 
+
+        
         //剔除lastProcessedTick之前的状态缓存
         //tick+1为当前正在进行的一个tick
         interpList.Add(msg);
@@ -287,6 +302,8 @@ public class GameManager_ShooterTest : Singleton<GameManager_ShooterTest>
             Player_ShooterTest player = GetPlayerByID(info.Id);
             //保存本地玩家的更新信息
             if (info.Id == localPlayerID) {
+                
+
                 float diffPos = 0, diffRot = 0;
                 if (state != null) {
                    // Debug.Log($"{frameID}:   state: {state.pos.x}, {state.pos.y} ; info: {info.X}, {info.Y}");
@@ -310,7 +327,9 @@ public class GameManager_ShooterTest : Singleton<GameManager_ShooterTest>
 
             }
             else {
-                if(!interpolation)
+                shadowNoInterp.transform.position = new Vector2(info.X, info.Y);
+                shadowNoInterp.transform.rotation = Quaternion.Euler(0, 0, info.Angle);
+                if (!interpolation)
                     player.SetTrans(info.X, info.Y, info.Angle);
 
             }

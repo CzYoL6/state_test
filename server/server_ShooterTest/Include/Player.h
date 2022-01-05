@@ -8,12 +8,19 @@
 #include <box2d/box2d.h>
 #include <queue>
 #include <memory>
-#include <mutex>
 
 #define PLAYER_STATE_BUFFER_SIZE 2048
 
 class Game;
 class Player {
+
+enum AI_DIR{
+    kLeft,
+    kRight,
+    kUp,
+    kDown
+};
+
 private:
     int slotid{0};
 
@@ -39,12 +46,21 @@ private:
 
     std::unique_ptr<Update_ShooterTest::PlayerInfo_S_TO_C[]> stateInfo;
 
-    void RecordPlayerState(int svr_tick);
+
+    bool hasBeenProcessedOnThisSvrTick;
+
+    bool isAI{false};
+
+    AI_DIR dir{AI_DIR::kLeft};
 
 public:
-    std::mutex avgRttTimeMutex;
-  
-    Player(int _id, int _socket, Game *_game, b2Body *body_ptr);
+    void RecordPlayerState(int svr_tick);
+
+    bool HasBeenProcessedOnThisSvrTick(){return hasBeenProcessedOnThisSvrTick;}
+
+    void SetProcessedOnThisSvrTick(bool t){hasBeenProcessedOnThisSvrTick = t;}
+
+    Player(int _id, int _socket, Game *_game);
 
     ~Player();
 
@@ -54,7 +70,7 @@ public:
 
     double GetAvgRttTime() { return avgRttTime;}
 
-    void SetAvgRttTime(double v) {avgRttTime = v;}
+    void SetAvgRttTime(double v) ;
 
     std::string GetNickname(){ return nickname;}
 
@@ -69,6 +85,8 @@ public:
     float GetRotation() {return movement->GetRotation();}
 
     b2Body *GetBody() { return movement->GetRigidBody(); }
+
+    void SetBody(b2Body* _b){movement->SetRigidBody(_b);}
 
     void SetPlayerInfoPtr(Update_ShooterTest::PlayerInfo_S_TO_C *ptr) { playerInfoPtr = ptr; }
 
@@ -91,6 +109,12 @@ public:
     void RollBackToAgo(double timeago);
 
     void RollForwardBackToPresent();
+
+    bool IsAI(){return isAI;}
+
+    void setAsAI(bool t){isAI = t;}
+
+    void AIChangeDir(bool change);
 };
 
 #endif

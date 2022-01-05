@@ -17,6 +17,7 @@ public class ClientSend_ShooterTest : MonoBehaviour
     }
 
     private static void SendUDPData(Packet _packet) {
+        _packet.InsertInt(GameManager_ShooterTest.Instance.localPlayerID);
         Client.instance.udp.SendData(_packet.ToArray());
     }
 
@@ -33,7 +34,8 @@ public class ClientSend_ShooterTest : MonoBehaviour
                 D = i.d_Pressed,
                 FrameID = i.tickNum,
                 MouseX = i.mousePos.x,
-                MouseY = i.mousePos.y
+                MouseY = i.mousePos.y,
+                MouseDown = i.mouseDown
             };
             msg.Inputs.Add(newInput);
         }
